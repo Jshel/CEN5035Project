@@ -3,6 +3,7 @@
 Technologies Used:
 
 Backend: Go, SQLite
+
 FrontEnd: React
 
 Groupmates:
