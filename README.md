@@ -4,7 +4,7 @@ Technologies Used:
 
 Backend: Go, SQLite
 
-FrontEnd: React
+FrontEnd: Angular 1.8.2
 
 Groupmates:
 
