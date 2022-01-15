@@ -14,4 +14,6 @@ Jennifer Sheldon
 
 Sunil Ghosal
 
+Nicholas Fox
+
 Description of Project: We will write contract management software. At the least, this will include a searchable database of contracts and notifications for contracts which are expiring.
