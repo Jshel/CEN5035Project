@@ -8,4 +8,6 @@ FrontEnd: Angular 1.8.2
 
 Groupmates:
 
+Akshay Sharma
+
 Jennifer Sheldon
