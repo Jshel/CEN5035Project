@@ -4,7 +4,7 @@ Technologies Used:
 
 Backend: Go, PostgreSQL
 
-FrontEnd: AngularJS
+FrontEnd: Angular
 
 Groupmates:
 
