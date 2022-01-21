@@ -2,7 +2,7 @@
 
 Technologies Used:
 
-Backend: Go, PostgreSQL
+Backend: Go, SQLite
 
 FrontEnd: Angular
 
