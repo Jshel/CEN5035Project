@@ -1,0 +1,42 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+CEN5035-front-end/dist
+CEN5035-front-end/tmp
+CEN5035-front-end/out-tsc
+CEN5035-front-end/bazel-out
+
+# Node
+CEN5035-front-end/node_modules
+CEN5035-front-end/npm-debug.log
+CEN5035-front-end/yarn-error.log
+
+# IDEs and editors
+CEN5035-front-end/.idea/
+CEN5035-front-end/.project
+CEN5035-front-end/.classpath
+CEN5035-front-end/.c9/
+CEN5035-front-end/*.launch
+CEN5035-front-end/.settings/
+CEN5035-front-end/*.sublime-workspace
+
+# Visual Studio Code
+CEN5035-front-end/.vscode/*
+CEN5035-front-end/!.vscode/settings.json
+CEN5035-front-end/!.vscode/tasks.json
+CEN5035-front-end/!.vscode/launch.json
+CEN5035-front-end/!.vscode/extensions.json
+CEN5035-front-end/.history/*
+
+# Miscellaneous
+CEN5035-front-end/.angular/cache
+CEN5035-front-end/.sass-cache/
+CEN5035-front-end/connect.lock
+CEN5035-front-end/coverage
+CEN5035-front-end/libpeerconnection.log
+CEN5035-front-end/testem.log
+CEN5035-front-end/typings
+
+# System files
+CEN5035-front-end/.DS_Store
+CEN5035-front-end/Thumbs.db
