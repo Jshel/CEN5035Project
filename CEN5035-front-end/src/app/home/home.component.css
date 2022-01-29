@@ -1,0 +1,5 @@
+.hero{
+    background-image: url('/assets/img/home-page-background.jpg') !important;
+    background-size: cover;
+    background-position: center center;
+}
