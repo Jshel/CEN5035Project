@@ -1,34 +1,62 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	// For this case, we will always pipe "Hello World" into the response writer
-	fmt.Fprintf(w, "Hello World!")
+func checkErr(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
-func newRouter() *mux.Router {
-	r := mux.NewRouter()
-	r.HandleFunc("/hello", handler).Methods("GET")
+func testHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/test" {
+		http.Error(w, "404 Not Found", http.StatusNotFound)
+		return
+	}
 
-	staticFileDirectory := http.Dir("../../CEN5035-front-end/src/")
+	if r.Method != "GET" {
+		http.Error(w, "Method not supported,", http.StatusNotFound)
+		return
+	}
 
-	staticFileHandler := http.StripPrefix("/index", http.FileServer(staticFileDirectory))
+	fmt.Fprintf(w, "Hello!")
+}
 
-	r.PathPrefix("/index").Handler(staticFileHandler).Methods("GET")
-	return r
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+	fmt.Fprintf(w, "POST request successful")
+	name := r.FormValue("name")
+	password := r.FormValue("password")
+
+	fmt.Println("name: ", name)
+	fmt.Println("password: ", password)
+
+	fmt.Fprintf(w, "Name = %s\n", name)
+	fmt.Fprintf(w, "Password = %s\n", password)
 }
 
 func main() {
+	fileServer := http.FileServer(http.Dir("./static"))
+	http.Handle("/", fileServer)
 
-	r := newRouter()
+	http.HandleFunc("/test", testHandler)
+	http.HandleFunc("/login", loginHandler)
 
-	r.HandleFunc("/hello", handler).Methods("GET")
+	fmt.Println("Starting server on port 8080")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
 
-	http.ListenAndServe(":8080", r)
+	fmt.Println("Welcome to Attorney Manager! this is a basic setup in GO for the backend of the project.")
+	db, err := sql.Open("sqlite3", "./names.db")
+	checkErr(err)
+	defer db.Close()
 }
