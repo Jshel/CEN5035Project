@@ -1,0 +1,19 @@
+.navigation-bar {
+  width: 50%;
+  height: 50%;
+  border: 1px solid #555;
+  float:  left;
+}
+
+table {
+  width: 50%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 50%;
+}
+
+td, th {
+  width: 25%;
+}
