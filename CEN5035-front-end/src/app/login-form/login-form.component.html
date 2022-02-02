@@ -1,0 +1,47 @@
+<section class="hero is-primary is-fullheight">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+          <form action="" class="box" #f="ngForm" (ngSubmit)="onSubmit(f)">
+            <div class="field">
+              <label for="" class="label">Email</label>
+              <div class="control has-icons-left">
+                <input name="username" type="email" placeholder="e.g. bobsmith@gmail.com" class="input" ngModel required #username="ngModel" #nameInput="ngModel">
+                <div class="help is-error" *ngIf="nameInput.invalid && nameInput.touched">Username Required</div>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-envelope"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="label">Password</label>
+              <div class="control has-icons-left">
+                <input name="password" type="password" placeholder="*******" class="input" ngModel required #password="ngModel" #passwordInput="ngModel">
+                <div class="help is-error" *ngIf="passwordInput.invalid && passwordInput.touched">Password Required</div>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="" class="checkbox">
+                <input type="checkbox">
+               Remember me
+              </label>
+            </div>
+            <div class="field">
+              <button class="button is-info">
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>First name value: {{ username.value }}</p>
+    <p>First name valid: {{ username.valid }}</p>
+    <p>Form value: {{ f.value | json }}</p>
+    <p>Form valid: {{ f.valid }}</p>
+</section>

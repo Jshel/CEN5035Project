@@ -27,12 +27,16 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello!")
 }
 
+func apiHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Backend api test")
+}
+
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		fmt.Fprintf(w, "ParseForm() err: %v", err)
 		return
 	}
-	fmt.Fprintf(w, "POST request successful")
+	fmt.Fprintf(w, "POST request successful\n")
 	name := r.FormValue("name")
 	password := r.FormValue("password")
 
@@ -44,11 +48,12 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fileServer := http.FileServer(http.Dir("./static"))
+	fileServer := http.FileServer(http.Dir("./static")) // use "../../CEN5035-front-end/src" for frontend static is just for testing
 	http.Handle("/", fileServer)
 
 	http.HandleFunc("/test", testHandler)
 	http.HandleFunc("/login", loginHandler)
+	http.HandleFunc("/api", apiHandler)
 
 	fmt.Println("Starting server on port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
