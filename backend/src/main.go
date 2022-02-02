@@ -9,8 +9,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-//var db *sql.DB
-
 func checkErr(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -40,7 +38,7 @@ func loginHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "GET":
-			http.ServeFile(w, r, "./static/login.html")
+			http.ServeFile(w, r, "./static/login.html") // use "../../CEN5035-front-end/src" for frontend, static is just for testing
 		case "POST":
 			{
 				if err := r.ParseForm(); err != nil {
@@ -75,7 +73,7 @@ func loginHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fileServer := http.FileServer(http.Dir("./static")) // use "../../CEN5035-front-end/src" for frontend static is just for testing
+	fileServer := http.FileServer(http.Dir("./static")) // use "../../CEN5035-front-end/src" for frontend, static is just for testing
 	http.Handle("/", fileServer)
 
 	fmt.Println("Welcome to Attorney Manager! this is a basic setup in GO for the backend of the project.")
@@ -98,8 +96,8 @@ func main() {
 	http.HandleFunc("/login", loginHandler(db))
 	http.HandleFunc("/api", apiHandler)
 
-	fmt.Println("Starting server on port 8888")
-	if err := http.ListenAndServe(":8888", nil); err != nil {
+	fmt.Println("Starting server on port 8080")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}
 
