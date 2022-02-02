@@ -1,7 +1,5 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-.DS_Store
-
 # Compiled output
 CEN5035-front-end/dist
 CEN5035-front-end/tmp
@@ -42,5 +40,3 @@ CEN5035-front-end/typings
 # System files
 CEN5035-front-end/.DS_Store
 CEN5035-front-end/Thumbs.db
-
-
