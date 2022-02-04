@@ -1,15 +1,17 @@
 What was accomplished:
 
-Frontend:
+**Frontend:**
 
-Basic tests
+* Basic tests
 
-Basic view of mocked up contract, message, and notification tables
+* Basic view of mocked up contract, message, and notification tables
 
-Basic login
+* Basic login
 
-Backend:
+**Backend:**
 
-Encrypted login storage
+* User's login credential storage to database using SQlite
 
-Basic frontend communication
+* Handling "GET" and "POST" request using API handlers
+
+* Basic spawning of backend server and communicating with frontend
