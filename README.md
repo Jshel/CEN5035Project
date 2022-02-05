@@ -30,7 +30,7 @@ To run:
 
 cd into the CEN5035-front-end directory
 
-run nmp serve --open
+Run: npm serve --open
 
 To run Cypress:
 
