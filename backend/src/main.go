@@ -26,11 +26,13 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "Hello!")
+	fmt.Fprintf(w, "Hello!!")
+	fmt.Println("Hello")
 }
 
 func apiHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Backend api test")
+	fmt.Println("Backend api test")
 }
 
 func loginHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {

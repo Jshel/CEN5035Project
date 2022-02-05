@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'app-login-form',
@@ -11,11 +12,20 @@ export class LoginFormComponent implements OnInit {
     console.log(f.value); 
     console.log(f.valid); 
     alert("Submitting Form with Username: " + f.value.username + " and Password: " + f.value.password)
-  }
+    
+    //should move this to a function that gets a response from backend saying true or false for login
+  //   this.http.post('/api/login', {
+  //     "user": f.value.username,
+  //     "password": f.value.password
+  //   })
+}
   
-  constructor() { }
+  constructor(
+    private httpClient: HttpClient
+  ) { }
 
   ngOnInit(): void {
   }
+
 
 }
