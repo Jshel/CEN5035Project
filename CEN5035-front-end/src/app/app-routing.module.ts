@@ -6,11 +6,16 @@ import { BrowseContractsComponent } from './browse-contracts/browse-contracts.co
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    pathMatch: 'full'
   },
   {
     path: 'login',
     component: LoginFormComponent
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule)
   },
   {
     path: 'browse-contracts',
