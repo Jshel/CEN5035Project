@@ -14,10 +14,11 @@ export class LoginFormComponent implements OnInit {
     alert("Submitting Form with Username: " + f.value.username + " and Password: " + f.value.password)
     
     //should move this to a function that gets a response from backend saying true or false for login
-  //   this.http.post('/api/login', {
-  //     "user": f.value.username,
-  //     "password": f.value.password
-  //   })
+    const formData = new FormData();
+    formData.append("username", f.value.username)
+    formData.append("password", f.value.password)
+    this.httpClient.get<any>('http://localhost:8080/api')
+    alert("debug")
 }
   
   constructor(

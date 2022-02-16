@@ -18,11 +18,13 @@ func checkErr(err error) {
 func testHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/test" {
 		http.Error(w, "404 Not Found", http.StatusNotFound)
+		fmt.Println("404 error")
 		return
 	}
 
 	if r.Method != "GET" {
 		http.Error(w, "Method not supported,", http.StatusNotFound)
+		fmt.Println("post to test")
 		return
 	}
 

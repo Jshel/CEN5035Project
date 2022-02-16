@@ -6,7 +6,13 @@
         "changeOrigin": "false"
     },
     "/api/login":{
-        "target": "http://localhost:8080",
+        "target": "http://localhost:8080/login",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": "false"
+    },    
+    "/api/test":{
+        "target": "http://localhost:8080/test",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": "false"
