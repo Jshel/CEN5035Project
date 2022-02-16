@@ -2,12 +2,18 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
 )
+
+type User struct {
+	username string
+	password string
+}
 
 func checkErr(err error) {
 	if err != nil {
@@ -16,13 +22,10 @@ func checkErr(err error) {
 }
 
 func testHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/test" {
-		http.Error(w, "404 Not Found", http.StatusNotFound)
-		return
-	}
 
-	if r.Method != "GET" {
-		http.Error(w, "Method not supported,", http.StatusNotFound)
+	if r.Method == "POST" {
+		fmt.Println("test")
+		fmt.Fprintf(w, "test")
 		return
 	}
 
@@ -41,14 +44,24 @@ func loginHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 			http.ServeFile(w, r, "./static/login.html") // use "../../CEN5035-front-end/src" for frontend, static is just for testing
 		case "POST":
 			{
-				if err := r.ParseForm(); err != nil {
-					fmt.Fprintf(w, "ParseForm() err: %v", err)
-					return
-				}
+				// if err := r.ParseForm(); err != nil {
+				// 	fmt.Fprintf(w, "ParseForm() err: %v", err)
+				// 	return
+				// }
 
 				fmt.Fprintf(w, "POST request successful\n")
-				var name string = r.FormValue("name")
-				var password string = r.FormValue("password")
+
+				//read the json
+				var data User
+				var decoder = json.NewDecoder(r.Body)
+
+				err := decoder.Decode(&data)
+				if err != nil {
+					log.Fatal("Error when opening file: ", err)
+				}
+
+				var name = data.username
+				var password = data.password
 
 				fmt.Println("name: ", name)
 				fmt.Println("password: ", password)
@@ -92,9 +105,9 @@ func main() {
 
 	fmt.Println("Database created!")
 
-	http.HandleFunc("/test", testHandler)
-	http.HandleFunc("/login", loginHandler(db))
-	http.HandleFunc("/api", apiHandler)
+	http.HandleFunc("/api/test", testHandler)
+	http.HandleFunc("/api/login", loginHandler(db))
+	//http.HandleFunc("/api", apiHandler)
 
 	fmt.Println("Starting server on port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
