@@ -21,34 +21,14 @@ func checkErr(err error) {
 	}
 }
 
-func testHandler(w http.ResponseWriter, r *http.Request) {
-
-	if r.Method == "POST" {
-		fmt.Println("test")
-		fmt.Fprintf(w, "test")
-		return
-	}
-
-	fmt.Fprintf(w, "Hello!")
-}
-
-func apiHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Backend api test")
-}
-
 func loginHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		if r.Method == "POST" {
-			// if err := r.ParseForm(); err != nil {
-			// 	fmt.Fprintf(w, "ParseForm() err: %v", err)
-			// 	return
-			// }
 
 			//read the json
 			var data User
-			fmt.Print(r.Body)
 			var decoder = json.NewDecoder(r.Body)
 
 			err := decoder.Decode(&data)
@@ -100,9 +80,7 @@ func main() {
 
 	fmt.Println("Database created!")
 
-	http.HandleFunc("/api/test", testHandler)
 	http.HandleFunc("/api/login", loginHandler(db))
-	//http.HandleFunc("/api", apiHandler)
 
 	fmt.Println("Starting server on port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
