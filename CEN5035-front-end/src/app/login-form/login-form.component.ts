@@ -24,8 +24,8 @@ export class LoginFormComponent implements OnInit {
       "username": f.value.username,
       "password": f.value.password
     };
-    return this.http.post<User>("/api/login", body, {headers: this.headers}).subscribe(response => console.log(response));
-    //this.authenticate(f.value.username, f.value.password)
+    //return this.http.post<User>("/api/login", body, {headers: this.headers}).subscribe(response => console.log(response));
+    this.authenticate(f.value.username, f.value.password)
   }
 
   authenticate(username: string, password: string){
