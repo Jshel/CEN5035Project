@@ -11,8 +11,8 @@ import (
 )
 
 type User struct {
-	username string
-	password string
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 func checkErr(err error) {
@@ -39,46 +39,41 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 func loginHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case "GET":
-			http.ServeFile(w, r, "./static/login.html") // use "../../CEN5035-front-end/src" for frontend, static is just for testing
-		case "POST":
-			{
-				// if err := r.ParseForm(); err != nil {
-				// 	fmt.Fprintf(w, "ParseForm() err: %v", err)
-				// 	return
-				// }
+		w.Header().Set("Content-Type", "application/json")
+		if r.Method == "POST" {
+			// if err := r.ParseForm(); err != nil {
+			// 	fmt.Fprintf(w, "ParseForm() err: %v", err)
+			// 	return
+			// }
 
-				fmt.Fprintf(w, "POST request successful\n")
+			//read the json
+			var data User
+			fmt.Print(r.Body)
+			var decoder = json.NewDecoder(r.Body)
 
-				//read the json
-				var data User
-				var decoder = json.NewDecoder(r.Body)
-
-				err := decoder.Decode(&data)
-				if err != nil {
-					log.Fatal("Error when opening file: ", err)
-				}
-
-				var name = data.username
-				var password = data.password
-
-				fmt.Println("name: ", name)
-				fmt.Println("password: ", password)
-
-				fmt.Fprintf(w, "Name = %s\n", name)
-				fmt.Fprintf(w, "Password = %s\n", password)
-
-				stmt, error := db.Prepare("INSERT INTO Customer(Name, Password) VALUES (?, ?);")
-				if error != nil {
-					checkErr(error)
-				}
-
-				stmt.Exec(name, password)
-				defer stmt.Close()
+			err := decoder.Decode(&data)
+			if err != nil {
+				log.Fatal("Error when opening file: ", err)
 			}
-		default:
-			fmt.Println(w, "only GET and POST")
+
+			var name = data.Username
+			var password = data.Password
+
+			fmt.Fprintf(w, "POST request successful\n")
+
+			fmt.Println("name: ", name)
+			fmt.Println("password: ", password)
+
+			fmt.Fprintf(w, "Name = %s\n", name)
+			fmt.Fprintf(w, "Password = %s\n", password)
+
+			stmt, error := db.Prepare("INSERT INTO Customer(Name, Password) VALUES (?, ?);")
+			if error != nil {
+				checkErr(error)
+			}
+
+			stmt.Exec(name, password)
+			defer stmt.Close()
 		}
 
 	}
@@ -86,7 +81,7 @@ func loginHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fileServer := http.FileServer(http.Dir("./static")) // use "../../CEN5035-front-end/src" for frontend, static is just for testing
+	fileServer := http.FileServer(http.Dir("../../CEN5035-front-end/src")) // use "../../CEN5035-front-end/src" for frontend, static is just for testing
 	http.Handle("/", fileServer)
 
 	fmt.Println("Welcome to Attorney Manager! this is a basic setup in GO for the backend of the project.")
