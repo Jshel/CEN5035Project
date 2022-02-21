@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { BrowseContractsComponent } from './browse-contracts/browse-contracts.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
 const routes: Routes = [
   {
     path: '',
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: 'browse-contracts',
     component: BrowseContractsComponent
+  },
+  {
+    path: 'create-account',
+    component: CreateAccountComponent
   },
   {
     path: '**',
