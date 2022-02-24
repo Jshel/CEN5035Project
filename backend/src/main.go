@@ -39,13 +39,13 @@ func loginHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 			var name = data.Username
 			var password = data.Password
 
-			fmt.Fprintf(w, "POST request successful\n")
+			//fmt.Fprintf(w, "POST request successful\n")
 
 			fmt.Println("name: ", name)
 			fmt.Println("password: ", password)
 
-			fmt.Fprintf(w, "Name = %s\n", name)
-			fmt.Fprintf(w, "Password = %s\n", password)
+			// fmt.Fprintf(w, "Name = %s\n", name)
+			// fmt.Fprintf(w, "Password = %s\n", password)
 
 			stmt, error := db.Prepare("INSERT INTO Customer(Name, Password) VALUES (?, ?);")
 			if error != nil {
