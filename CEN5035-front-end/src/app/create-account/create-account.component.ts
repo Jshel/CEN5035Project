@@ -26,7 +26,6 @@ export class CreateAccountComponent implements OnInit {
       "username": f.value.username,
       "password": f.value.password
     };
-    console.log(f)
     return this.http.post<UserRegistration>("/api/create-account", body, {headers: this.headers}).subscribe(response => console.log(response));
     //this.authenticate(f.value.username, f.value.password)
   }
@@ -40,8 +39,7 @@ export class CreateAccountComponent implements OnInit {
     
   //   return this.http.post<UserRegistration>(url, body, {headers: this.headers}).subscribe();
   // }
-  
-  
+
 
   ngOnInit(): void {
   }
