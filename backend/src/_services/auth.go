@@ -34,6 +34,11 @@ type User struct {
 	Hash     []byte `json:"hash"`
 }
 
+type Status struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+}
+
 // keep track of the database
 var db *gorm.DB
 
@@ -103,6 +108,7 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			session.Values["id"] = login.Username
 			err = session.Save(r, w)
 			fmt.Println("Login success: ", login.Username)
+			//fmt.Fprintf(w, "login success for %s user", login.Username)
 		}
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
@@ -110,7 +116,9 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		json.NewEncoder(w).Encode(user)
+		success := Status{Status: "success", Message: "login successful"}
+
+		json.NewEncoder(w).Encode(success)
 	}
 }
 
