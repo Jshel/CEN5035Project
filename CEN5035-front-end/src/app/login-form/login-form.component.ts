@@ -24,19 +24,19 @@ export class LoginFormComponent implements OnInit {
       "username": f.value.username,
       "password": f.value.password
     };
-    return this.http.post<User>("http://localhost:4200/api/login", body, {headers: this.headers}).subscribe(response => console.log(response));
+    return this.http.post<User>("/api/login", body, {headers: this.headers}).subscribe(response => console.log(response));
     //this.authenticate(f.value.username, f.value.password)
   }
 
-  authenticate(username: string, password: string){
-    const url = '/api/login';
-    const body = {
-      "username": username,
-      "password": password
-    };
+  // authenticate(username: string, password: string){
+  //   const url = '/api/login';
+  //   const body = {
+  //     "username": username,
+  //     "password": password
+  //   };
     
-    return this.http.post<User>(url, body, {headers: this.headers}).subscribe();
-  }
+  //   return this.http.post<User>(url, body, {headers: this.headers}).subscribe();
+  // }
   
   
 

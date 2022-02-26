@@ -17,8 +17,9 @@ import (
 var cookie = "TC_Audit"
 
 type userRegister struct {
-	Email    string `json:"email"`
 	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
@@ -28,21 +29,14 @@ type userLogin struct {
 }
 
 type User struct {
-	Username string `json:"username"`
+	Name     string `json:"name"`
 	Email    string `json:"email"`
+	Username string `json:"username"`
 	Hash     []byte `json:"hash"`
-}
-
-type Status struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
 }
 
 // keep track of the database
 var db *gorm.DB
-
-// variable to keep track of the base URL
-var baseURL string
 
 // bcrypt strength
 var strength = 11
@@ -57,15 +51,6 @@ func InitAuth(sqliteFile string, debugSQL bool) {
 	} else {
 		db = _db
 	}
-
-	// put in admin user
-	hash, err := bcrypt.GenerateFromPassword([]byte("password"), strength)
-	if err != nil {
-		fmt.Println("Hashing failed")
-		return
-	}
-	user := User{Username: "admin", Email: "admin@admin.com", Hash: hash}
-	db.FirstOrCreate(&user)
 
 	// migrate schemas
 	db.AutoMigrate(&User{})
@@ -112,7 +97,6 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			session.Values["id"] = login.Username
 			err = session.Save(r, w)
 			fmt.Println("Login success: ", login.Username)
-			//fmt.Fprintf(w, "login success for %s user", login.Username)
 		}
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
@@ -120,9 +104,7 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		success := Status{Status: "success", Message: "login successful"}
-
-		json.NewEncoder(w).Encode(success)
+		json.NewEncoder(w).Encode(user)
 	}
 }
 
@@ -141,45 +123,38 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 // 	}
 // }
 
-// func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
-// 	return func(w http.ResponseWriter, r *http.Request) {
-// 		// convert request to registration data
-// 		var registration userRegister
-// 		err := json.NewDecoder(r.Body).Decode(&registration)
+func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// convert request to registration data
+		var registration userRegister
 
-// 		if err != nil {
-// 			http.Error(w, err.Error(), http.StatusBadRequest)
-// 			return
-// 		}
+		err := json.NewDecoder(r.Body).Decode(&registration)
 
-// 		fmt.Println("Generating password hash")
-// 		hash, err := bcrypt.GenerateFromPassword([]byte(registration.Password), strength)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
 
-// 		if err != nil {
-// 			http.Error(w, "Password hashing failed", http.StatusBadRequest)
-// 			fmt.Println("Password Hashing failed")
-// 			return
-// 		}
-// 		fmt.Println("Hashed password: %s", string(hash))
+		fmt.Println("Generating password hash")
+		hash, err := bcrypt.GenerateFromPassword([]byte(registration.Password), strength)
 
-// 		// Count admins. If none, make this user an admin
-// 		var count int
-// 		db.Model(&User{}).Where("role = ?", "admin").Count(&count)
+		if err != nil {
+			http.Error(w, "Password hashing failed", http.StatusBadRequest)
+			fmt.Println("Password Hashing failed")
+			return
+		}
+		fmt.Println("Hashed password: ", string(hash))
 
-// 		var user = User{}
-// 		db.FirstOrCreate(&user, User{Email: registration.Email})
-// 		user.Name = registration.Name
-// 		user.Hash = string(hash)
-// 		if count == 0 {
-// 			user.Role = "admin"
-// 		} else {
-// 			user.Role = "user"
-// 		}
+		var user = User{}
+		user.Name = registration.Name
+		user.Username = registration.Username
+		user.Hash = hash
+		user.Email = registration.Email
 
-// 		db.Save(&user)
+		db.Save(&user)
 
-// 		// Redirect to main page
-// 		http.Error(w, "Registration successfull", http.StatusOK)
-// 		fmt.Println("Registration successfull")
-// 	}
-// }
+		// Redirect to main page
+		http.Error(w, "Registration successfull", http.StatusOK)
+		fmt.Println("Registration successfull")
+	}
+}
