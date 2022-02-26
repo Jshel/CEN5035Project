@@ -84,8 +84,8 @@ func main() {
 	fmt.Println("Database created!")
 
 	http.HandleFunc("/api/login", auth.HandleLogin())
-	http.HandleFunc("/api/logout", auth.HandleLogout())
-	http.HandleFunc("/api/register", auth.HandleRegister())
+	// http.HandleFunc("/api/logout", auth.HandleLogout())
+	// http.HandleFunc("/api/register", auth.HandleRegister())
 
 	fmt.Println("Starting server on port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
