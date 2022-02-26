@@ -30,7 +30,6 @@ type userLogin struct {
 type User struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
-	Password string `json:"password"`
 	Hash     []byte `json:"hash"`
 }
 
@@ -59,9 +58,14 @@ func InitAuth(sqliteFile string, debugSQL bool) {
 		db = _db
 	}
 
+	// put in admin user
 	hash, err := bcrypt.GenerateFromPassword([]byte("password"), strength)
-	user := User{Username: "admin", Email: "a@a.a", Password: "password", Hash: hash}
-	db.Create(&user)
+	if err != nil {
+		fmt.Println("Hashing failed")
+		return
+	}
+	user := User{Username: "admin", Email: "admin@admin.com", Hash: hash}
+	db.FirstOrCreate(&user)
 
 	// migrate schemas
 	db.AutoMigrate(&User{})
