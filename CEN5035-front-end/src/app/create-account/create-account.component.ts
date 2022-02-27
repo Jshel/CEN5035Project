@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
-import {User} from './user'
+import {UserRegistration} from './UserRegistration'
 
 @Component({
-  selector: 'app-login-form',
-  templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  selector: 'app-create-account',
+  templateUrl: './create-account.component.html',
+  styleUrls: ['./create-account.component.css']
 })
-export class LoginFormComponent implements OnInit {
+export class CreateAccountComponent implements OnInit {
 
   readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
   
@@ -19,12 +19,14 @@ export class LoginFormComponent implements OnInit {
   onSubmit(f: NgForm) {
     console.log(f.value); 
     console.log(f.valid); 
-    alert("Submitting Form with Username: " + f.value.username + " and Password: " + f.value.password)
+    alert(`Submitting Form with Name:${f.value.name}, Username: ${f.value.username} , Email: ${f.value.email} , Password: ${f.value.password}`)
     const body = {
+      "name": f.value.name,
+      "email": f.value.email,
       "username": f.value.username,
       "password": f.value.password
     };
-    return this.http.post<User>("/api/login", body, {headers: this.headers}).subscribe(response => console.log(response));
+    return this.http.post<UserRegistration>("/api/create-account", body, {headers: this.headers}).subscribe(response => console.log(response));
     //this.authenticate(f.value.username, f.value.password)
   }
 
@@ -35,12 +37,12 @@ export class LoginFormComponent implements OnInit {
   //     "password": password
   //   };
     
-  //   return this.http.post<User>(url, body, {headers: this.headers}).subscribe();
+  //   return this.http.post<UserRegistration>(url, body, {headers: this.headers}).subscribe();
   // }
-  
-  
+
 
   ngOnInit(): void {
   }
 
 }
+

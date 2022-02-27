@@ -15,6 +15,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './user.service';
+import { CreateAccountComponent } from './create-account/create-account.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { UserService } from './user.service';
     FooterComponent,
     HomeComponent,
     LoginFormComponent,
-    BrowseContractsComponent
+    BrowseContractsComponent,
+    CreateAccountComponent
   ],
   imports: [
     BrowserModule,
