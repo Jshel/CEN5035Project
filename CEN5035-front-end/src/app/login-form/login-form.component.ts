@@ -19,9 +19,9 @@ export class LoginFormComponent implements OnInit {
   onSubmit(f: NgForm) {
     console.log(f.value); 
     console.log(f.valid); 
-    alert("Submitting Form with Username: " + f.value.username + " and Password: " + f.value.password)
+    alert("Submitting Form with Email: " + f.value.email + " and Password: " + f.value.password)
     const body = {
-      "username": f.value.username,
+      "email": f.value.email,
       "password": f.value.password
     };
     return this.http.post<User>("/api/login", body, {headers: this.headers}).subscribe(response => console.log(response));

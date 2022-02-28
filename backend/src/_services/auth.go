@@ -24,7 +24,7 @@ type userRegister struct {
 }
 
 type userLogin struct {
-	Username string `json:"username"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
@@ -72,19 +72,19 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 
 		// Bring the user from the database
 		user := User{}
-		db.Where(&User{Username: login.Username}).Find(&user)
+		db.Where(&User{Email: login.Email}).Find(&user)
 
-		if user.Username != login.Username {
-			http.Error(w, fmt.Sprintf("User %s does not exist", login.Username), http.StatusForbidden)
-			fmt.Println("ERROR: ", login.Username, " does not exist")
+		if user.Email != login.Email {
+			http.Error(w, fmt.Sprintf("User %s does not exist", login.Email), http.StatusForbidden)
+			fmt.Println("ERROR: ", login.Email, " does not exist")
 			return
 		}
 
 		// check the password
 		err = bcrypt.CompareHashAndPassword([]byte(user.Hash), []byte(login.Password))
 		if err != nil {
-			http.Error(w, fmt.Sprintf("Password for user %s is incorrect", login.Username), http.StatusForbidden)
-			fmt.Println("password failure for: ", login.Username, " password: ", login.Password)
+			http.Error(w, fmt.Sprintf("Password for user %s is incorrect", login.Email), http.StatusForbidden)
+			fmt.Println("password failure for: ", login.Email, " password: ", login.Password)
 			return
 		}
 
@@ -94,13 +94,13 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 		// existing session: Get() always returns a session, even if empty.
 		session, err := store.Get(r, "session-name")
 		if err == nil {
-			session.Values["id"] = login.Username
+			session.Values["id"] = login.Email
 			err = session.Save(r, w)
-			fmt.Println("Login success: ", login.Username)
+			fmt.Println("Login success: ", login.Email)
 		}
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
-			http.Error(w, fmt.Sprintf("Could not setup session for %s user", login.Username), http.StatusConflict)
+			http.Error(w, fmt.Sprintf("Could not setup session for %s user", login.Email), http.StatusConflict)
 			return
 		}
 
