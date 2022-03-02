@@ -35,6 +35,11 @@ type User struct {
 	Hash     []byte `json:"hash"`
 }
 
+type Status struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+}
+
 // keep track of the database
 var db *gorm.DB
 
@@ -104,7 +109,8 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		json.NewEncoder(w).Encode(user)
+		success := Status{Status: "success", Message: "login successful"}
+		json.NewEncoder(w).Encode(success)
 	}
 }
 

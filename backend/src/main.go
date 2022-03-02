@@ -1,8 +1,8 @@
 package main
 
 import (
-	auth "attorneyManager/_services"
-	contract "attorneyManager/_services"
+	auth "attorneyManager/_auth"
+	contract "attorneyManager/_contract"
 	"fmt"
 	"log"
 	"net/http"
@@ -25,8 +25,11 @@ func main() {
 
 	fmt.Println("Welcome to Attorney Manager! this is a basic setup in GO for the backend of the project.")
 
-	auth.InitAuth("./database.db", false)
+	// database inits
+	auth.InitAuth("./user_database.db", false)
+	contract.InitContractDB("./contract_database", false)
 
+	// request handlers
 	http.HandleFunc("/api/login", auth.HandleLogin())
 	// http.HandleFunc("/api/logout", auth.HandleLogout())
 	http.HandleFunc("/api/create-account", auth.HandleRegister())
