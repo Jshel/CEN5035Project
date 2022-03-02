@@ -35,11 +35,6 @@ type User struct {
 	Hash     []byte `json:"hash"`
 }
 
-type Status struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-}
-
 // keep track of the database
 var db *gorm.DB
 
@@ -109,8 +104,7 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		success := Status{Status: "success", Message: "login successful"}
-		json.NewEncoder(w).Encode(success)
+		http.Error(w, "Login successfull", http.StatusOK)
 	}
 }
 
@@ -160,7 +154,7 @@ func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
 		db.Save(&user)
 
 		// Redirect to main page
-		http.Error(w, "Registration successfull", http.StatusOK)
-		fmt.Println("Registration successfull")
+		http.Error(w, "Registration successful", http.StatusOK)
+		fmt.Println("Registration successful")
 	}
 }

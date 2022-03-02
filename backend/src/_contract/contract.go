@@ -44,6 +44,21 @@ func InitContractDB(sqliteFile string, debugSQL bool) {
 	} else {
 		db = _db
 	}
+	// test entry
+	contract := Contract{
+		ContractID:      "00000000",
+		ContractType:    "example contract",
+		DateCreated:     "3/2/2022",
+		TerminationDate: "3/2/2023",
+		ValidSigniture:  true,
+		PaymentType:     "cash",
+		AmountPaid:      0.0,
+		AmountOwed:      100.0,
+		AttorneyName:    "Bob",
+		AttorneyID:      "00000001",
+		ClientName:      "Alice",
+		ClientID:        "00000002"}
+	db.FirstOrCreate(&contract)
 
 	db.AutoMigrate(&Contract{})
 }
