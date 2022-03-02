@@ -2,6 +2,7 @@ package main
 
 import (
 	auth "attorneyManager/_services"
+	contract "attorneyManager/_services"
 	"fmt"
 	"log"
 	"net/http"
@@ -29,6 +30,7 @@ func main() {
 	http.HandleFunc("/api/login", auth.HandleLogin())
 	// http.HandleFunc("/api/logout", auth.HandleLogout())
 	http.HandleFunc("/api/create-account", auth.HandleRegister())
+	http.HandleFunc("/api/get-contract", contract.HandleGetContract())
 
 	fmt.Println("Starting server on port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
