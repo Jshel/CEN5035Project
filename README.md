@@ -8,13 +8,13 @@ FrontEnd: Angular
 
 Groupmates:
 
-Akshay Sharma
+Akshay Sharma - akshaysharmajs
 
-Jennifer Sheldon
+Jennifer Sheldon - Jshel
 
-Sunil Ghosal
+Sunil Ghosal - sunil494
 
-Nicholas Fox
+Nicholas Fox - DrBubbles42
 
 Description of Project: We will write contract management software. At the least, this will include a searchable database of contracts and notifications for contracts which are expiring. If possible, we may also include encrypted messages with non-repudiation and digital signatures. We may also auto-generate certain types of contracts.
 
