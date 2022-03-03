@@ -1,7 +1,7 @@
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatTableModule} from '@angular/material/table';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http'
 
 export interface ContractExample {
   parties: string[];
@@ -42,6 +42,7 @@ const NOTIFICATION_DATA: NotificationExample[] = [
   styleUrls: ['./browse-contracts.component.css']
 })
 export class BrowseContractsComponent implements OnInit {
+  readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
   tab:number = 1;
   contractColumns: string[] = ['parties', 'id', 'signed', 'deadline'];
   contracts = CONTRACT_DATA;
@@ -49,10 +50,10 @@ export class BrowseContractsComponent implements OnInit {
   messages = MESSAGE_DATA;
   notificationColumns: string[] = ['required_action', 'id', 'deadline'];
   notifications = NOTIFICATION_DATA;
-  constructor() { 
-  }
+  constructor(private http: HttpClient){}
 
   ngOnInit(): void {
+    this.http.get("/api/get-contract?attorneyID=00000001&contractID=0000000").subscribe(response => console.log(response));
   }
 
   setTab(tabChoice:number): void{
