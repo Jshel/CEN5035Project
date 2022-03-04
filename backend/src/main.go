@@ -27,7 +27,7 @@ func main() {
 
 	// database inits
 	auth.InitAuth("./user_database.db", false)
-	contract.InitContractDB("./contract_database", false)
+	contract.InitContractDB("./contract_database.db", false)
 
 	// request handlers
 	http.HandleFunc("/api/login", auth.HandleLogin())
