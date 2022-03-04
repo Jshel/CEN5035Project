@@ -1,37 +1,44 @@
-<div class="swap-tabs">
-  <mat-sidenav-container class="navigation-bar">
-    <mat-nav-list>
-      <a mat-list-item (click)="setTab(1)"> Notifications </a>
-      <a mat-list-item (click)="setTab(2)"> Messages </a>
-      <a mat-list-item (click)="setTab(3)"> View Contracts</a>
-    </mat-nav-list>
-  </mat-sidenav-container>
-  <div class="tab"  *ngIf="getTab()===1">
-    <h1>Notifications</h1>
-
-    <table mat-table [dataSource]="notifications" class="mat-elevation-z8">
-
-      <!-- Based on: https://material.angular.io/components/table/examples> -->
-      <ng-container matColumnDef="required_action">
-        <th mat-header-cell *matHeaderCellDef> Required Action </th>
-        <td mat-cell *matCellDef="let element"> {{element.required_action}} </td>
-      </ng-container>
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-      </ng-container>
-      <ng-container matColumnDef="deadline">
-        <th mat-header-cell *matHeaderCellDef> Deadline </th>
-        <td mat-cell *matCellDef="let element"> {{element.deadline}} </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="notificationColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: notificationColumns;"></tr>
-    </table>
-  </div>
-  <div class="tab"  *ngIf="getTab()===2">
-    <h1>Messages</h1>
-
-    <table mat-table [dataSource]="messages" class="mat-elevation-z8">
+  <div class="swap-tabs">
+    <div class="columns">
+      <div class="column">
+        <mat-sidenav-container class="menu is-fullwidth" role="navigation">
+          <mat-nav-list class="menu-list">
+            <a mat-list-item (click)="setTab(1)" class="menu-label"> Notifications </a>
+            <a mat-list-item (click)="setTab(2)" class="menu-label"> Messages </a>
+            <a mat-list-item (click)="setTab(3)" class="menu-label"> View Contracts</a>
+          </mat-nav-list>
+        </mat-sidenav-container>
+      </div>
+      <div class="column">
+        <div class="tab"  *ngIf="getTab()===1">
+          <div class="table-container">
+            <table mat-table [dataSource]="notifications" class="table is-hoverable is-fullwidth has-text-centered">
+              <!-- Based on: https://material.angular.io/components/table/examples> -->
+              <tbody>
+                <ng-container matColumnDef="required_action">
+                  <th mat-header-cell *matHeaderCellDef> Required Action </th>
+                  <td mat-cell *matCellDef="let element"> {{element.required_action}} </td>
+                </ng-container>
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef> ID </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="deadline">
+                  <th mat-header-cell *matHeaderCellDef> Deadline </th>
+                  <td mat-cell *matCellDef="let element"> {{element.deadline}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="notificationColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: notificationColumns;"></tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="button is-fullwidth has-background-info has-text-white-bis">View Notification</button>
+          <button class="button is-fullwidth has-background-info has-text-white-bis">Send Notification</button>
+          <button class="button is-fullwidth has-background-danger has-text-white-bis">Delete Notification</button>
+        </div>
+        <div class="tab"  *ngIf="getTab()===2">
+          <div class="table-container">
+            <table mat-table [dataSource]="messages" class="table is-hoverable is-fullwidth has-text-centered">
 
   <!-- Based on: https://material.angular.io/components/table/examples> --
 
@@ -61,31 +68,40 @@
     <tr mat-row *matRowDef="let row; columns: messageColumns;"></tr>
   </table>
 </div>
-<div class="tab"  *ngIf="getTab()===3">
-  <h1>Contract Viewer</h1>
-
-  <table mat-table [dataSource]="contracts" class="mat-elevation-z8">
-
-    <!-- Based on: https://material.angular.io/components/table/examples> -->
-    <ng-container matColumnDef="parties">
-      <th mat-header-cell *matHeaderCellDef> Involved parties </th>
-      <td mat-cell *matCellDef="let element"> {{element.parties}} </td>
-    </ng-container>
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-    <ng-container matColumnDef="signed">
-      <th mat-header-cell *matHeaderCellDef> Signed? </th>
-      <td mat-cell *matCellDef="let element"> {{element.signed}} </td>
-    </ng-container>
-    <ng-container matColumnDef="deadline">
-      <th mat-header-cell *matHeaderCellDef> Deadline </th>
-      <td mat-cell *matCellDef="let element"> {{element.deadline}} </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="contractColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: contractColumns;"></tr>
-  </table>
+<button class="button is-fullwidth has-background-info has-text-white-bis">View Message</button>
+<button class="button is-fullwidth has-background-info has-text-white-bis">Send Message</button>
+<button class="button is-fullwidth has-background-danger has-text-white-bis">Delete Message</button>
 </div>
+<div class="tab"  *ngIf="getTab()===3">
+  <div class="table-container">
+    <table mat-table [dataSource]="contracts" class="table is-hoverable is-fullwidth has-text-centered">
 
+      <!-- Based on: https://material.angular.io/components/table/examples> -->
+      <ng-container matColumnDef="contract_ID">
+        <th mat-header-cell *matHeaderCellDef> Contract ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.contract_ID}} </td>
+      </ng-container>
+      <ng-container matColumnDef="contract_type">
+        <th mat-header-cell *matHeaderCellDef> Contract Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.contract_type}} </td>
+      </ng-container>
+      <ng-container matColumnDef="client_name">
+        <th mat-header-cell *matHeaderCellDef> Client Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.client_name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="termination_date">
+        <th mat-header-cell *matHeaderCellDef> Termination Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.termination_date}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="contractColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: contractColumns;"></tr>
+    </table>
+  </div>
+  <button class="button is-fullwidth has-background-info has-text-white-bis">View Contract</button>
+  <button class="button is-fullwidth has-background-info has-text-white-bis">Add Contract</button>
+  <button class="button is-fullwidth has-background-info has-text-white-bis">Edit Contract</button>
+  <button class="button is-fullwidth has-background-danger has-text-white-bis">Delete Contract</button>
+</div>
+</div>
+</div>
 </div>
