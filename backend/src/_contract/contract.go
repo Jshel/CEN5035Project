@@ -74,17 +74,17 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(k, " => ", v)
 		}
 
-		var attorneyID = r.URL.Query().Get("attorneyID")
+		var username = r.URL.Query().Get("username")
 		var contractID = r.URL.Query().Get("contractID")
 
 		// Bring the contract in
 		contract := Contract{}
-		db.Where(&Contract{ContractID: contractID, AttorneyID: attorneyID}).Find(&contract)
+		db.Where(&Contract{ContractID: contractID, AttorneyName: username}).Find(&contract)
 
 		//check if contract exists
 		if contract.ContractID != contractID {
 			http.Error(w, fmt.Sprintf("Contract ID: %s does not exist", contractID), http.StatusForbidden)
-			fmt.Println("ERROR: ", contractID, " does not exist for attorney ", attorneyID)
+			fmt.Println("ERROR: ", contractID, " does not exist for attorney ", username)
 			return
 		} else {
 			// contract exists

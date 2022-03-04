@@ -104,7 +104,7 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		http.Error(w, "Login successfull", http.StatusOK)
+		json.NewEncoder(w).Encode(user.Username)
 	}
 }
 
