@@ -33,8 +33,8 @@
             </table>
           </div>
           <button class="button is-fullwidth has-background-info has-text-white-bis">View Notification</button>
-          <button class="button is-fullwidth has-background-danger has-text-white-bis">Delete Notification</button>
           <button class="button is-fullwidth has-background-info has-text-white-bis">Send Notification</button>
+          <button class="button is-fullwidth has-background-danger has-text-white-bis">Delete Notification</button>
         </div>
         <div class="tab"  *ngIf="getTab()===2">
           <div class="table-container">
@@ -69,38 +69,38 @@
   </table>
 </div>
 <button class="button is-fullwidth has-background-info has-text-white-bis">View Message</button>
-<button class="button is-fullwidth has-background-danger has-text-white-bis">Delete Message</button>
 <button class="button is-fullwidth has-background-info has-text-white-bis">Send Message</button>
+<button class="button is-fullwidth has-background-danger has-text-white-bis">Delete Message</button>
 </div>
 <div class="tab"  *ngIf="getTab()===3">
   <div class="table-container">
     <table mat-table [dataSource]="contracts" class="table is-hoverable is-fullwidth has-text-centered">
 
       <!-- Based on: https://material.angular.io/components/table/examples> -->
-      <ng-container matColumnDef="parties">
-        <th mat-header-cell *matHeaderCellDef> Involved parties </th>
-        <td mat-cell *matCellDef="let element"> {{element.parties}} </td>
+      <ng-container matColumnDef="contract_ID">
+        <th mat-header-cell *matHeaderCellDef> Contract ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.contract_ID}} </td>
       </ng-container>
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      <ng-container matColumnDef="contract_type">
+        <th mat-header-cell *matHeaderCellDef> Contract Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.contract_type}} </td>
       </ng-container>
-      <ng-container matColumnDef="signed">
-        <th mat-header-cell *matHeaderCellDef> Signed? </th>
-        <td mat-cell *matCellDef="let element"> {{element.signed}} </td>
+      <ng-container matColumnDef="client_name">
+        <th mat-header-cell *matHeaderCellDef> Client Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.client_name}} </td>
       </ng-container>
-      <ng-container matColumnDef="deadline">
-        <th mat-header-cell *matHeaderCellDef> Deadline </th>
-        <td mat-cell *matCellDef="let element"> {{element.deadline}} </td>
+      <ng-container matColumnDef="termination_date">
+        <th mat-header-cell *matHeaderCellDef> Termination Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.termination_date}} </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="contractColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: contractColumns;"></tr>
     </table>
   </div>
   <button class="button is-fullwidth has-background-info has-text-white-bis">View Contract</button>
-  <button class="button is-fullwidth has-background-danger has-text-white-bis">Delete Contract</button>
   <button class="button is-fullwidth has-background-info has-text-white-bis">Add Contract</button>
   <button class="button is-fullwidth has-background-info has-text-white-bis">Edit Contract</button>
+  <button class="button is-fullwidth has-background-danger has-text-white-bis">Delete Contract</button>
 </div>
 </div>
 </div>

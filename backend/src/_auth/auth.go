@@ -104,7 +104,7 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		json.NewEncoder(w).Encode(user)
+		http.Error(w, "Login successfull", http.StatusOK)
 	}
 }
 
@@ -154,7 +154,7 @@ func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
 		db.Save(&user)
 
 		// Redirect to main page
-		http.Error(w, "Registration successfull", http.StatusOK)
-		fmt.Println("Registration successfull")
+		http.Error(w, "Registration successful", http.StatusOK)
+		fmt.Println("Registration successful")
 	}
 }
