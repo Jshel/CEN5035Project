@@ -8,18 +8,50 @@ FrontEnd: Angular
 
 Groupmates:
 
-Akshay Sharma
+Akshay Sharma - akshaysharmajs
 
-Jennifer Sheldon
+Jennifer Sheldon - Jshel
 
-<<<<<<< HEAD
-Nicloas Fox
+Sunil Ghosal - sunil494
 
-Description of Project: We will write contract management software. At the least, this will include a searchable database of contracts and notifications for contracts which are expiring. We may also add non-repudiation, digital signatures, and automatic contract generation. We will remain in communication with a client to generate the software.
-=======
-Sunil Ghosal
-
-Nicholas Fox
+Nicholas Fox - DrBubbles42
 
 Description of Project: We will write contract management software. At the least, this will include a searchable database of contracts and notifications for contracts which are expiring. If possible, we may also include encrypted messages with non-repudiation and digital signatures. We may also auto-generate certain types of contracts.
->>>>>>> d1206a8d75efd53ede7251ec61d01b59b9c1cd6f
+
+
+**Sprint 1 Frontend Demo:**
+
+
+https://user-images.githubusercontent.com/32618925/152287347-708022b7-57bc-4442-a350-7cc93770963e.mp4
+
+Frontend tests were done with Cypress using a mocked-up backend.
+
+To run:
+
+- cd into the CEN5035-front-end directory
+
+Run: npm serve --open
+
+To run Cypress:
+
+Install and launch Cypress as described in: https://docs.cypress.io/guides/getting-started/writing-your-first-test#Add-a-test-file
+
+Run the tests in spec.ts
+
+**Sprint 1 Backend Demo:**
+
+![](backend_sprint1_demo.gif)
+
+To run:
+
+- First, run frontend server (http://localhost:4200/):
+    - cd CEN5035-front-end
+    - run nmp serve --open
+
+- Now, run backend server (http://localhost:8080/):
+
+    - cd "CEN5035PROJECT/backend/src directory"
+    - go run main.go
+
+
+

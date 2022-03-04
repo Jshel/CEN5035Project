@@ -1,11 +1,17 @@
 package main
 
 import (
-	"database/sql"
+	auth "attorneyManager/_auth"
+	contract "attorneyManager/_contract"
 	"fmt"
 	"log"
 	"net/http"
 )
+
+type User struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
 
 func checkErr(err error) {
 	if err != nil {
@@ -13,50 +19,25 @@ func checkErr(err error) {
 	}
 }
 
-func testHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/test" {
-		http.Error(w, "404 Not Found", http.StatusNotFound)
-		return
-	}
-
-	if r.Method != "GET" {
-		http.Error(w, "Method not supported,", http.StatusNotFound)
-		return
-	}
-
-	fmt.Fprintf(w, "Hello!")
-}
-
-func loginHandler(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
-		fmt.Fprintf(w, "ParseForm() err: %v", err)
-		return
-	}
-	fmt.Fprintf(w, "POST request successful")
-	name := r.FormValue("name")
-	password := r.FormValue("password")
-
-	fmt.Println("name: ", name)
-	fmt.Println("password: ", password)
-
-	fmt.Fprintf(w, "Name = %s\n", name)
-	fmt.Fprintf(w, "Password = %s\n", password)
-}
-
 func main() {
-	fileServer := http.FileServer(http.Dir("./static"))
+	fileServer := http.FileServer(http.Dir("../../CEN5035-front-end/src")) // use "../../CEN5035-front-end/src" for frontend, static is just for testing
 	http.Handle("/", fileServer)
 
-	http.HandleFunc("/test", testHandler)
-	http.HandleFunc("/login", loginHandler)
+	fmt.Println("Welcome to Attorney Manager! this is a basic setup in GO for the backend of the project.")
+
+	// database inits
+	auth.InitAuth("./user_database.db", false)
+	contract.InitContractDB("./contract_database", false)
+
+	// request handlers
+	http.HandleFunc("/api/login", auth.HandleLogin())
+	// http.HandleFunc("/api/logout", auth.HandleLogout())
+	http.HandleFunc("/api/create-account", auth.HandleRegister())
+	http.HandleFunc("/api/get-contract", contract.HandleGetContract())
 
 	fmt.Println("Starting server on port 8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Welcome to Attorney Manager! this is a basic setup in GO for the backend of the project.")
-	db, err := sql.Open("sqlite3", "./names.db")
-	checkErr(err)
-	defer db.Close()
 }
