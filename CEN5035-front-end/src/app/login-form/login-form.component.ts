@@ -10,34 +10,26 @@ import {User} from './user'
 })
 export class LoginFormComponent implements OnInit {
 
-  readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
+  isError: boolean = false
+  isSuccessful: boolean = false
   
   constructor(private http: HttpClient) { 
 
   }
 
   onSubmit(f: NgForm) {
-    console.log(f.value); 
-    console.log(f.valid); 
-    alert("Submitting Form with Email: " + f.value.email + " and Password: " + f.value.password)
+    this.removeNotification()
     const body = {
       "email": f.value.email,
       "password": f.value.password
     };
-    return this.http.post<User>("/api/login", body, {headers: this.headers}).subscribe(response => console.log(response));
-    //this.authenticate(f.value.username, f.value.password)
+    return this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true}, err => {this.isError=true; this.isSuccessful=false});
   }
-
-  // authenticate(username: string, password: string){
-  //   const url = '/api/login';
-  //   const body = {
-  //     "username": username,
-  //     "password": password
-  //   };
-    
-  //   return this.http.post<User>(url, body, {headers: this.headers}).subscribe();
-  // }
   
+  removeNotification(){
+    this.isSuccessful = false
+    this.isError = false
+  }
   
 
   ngOnInit(): void {
