@@ -18,6 +18,8 @@ User's login credential storage to database using SQlite.
 
 Able to verify if a user is logged registerd and send a response to the frontend.
 
+Added basic unit tests for the backend.
+
 ## Demos:
 
 ### Frontend:
