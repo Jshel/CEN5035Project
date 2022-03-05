@@ -1,6 +1,16 @@
 <section class="hero is-primary is-fullheight">
     <div class="hero-body">
       <div class="container">
+        <div class="level-right">
+          <div *ngIf="isError" class="notification is-danger">
+            <button (click)="removeNotification()" class="delete"></button>
+            Login Failure Occured
+          </div>
+          <div *ngIf="isSuccessful" class="notification is-primary">
+            <button (click)="removeNotification()" class="delete"></button>
+            User Creation Successful
+          </div>
+        </div>
         <div class="columns">
           <div class="column is-5-tablet">        
             <form action="" class="box" #f="ngForm" (ngSubmit)="onSubmit(f)">
