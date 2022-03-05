@@ -1,6 +1,6 @@
-What was accomplished (new stuff since the last sprint):
+## What was accomplished (new stuff since the last sprint):
 
-Frontend:
+### Frontend:
 
 Improved tests.
 
@@ -8,15 +8,23 @@ Integrating frontend and backend to view contracts from DB
 
 Login
 
-Backend:
+### Backend:
 
 Serving contracts from requests on the frontend
 
+Able to search for a contract with a given attorney ID and contract ID.
+
 User's login credential storage to database using SQlite.
 
-Demos:
+Able to verify if a user is logged registerd and send a response to the frontend.
 
-Frontend:
+Added basic unit tests for the backend.
+
+Added backend API documentation (see Wiki).
+
+## Demos:
+
+### Frontend:
 
 Run "npm start" in CEN5035Project\CEN5035-front-end to run the frontend.
 
@@ -26,6 +34,7 @@ Run "npx cypress run" in CEN5035Project\CEN5035-front-end to run the Cypress tes
 
 The video generated in CEN5035Project\CEN5035-front-end\cypress\videos:
 
-https://user-images.githubusercontent.com/32618925/156861004-fb5d4fab-be6f-4bca-949b-a7769da2ddf7.mp4
+https://user-images.githubusercontent.com/32618925/156863721-14c0f7e1-9ad2-4633-8426-1609967cad72.mp4
 
-Backend:
+
+### Backend:
