@@ -39,7 +39,7 @@ https://user-images.githubusercontent.com/32618925/156863721-14c0f7e1-9ad2-4633-
 
 ### Backend:
 
-Start the Frontend: ```npm run start```
+Start the Frontend: ```npm run start```   
 Start the Backend: ```go run main.go```
 ![sprint2](https://user-images.githubusercontent.com/25064175/156864398-abda5f6c-b31c-4829-a61d-ac5883b0dc4e.gif)
 
