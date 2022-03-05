@@ -10,35 +10,26 @@ import {UserRegistration} from './UserRegistration'
 })
 export class CreateAccountComponent implements OnInit {
 
-  readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
+  isError: boolean = false
+  isSuccessful: boolean = false
   
-  constructor(private http: HttpClient) { 
-
-  }
+  constructor(private http: HttpClient) {}
 
   onSubmit(f: NgForm) {
-    console.log(f.value); 
-    console.log(f.valid); 
-    alert(`Submitting Form with Name:${f.value.name}, Username: ${f.value.username} , Email: ${f.value.email} , Password: ${f.value.password}`)
+    this.removeNotification()
     const body = {
       "name": f.value.name,
       "email": f.value.email,
       "username": f.value.username,
       "password": f.value.password
     };
-    return this.http.post<UserRegistration>("/api/create-account", body, {headers: this.headers}).subscribe(response => console.log(response));
-    //this.authenticate(f.value.username, f.value.password)
+    return this.http.post<UserRegistration>("/api/create-account", body).subscribe(response => {this.isError=false; this.isSuccessful=true}, err => {this.isError=true; this.isSuccessful=false});
   }
 
-  // authenticate(username: string, password: string){
-  //   const url = '/api/login';
-  //   const body = {
-  //     "username": username,
-  //     "password": password
-  //   };
-    
-  //   return this.http.post<UserRegistration>(url, body, {headers: this.headers}).subscribe();
-  // }
+  removeNotification(){
+    this.isSuccessful = false
+    this.isError = false
+  }
 
 
   ngOnInit(): void {
