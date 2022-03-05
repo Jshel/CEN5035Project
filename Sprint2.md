@@ -20,6 +20,8 @@ Able to verify if a user is logged registerd and send a response to the frontend
 
 Added basic unit tests for the backend.
 
+Added backend API documentation (see Wiki).
+
 ## Demos:
 
 ### Frontend:
