@@ -38,6 +38,7 @@ https://user-images.githubusercontent.com/32618925/156863721-14c0f7e1-9ad2-4633-
 
 
 ### Backend:
+DrBubbles42: Nicholas Fox
 
 Start the Frontend: ```npm run start```   
 Start the Backend: ```go run main.go```
