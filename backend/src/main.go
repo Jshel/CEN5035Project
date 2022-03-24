@@ -7,6 +7,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+
+	"github.com/jinzhu/gorm"
 )
 
 type User struct {
@@ -14,8 +17,11 @@ type User struct {
 	Password string `json:"password"`
 }
 
+var db *gorm.DB
+
 func checkErr(err error) {
 	if err != nil {
+		fmt.Println(err)
 		log.Fatal(err)
 	}
 }
@@ -28,33 +34,36 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 
 	//retreive files
 	file, handler, err := r.FormFile("contract")
+	checkErr(err)
+
+	defer file.Close()
+	//print file info to output
+	fmt.Println("Uploaded file name: ", handler.Filename)
+	fmt.Println("File size: ", handler.Size)
+	fmt.Println("MIME headder: ", handler.Header)
+
+	//read file to byte arrray
+	fileBytes, err := ioutil.ReadAll(file)
+	checkErr(err)
+
+	//get the session
+	// var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
+	// session, err := store.Get(r, "session-login")
+	if err != nil {
+		//no session found
+		fmt.Println("could not get session")
+		//likley not logged in redirect to login page.
+		http.Redirect(w, r, "http://localhost/4200/login", http.StatusBadRequest)
+		checkErr(err)
+	}
+
+	filename := "./contract_store/file.pdf"
+	err = os.WriteFile(filename, fileBytes, 0644)
 	if err != nil {
 		fmt.Println("Error getting file from form:")
 		fmt.Println(err)
 		return
 	}
-	defer file.Close()
-	fmt.Println("Uploaded file name: ", handler.Filename)
-	fmt.Println("File size: ", handler.Size)
-	fmt.Println("MIME headder: ", handler.Header)
-
-	//write to a temp file
-	tempFile, err := ioutil.TempFile("temp_Contracts", "upload-*.pdf")
-	if err != nil {
-		fmt.Println("Error creating a temp file for the contract:")
-		fmt.Println(err)
-		return
-	}
-	defer tempFile.Close()
-
-	fileBytes, err := ioutil.ReadAll(file)
-	if err != nil {
-		fmt.Println("Error creating a temp file for the contract:")
-		fmt.Println(err)
-		return
-	}
-
-	tempFile.Write(fileBytes)
 
 	//success
 	fmt.Fprintln(w, "Success uploading file!")

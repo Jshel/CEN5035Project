@@ -54,7 +54,6 @@ func InitAuth(sqliteFile string, debugSQL bool) {
 
 	// migrate schemas
 	db.AutoMigrate(&User{})
-
 }
 
 //HandleLogin loggs in the user attaches a session COOKIE to the reply. Returns WhoAmI info
@@ -92,9 +91,9 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 		var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
 
 		// existing session: Get() always returns a session, even if empty.
-		session, err := store.Get(r, "session-name")
+		session, err := store.Get(r, "session-login")
 		if err == nil {
-			session.Values["id"] = login.Email
+			session.Values["email"] = login.Email
 			err = session.Save(r, w)
 			fmt.Println("Login success: ", login.Email)
 		}
