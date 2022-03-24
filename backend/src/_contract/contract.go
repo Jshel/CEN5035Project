@@ -74,9 +74,9 @@ func InitContractDB(sqliteFile string, debugSQL bool) {
 		AmountPaid:      0.0,
 		AmountOwed:      100.0,
 		AttorneyName:    "Bob",
-		AttorneyID:      "Bob.law@gmail.com",
+		AttorneyEmail:   "Bob.law@gmail.com",
 		ClientName:      "Alice",
-		ClientID:        "alice@yahoo.com"}
+		ClientEmail:     "alice@yahoo.com"}
 	db.FirstOrCreate(&contract)
 
 	contract2 := Contract{
@@ -90,9 +90,9 @@ func InitContractDB(sqliteFile string, debugSQL bool) {
 		AmountPaid:      50.0,
 		AmountOwed:      150.0,
 		AttorneyName:    "John",
-		AttorneyID:      "John.law@uflaw.edu",
+		AttorneyEmail:   "John.law@uflaw.edu",
 		ClientName:      "Smith",
-		ClientID:        "smith@comcast.net"}
+		ClientEmail:     "smith@comcast.net"}
 	db.FirstOrCreate(&contract2)
 
 	db.AutoMigrate(&Contract{})
@@ -180,8 +180,15 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		db.Where(&User{Email: session.Value["email"]}).Find(&user)
 		contract.AttorneyName = user.Name
 
-		filename := "./contract_store/file.pdf"
-		err = os.WriteFile(filename, fileBytes, 0644)
+		//queery db for number of entries and add one for the contract id
+		contract.contractID = 00000000
+		contract.DateCreated = "2006-01-02"
+
+		//other values
+		contract.ValidSigniture = true
+
+		filename := contract.AttorneyEmail + "_" + contract.contractID + ".pdf"
+		err = os.WriteFile("./contract_store/"+filename, fileBytes, 0644)
 		if err != nil {
 			fmt.Println("Error getting file from form:")
 			fmt.Println(err)
