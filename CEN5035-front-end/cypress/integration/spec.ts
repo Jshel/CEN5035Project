@@ -1,3 +1,5 @@
+
+
 describe('Initial Visit', () => {
   it('Visits the initial project page', () => {
     cy.viewport(1024, 768)
@@ -28,8 +30,10 @@ describe('Creating an account works', () => {
       .type('password1')
       .should('have.value','password1')
     cy.contains('Create Account').click();
+    cy.scrollTo('top');
       //Click alert?
-    cy.on('window:confirm', () => true);
+    cy.contains('User Creation Successful');
+    cy.wait(1000);
   })
 })
 
@@ -47,9 +51,11 @@ describe('Log in as fake person', () => {
     cy.get('input[name="password"]')
       .type('password1')
       .should('have.value','password1')
-    cy.contains('Login').click();
+    cy.get('body > app-root > app-login-form > section > div > div > div.columns.is-centered > div > form > div.field.is-grouped > div:nth-child(1) > button').click();
       //Click alert?
-    cy.on('window:confirm', () => true);
+    cy.scrollTo('top');
+    cy.contains('User Login Successful');
+    cy.wait(1000);
   })
 })
 
@@ -73,8 +79,16 @@ describe('Views the tables', () => {
 
 describe('Loads the Contracts', () => {
   it('Loads the Contracts', () => {
-    cy.viewport(1024, 768)
+    cy.viewport(1024, 768);
     //Has the example contract listed on the click of the button (would show fake contract here otherwise).
-    cy.contains('example contract')
+    cy.contains('example contract');
+  
+  })
+})
+
+describe('Finish Demo', () => {
+  it('Finishes the Demo', () => {
+  //Need this so the video doesn't cut off.
+    cy.wait(1000);
   })
 })

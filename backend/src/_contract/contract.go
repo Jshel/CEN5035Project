@@ -60,6 +60,21 @@ func InitContractDB(sqliteFile string, debugSQL bool) {
 		ClientID:        "00000002"}
 	db.FirstOrCreate(&contract)
 
+	contract2 := Contract{
+		ContractID:      "00000001",
+		ContractType:    "example contract",
+		DateCreated:     "3/4/2022",
+		TerminationDate: "3/4/2023",
+		ValidSigniture:  true,
+		PaymentType:     "credit",
+		AmountPaid:      50.0,
+		AmountOwed:      150.0,
+		AttorneyName:    "John",
+		AttorneyID:      "00000003",
+		ClientName:      "Smith",
+		ClientID:        "00000004"}
+	db.FirstOrCreate(&contract2)
+
 	db.AutoMigrate(&Contract{})
 }
 
