@@ -3,6 +3,7 @@ package main
 import (
 	auth "attorneyManager/_auth"
 	contract "attorneyManager/_contract"
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,6 +13,8 @@ type User struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+type M map[string]interface{}
 
 func checkErr(err error) {
 	if err != nil {
@@ -33,6 +36,8 @@ func databaseInit() {
 	// database inits
 	auth.InitAuth("./user_database.db", false)
 	contract.InitContractDB("./contract_database.db", false)
+	//session init
+	gob.Register(&M{})
 }
 
 func main() {

@@ -92,8 +92,10 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 
 		// existing session: Get() always returns a session, even if empty.
 		session, err := store.Get(r, "session-login")
+
 		if err == nil {
-			session.Values["email"] = login.Email
+			session.Values["Email"] = login.Email
+			session.Values["Name"] = user.Name
 			err = session.Save(r, w)
 			fmt.Println("Login success: ", login.Email)
 		}

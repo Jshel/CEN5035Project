@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gorilla/sessions"
 	"github.com/jinzhu/gorm"
@@ -33,8 +34,8 @@ type Contract struct {
 	ValidSigniture bool `json:"valid_signiture"`
 
 	PaymentType string  `json:"payment_type"`
-	AmountPaid  float32 `json:"amount_paid"`
-	AmountOwed  float32 `json:"amount_owed"`
+	AmountPaid  float64 `json:"amount_paid"`
+	AmountOwed  float64 `json:"amount_owed"`
 
 	AttorneyName  string `json:"attorney_name"`
 	AttorneyEmail string `json:"attorney_email"`
@@ -168,27 +169,37 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		contract.ContractType = r.URL.Query().Get("contract_type")
 		contract.TerminationDate = r.URL.Query().Get("termination_date")
 		contract.PaymentType = r.URL.Query().Get("payment_type")
-		contract.AmountPaid = r.URL.Query().Get("ammount_paid")
-		contract.AmountOwed = r.URL.Query().Get("ammount_owed")
+		s, err := strconv.ParseFloat(r.URL.Query().Get("ammount_paid"), 32)
+		checkErr(err)
+		contract.AmountPaid = s
+		s, err = strconv.ParseFloat(r.URL.Query().Get("ammount_owed"), 32)
+		checkErr(err)
+		contract.AmountOwed = s
 		contract.ClientEmail = r.URL.Query().Get("client_email")
 
 		//get atorney id from session
-		contract.AttorneyEmail = session.Values["email"]
+		val := session.Values["Email"]
+		str := fmt.Sprintf("%v", val)
+		contract.AttorneyEmail = str
 
 		//get attorney name from users
-		user := User{}
-		db.Where(&User{Email: session.Value["email"]}).Find(&user)
-		contract.AttorneyName = user.Name
+		val = session.Values["Name"]
+		str = fmt.Sprintf("%v", val)
+		contract.AttorneyName = str
 
 		//queery db for number of entries and add one for the contract id
-		contract.contractID = 00000000
+		contract.ContractID = "00000000"
 		contract.DateCreated = "2006-01-02"
 
 		//other values
 		contract.ValidSigniture = true
 
-		filename := contract.AttorneyEmail + "_" + contract.contractID + ".pdf"
-		err = os.WriteFile("./contract_store/"+filename, fileBytes, 0644)
+		contract.ContractName = contract.AttorneyEmail + "_" + contract.ContractID + ".pdf"
+
+		//save to db
+		db.Create(&contract)
+
+		err = os.WriteFile("./contract_store/"+contract.ContractName, fileBytes, 0644)
 		if err != nil {
 			fmt.Println("Error getting file from form:")
 			fmt.Println(err)
