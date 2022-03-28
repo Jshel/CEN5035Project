@@ -5,7 +5,9 @@ import { UsersRoutingModule } from './users-routing.module';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserSingleComponent } from './user-single/user-single.component';
 import { AnalyticsCardComponent } from './analytics-card/analytics-card.component';
-import { EventsListComponent } from './events-list/events-list.component';
+import { FieldSearchComponent } from './field-search/field-search.component';
+import { FieldListComponent } from './field-list/field-list.component';
+import { FieldListModalComponent } from './field-list-modal/field-list-modal.component';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { EventsListComponent } from './events-list/events-list.component';
     UserListComponent,
     UserSingleComponent,
     AnalyticsCardComponent,
-    EventsListComponent
+    FieldSearchComponent,
+    FieldListComponent,
+    FieldListModalComponent
   ],
   imports: [
     CommonModule,

@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./analytics-card.component.css']
 })
 export class AnalyticsCardComponent implements OnInit {
+  cardData = {notificationCount: 100, contractCount: 300, messageCount: 200}
 
   constructor() { }
 
