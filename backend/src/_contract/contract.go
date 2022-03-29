@@ -10,7 +10,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gorilla/sessions"
 	"github.com/jinzhu/gorm"
 
 	// load the sqlite driver
@@ -43,6 +42,16 @@ type Contract struct {
 
 	ClientName  string `json:"client_name"`
 	ClientEmail string `json:"client_email"`
+}
+
+//used to decode a json request form data
+type ContractInit struct {
+	ContractType    string  `json:"contract_type"`
+	TerminationDate string  `json:"termination_date"`
+	PaymentType     string  `json:"payment_type"`
+	AmountPaid      float64 `json:"amount_paid"`
+	AmountOwed      float64 `json:"amount_owed"`
+	ClientEmail     string  `json:"client_email"`
 }
 
 var db *gorm.DB
@@ -152,15 +161,15 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		checkErr(err)
 
 		//get the session
-		var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
-		session, err := store.Get(r, "session-login")
-		if err != nil {
-			//no session found
-			fmt.Println("could not get session")
-			//likley not logged in redirect to login page.
-			http.Redirect(w, r, "http://localhost/4200/login", http.StatusBadRequest)
-			checkErr(err)
-		}
+		// var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
+		// session, err := store.Get(r, "session-login")
+		// if err != nil {
+		// 	//no session found
+		// 	fmt.Println("could not get session")
+		// 	//likley not logged in redirect to login page.
+		// 	http.Redirect(w, r, "http://localhost/4200/login", http.StatusBadRequest)
+		// 	checkErr(err)
+		// }
 
 		//create entry to contract db
 		//user input querys
@@ -170,27 +179,35 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		contract.ContractType = r.URL.Query().Get("contract_type")
 		contract.TerminationDate = r.URL.Query().Get("termination_date")
 		contract.PaymentType = r.URL.Query().Get("payment_type")
-		s, err := strconv.ParseFloat(r.URL.Query().Get("ammount_paid"), 32)
+		s, err := strconv.ParseFloat(r.URL.Query().Get("ammount_paid"), 64)
 		checkErr(err)
 		contract.AmountPaid = s
-		s, err = strconv.ParseFloat(r.URL.Query().Get("ammount_owed"), 32)
+		s, err = strconv.ParseFloat(r.URL.Query().Get("ammount_owed"), 64)
 		checkErr(err)
 		contract.AmountOwed = s
 		contract.ClientEmail = r.URL.Query().Get("client_email")
+		contract.ClientName = r.URL.Query().Get("client_name")
 
-		//get atorney id from session
-		val := session.Values["Email"]
-		str := fmt.Sprintf("%v", val)
-		contract.AttorneyEmail = str
+		//decode form data
+		// var ContractInit ContractInit
+		// err := json.NewDecoder(r.)
 
-		//get attorney name from users
-		val = session.Values["Name"]
-		str = fmt.Sprintf("%v", val)
-		contract.AttorneyName = str
+		// //get atorney id from session
+		// val := session.Values["Email"]
+		// str := fmt.Sprintf("%v", val)
+		// contract.AttorneyEmail = str
+
+		// //get attorney name from users
+		// val = session.Values["Name"]
+		// str = fmt.Sprintf("%v", val)
+		// contract.AttorneyName = str
+		contract.AttorneyName = "nick"
+		contract.AttorneyEmail = "a@a.a"
 
 		//queery db for number of entries and add one for the contract id
 		count := 0
-		db.Model(&Contract{}).Where("contract.AttorneyEmail = ?", contract.AttorneyEmail).Count(&count)
+		db.Model(&Contract{}).Where("attorney_email = ?", contract.AttorneyEmail).Count(&count)
+		count++
 		hexID := fmt.Sprintf("%0*x", 8, count)
 		contract.ContractID = hexID
 		contract.DateCreated = time.Now().Format(time.RFC3339)
