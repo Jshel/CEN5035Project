@@ -230,3 +230,38 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Success uploading file!")
 	}
 }
+
+func HandleFileDownload() func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// print values
+		values := r.URL.Query()
+		for k, v := range values {
+			fmt.Println(k, " => ", v)
+		}
+
+		// get the url params
+		var attorney_email = r.URL.Query().Get("attorney_email")
+		var contract_id = r.URL.Query().Get("contract_id")
+
+		// Bring the contract in
+		contract := Contract{}
+		db.Where(&Contract{ContractID: contract_id, AttorneyEmail: attorney_email}).Find(&contract)
+
+		//check if contract exists
+		if contract.ContractID != contract_id {
+			http.Error(w, fmt.Sprintf("Contract ID: %s does not exist", contract_id), http.StatusNotFound)
+			fmt.Println("ERROR: ", contract_id, " does not exist for attorney with emaili:", attorney_email)
+			return
+		} else {
+			// contract exists get the contract and write it to the response
+			fileBytes, err := ioutil.ReadFile("./contract_store/" + contract.ContractName)
+			if err != nil {
+				checkErr(err)
+			}
+			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Content-Type", "application/octet-stream")
+			w.Write(fileBytes)
+			return
+		}
+	}
+}
