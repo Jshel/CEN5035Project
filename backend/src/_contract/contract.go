@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/gorilla/sessions"
 	"github.com/jinzhu/gorm"
 
 	// load the sqlite driver
@@ -161,15 +162,15 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		checkErr(err)
 
 		//get the session
-		// var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
-		// session, err := store.Get(r, "session-login")
-		// if err != nil {
-		// 	//no session found
-		// 	fmt.Println("could not get session")
-		// 	//likley not logged in redirect to login page.
-		// 	http.Redirect(w, r, "http://localhost/4200/login", http.StatusBadRequest)
-		// 	checkErr(err)
-		// }
+		var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
+		session, err := store.Get(r, "session-login")
+		if err != nil {
+			//no session found
+			fmt.Println("could not get session")
+			//likley not logged in redirect to login page.
+			http.Redirect(w, r, "http://localhost/4200/login", http.StatusBadRequest)
+			checkErr(err)
+		}
 
 		//create entry to contract db
 		//user input querys
@@ -188,21 +189,19 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		contract.ClientEmail = r.URL.Query().Get("client_email")
 		contract.ClientName = r.URL.Query().Get("client_name")
 
-		//decode form data
+		// //decode form data
 		// var ContractInit ContractInit
 		// err := json.NewDecoder(r.)
 
-		// //get atorney id from session
-		// val := session.Values["Email"]
-		// str := fmt.Sprintf("%v", val)
-		// contract.AttorneyEmail = str
+		//get atorney id from session
+		val := session.Values["Email"]
+		str := fmt.Sprintf("%v", val)
+		contract.AttorneyEmail = str
 
-		// //get attorney name from users
-		// val = session.Values["Name"]
-		// str = fmt.Sprintf("%v", val)
-		// contract.AttorneyName = str
-		contract.AttorneyName = "nick"
-		contract.AttorneyEmail = "a@a.a"
+		//get attorney name from users
+		val = session.Values["Name"]
+		str = fmt.Sprintf("%v", val)
+		contract.AttorneyName = str
 
 		//queery db for number of entries and add one for the contract id
 		count := 0
