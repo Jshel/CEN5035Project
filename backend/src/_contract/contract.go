@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/sessions"
 	"github.com/jinzhu/gorm"
@@ -188,8 +189,11 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		contract.AttorneyName = str
 
 		//queery db for number of entries and add one for the contract id
-		contract.ContractID = "00000000"
-		contract.DateCreated = "2006-01-02"
+		count := 0
+		db.Model(&Contract{}).Where("contract.AttorneyEmail = ?", contract.AttorneyEmail).Count(&count)
+		hexID := fmt.Sprintf("%0*x", 8, count)
+		contract.ContractID = hexID
+		contract.DateCreated = time.Now().Format(time.RFC3339)
 
 		//other values
 		contract.ValidSigniture = true
