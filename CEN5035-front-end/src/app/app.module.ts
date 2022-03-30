@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './user.service';
 import { CreateAccountComponent } from './create-account/create-account.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { CreateAccountComponent } from './create-account/create-account.componen
     MatSidenavModule,
     MatListModule,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    PdfViewerModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

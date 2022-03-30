@@ -1,12 +1,13 @@
 .navigation-bar {
-  width: 50%;
-  height: 50%;
+  width: auto;
+  height: 100%;
+  color:  green;
   border: 1px solid #555;
   float:  left;
 }
 
 table {
-  width: 50%;
+  width: auto;
 }
 
 .mat-form-field {
@@ -15,5 +16,5 @@ table {
 }
 
 td, th {
-  width: 25%;
+  width: auto;
 }

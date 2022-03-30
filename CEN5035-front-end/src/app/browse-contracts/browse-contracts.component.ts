@@ -3,8 +3,10 @@ import {MatTableModule} from '@angular/material/table';
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 export interface ContractExample {
+  pdf: string;
   contract_ID: number;
   contract_type: string;
   date_created: string;
@@ -35,6 +37,7 @@ export interface NotificationExample {
 
 const CONTRACT_DATA: ContractExample[] = [
 {
+  pdf: "dummyPDF.pdf",
   contract_ID: -1,
   contract_type: "fake",
   date_created: "never",
@@ -84,6 +87,7 @@ export class BrowseContractsComponent implements OnInit {
       .subscribe(
          (response) => {
             this.contracts = [];
+            response.pdf = "dummyPDF.pdf"
             this.contracts.push(response as ContractExample);
             this.contracts = [...this.contracts];
             console.log(this.contracts);

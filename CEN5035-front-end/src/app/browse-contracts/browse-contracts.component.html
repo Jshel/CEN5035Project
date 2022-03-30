@@ -1,3 +1,9 @@
+  <!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="browse-contracts.component.css">
+</head>
+<body>
   <div class="swap-tabs">
     <div class="columns">
       <div class="column">
@@ -89,15 +95,23 @@
         <th mat-header-cell *matHeaderCellDef> Client Name </th>
         <td mat-cell *matCellDef="let element"> {{element.client_name}} </td>
       </ng-container>
+      <ng-container matColumnDef="PDF">
+        <th mat-header-cell *matHeaderCellDef> View PDF of Contract </th>
+        <td mat-cell *matCellDef="let element"> <button class="button is-fullwidth has-background-info has-text-white-bis" src="element.pdf">View Contract</button> </td>
+      </ng-container>
       <ng-container matColumnDef="termination_date">
         <th mat-header-cell *matHeaderCellDef> Termination Date </th>
         <td mat-cell *matCellDef="let element"> {{element.termination_date}} </td>
+      </ng-container>
+      <ng-container matColumnDef="termination_pdf">
+        <th mat-header-cell *matHeaderCellDef> Termination Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.pdf}} </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="contractColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: contractColumns;"></tr>
     </table>
   </div>
-  <button class="button is-fullwidth has-background-info has-text-white-bis">View Contract</button>
+  
   <button class="button is-fullwidth has-background-info has-text-white-bis">Add Contract</button>
   <button class="button is-fullwidth has-background-info has-text-white-bis">Edit Contract</button>
   <button class="button is-fullwidth has-background-danger has-text-white-bis">Delete Contract</button>
@@ -105,3 +119,4 @@
 </div>
 </div>
 </div>
+</body>
