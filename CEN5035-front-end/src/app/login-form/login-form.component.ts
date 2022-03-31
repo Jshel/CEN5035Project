@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {HttpClient, HttpHeaders} from '@angular/common/http'
+import {HttpClient} from '@angular/common/http'
 import {User} from './user'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -13,8 +14,10 @@ export class LoginFormComponent implements OnInit {
   isError: boolean = false
   isSuccessful: boolean = false
   
-  constructor(private http: HttpClient) { 
-
+  constructor(
+    private http: HttpClient,
+    private router: Router) { 
+    
   }
 
   onSubmit(f: NgForm) {
@@ -23,8 +26,9 @@ export class LoginFormComponent implements OnInit {
       "email": f.value.email,
       "password": f.value.password
     };
-    return this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true}, err => {this.isError=true; this.isSuccessful=false});
+    return this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true; this.router.navigateByUrl("/browse-contracts");}, err => {this.isError=true; this.isSuccessful=false});
   }
+
   
   removeNotification(){
     this.isSuccessful = false
