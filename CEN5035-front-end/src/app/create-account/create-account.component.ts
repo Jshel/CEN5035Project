@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {UserRegistration} from './UserRegistration'
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-account',
@@ -10,14 +11,11 @@ import {UserRegistration} from './UserRegistration'
 })
 export class CreateAccountComponent implements OnInit {
 
-<<<<<<< HEAD
-  isError:boolean = false
-=======
   isError: boolean = false
->>>>>>> 2961a4c8b9a0388286cb481a5aa2dfc18f7526da
   isSuccessful: boolean = false
   
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private router: Router) {}
 
   onSubmit(f: NgForm) {
     this.removeNotification()
@@ -27,21 +25,12 @@ export class CreateAccountComponent implements OnInit {
       "username": f.value.username,
       "password": f.value.password
     };
-<<<<<<< HEAD
-    return this.http.post<UserRegistration>("/api/create-account", body).subscribe(response => {this.isError=false; this.isSuccessful=true},err =>{this.isError=true; this.isSuccessful=false});
-  }
-
-  removeNotification(){
-    this.isError=false
-    this.isSuccessful=false
-=======
-    return this.http.post<UserRegistration>("/api/create-account", body).subscribe(response => {this.isError=false; this.isSuccessful=true}, err => {this.isError=true; this.isSuccessful=false});
+    return this.http.post<UserRegistration>("/api/create-account", body).subscribe(response => {this.isError=false; this.isSuccessful=true, this.router.navigateByUrl("/browse-contracts");}, err => {this.isError=true; this.isSuccessful=false});
   }
 
   removeNotification(){
     this.isSuccessful = false
     this.isError = false
->>>>>>> 2961a4c8b9a0388286cb481a5aa2dfc18f7526da
   }
 
 

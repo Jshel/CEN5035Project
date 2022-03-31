@@ -105,10 +105,8 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		//json.NewEncoder(w).Encode(user.Username)
-
-		//fmt.Fprintf(w, user.Username)
 		http.StatusText(http.StatusOK)
+
 	}
 }
 
@@ -156,11 +154,6 @@ func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
 		user.Email = registration.Email
 
 		db.Save(&user)
-
-		// Redirect to main page in front end depending on statusOK or StatusUnauthorized
-		//http.Redirect(w, r, "http://localhost:4200/", http.StatusOK)
-		//http.Error(w, "Registration successful", http.StatusOK)
-		//fmt.Println("Registration successful")
 
 		http.StatusText(http.StatusOK)
 	}

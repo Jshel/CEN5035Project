@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {User} from './user'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -10,19 +11,13 @@ import {User} from './user'
 })
 export class LoginFormComponent implements OnInit {
 
-<<<<<<< HEAD
-  isError:boolean = false
-  isSuccessful: boolean = false
-=======
   isError: boolean = false
   isSuccessful: boolean = false
   
-  constructor(private http: HttpClient) { 
->>>>>>> 2961a4c8b9a0388286cb481a5aa2dfc18f7526da
-
   readonly headers = new HttpHeaders().set('Content-Type', 'application/json')
-  
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router) {}
 
   onSubmit(f: NgForm) {
     this.removeNotification()
@@ -30,21 +25,12 @@ export class LoginFormComponent implements OnInit {
       "email": f.value.email,
       "password": f.value.password
     };
-<<<<<<< HEAD
-    return this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true}, err =>{this.isError=true; this.isSuccessful=false})
-  }
-
-  removeNotification(){
-    this.isError=false
-    this.isSuccessful=false
-=======
     return this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true}, err => {this.isError=true; this.isSuccessful=false});
   }
   
   removeNotification(){
     this.isSuccessful = false
     this.isError = false
->>>>>>> 2961a4c8b9a0388286cb481a5aa2dfc18f7526da
   }
   
 
