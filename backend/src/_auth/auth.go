@@ -97,6 +97,7 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			session.Values["id"] = login.Email
 			err = session.Save(r, w)
 			fmt.Println("Login success: ", login.Email)
+			//http.Redirect(w, r, "http://localhost:8080/api/create-account", http.StatusFound)
 		}
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
@@ -104,10 +105,8 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		//json.NewEncoder(w).Encode(user.Username)
-
-		//fmt.Fprintf(w, user.Username)
 		http.StatusText(http.StatusOK)
+
 	}
 }
 
@@ -155,10 +154,6 @@ func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
 		user.Email = registration.Email
 
 		db.Save(&user)
-
-		// Redirect to main page
-		//http.Error(w, "Registration successful", http.StatusOK)
-		//fmt.Println("Registration successful")
 
 		http.StatusText(http.StatusOK)
 	}
