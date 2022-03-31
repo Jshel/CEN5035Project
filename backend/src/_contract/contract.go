@@ -75,37 +75,37 @@ func InitContractDB(sqliteFile string, debugSQL bool) {
 		db = _db
 	}
 	// test entry
-	contract := Contract{
-		ContractID:      "00000000",
-		ContractType:    "example contract",
-		ContractName:    "example0.pdf",
-		DateCreated:     "3/2/2022",
-		TerminationDate: "3/2/2023",
-		ValidSigniture:  true,
-		PaymentType:     "cash",
-		AmountPaid:      0.0,
-		AmountOwed:      100.0,
-		AttorneyName:    "Bob",
-		AttorneyEmail:   "Bob.law@gmail.com",
-		ClientName:      "Alice",
-		ClientEmail:     "alice@yahoo.com"}
-	db.FirstOrCreate(&contract)
+	// contract := Contract{
+	// 	ContractID:      "00000000",
+	// 	ContractType:    "example contract",
+	// 	ContractName:    "example0.pdf",
+	// 	DateCreated:     "3/2/2022",
+	// 	TerminationDate: "3/2/2023",
+	// 	ValidSigniture:  true,
+	// 	PaymentType:     "cash",
+	// 	AmountPaid:      0.0,
+	// 	AmountOwed:      100.0,
+	// 	AttorneyName:    "Bob",
+	// 	AttorneyEmail:   "Bob.law@gmail.com",
+	// 	ClientName:      "Alice",
+	// 	ClientEmail:     "alice@yahoo.com"}
+	// db.FirstOrCreate(&contract)
 
-	contract2 := Contract{
-		ContractID:      "00000001",
-		ContractType:    "example contract",
-		ContractName:    "example1.pdf",
-		DateCreated:     "3/4/2022",
-		TerminationDate: "3/4/2023",
-		ValidSigniture:  true,
-		PaymentType:     "credit",
-		AmountPaid:      50.0,
-		AmountOwed:      150.0,
-		AttorneyName:    "John",
-		AttorneyEmail:   "John.law@uflaw.edu",
-		ClientName:      "Smith",
-		ClientEmail:     "smith@comcast.net"}
-	db.FirstOrCreate(&contract2)
+	// contract2 := Contract{
+	// 	ContractID:      "00000001",
+	// 	ContractType:    "example contract",
+	// 	ContractName:    "example1.pdf",
+	// 	DateCreated:     "3/4/2022",
+	// 	TerminationDate: "3/4/2023",
+	// 	ValidSigniture:  true,
+	// 	PaymentType:     "credit",
+	// 	AmountPaid:      50.0,
+	// 	AmountOwed:      150.0,
+	// 	AttorneyName:    "John",
+	// 	AttorneyEmail:   "John.law@uflaw.edu",
+	// 	ClientName:      "Smith",
+	// 	ClientEmail:     "smith@comcast.net"}
+	// db.FirstOrCreate(&contract2)
 
 	db.AutoMigrate(&Contract{})
 }
@@ -140,6 +140,7 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//return contract id
 func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Uploading file...\n")
@@ -189,19 +190,17 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		contract.ClientEmail = r.URL.Query().Get("client_email")
 		contract.ClientName = r.URL.Query().Get("client_name")
 
-		// //decode form data
-		// var ContractInit ContractInit
-		// err := json.NewDecoder(r.)
-
 		//get atorney id from session
 		val := session.Values["Email"]
 		str := fmt.Sprintf("%v", val)
 		contract.AttorneyEmail = str
 
-		//get attorney name from users
+		//get attorney name from userss
 		val = session.Values["Name"]
 		str = fmt.Sprintf("%v", val)
 		contract.AttorneyName = str
+		contract.AttorneyName = "nick"
+		contract.AttorneyEmail = "a@a.a"
 
 		//queery db for number of entries and add one for the contract id
 		count := 0
