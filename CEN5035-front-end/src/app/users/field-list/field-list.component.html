@@ -1,0 +1,28 @@
+<div class="card events-card my-5">
+    <header class="card-header">
+        <p class="card-header-title">
+            {{elementAttributes.name}}
+        </p>
+        <a href="#" class="card-header-icon" aria-label="more options">
+<span class="icon">
+<i class="fa fa-angle-down" aria-hidden="true"></i>
+</span>
+</a>
+    </header>
+    <div class="card-table">
+        <div class="content">
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr *ngFor="let rowElement of rowElements">
+                        <td width="5%"><i class="fa fa-bell-o"></i></td>
+                        <td>{{rowElement.name}}</td>
+                        <td class="level-right"><a class="button is-small" (click)="showModal(rowElement.name)">View</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer class="card-footer">
+        <a href="#" class="card-footer-item">View All</a>
+    </footer>
+</div>
