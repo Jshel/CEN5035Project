@@ -25,7 +25,7 @@ export class LoginFormComponent implements OnInit {
       "email": f.value.email,
       "password": f.value.password
     };
-    return this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true}, err => {this.isError=true; this.isSuccessful=false});
+    return this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true, this.router.navigateByUrl("/browse-contracts");}, err => {this.isError=true; this.isSuccessful=false});
   }
   
   removeNotification(){
