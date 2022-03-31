@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form
+      enctype="multipart/form-data"
+      action="http://localhost:8080/api/upload?contract_type=lease&termination_date=12345&payment_type=cash&ammount_paid=100&ammount_owed=200&client_email=emailtest&client_name=Alin"
+      method="post"
+    >
+      <input type="file" name="contract" />
+      <input type="submit" value="upload" />
+    </form>
+  </body>
+</html>
