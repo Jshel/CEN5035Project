@@ -11,7 +11,6 @@ import { FieldListModalComponent } from './field-list-modal/field-list-modal.com
 import { MenuListComponent } from './menu-list/menu-list.component';
 import { MenuListModalComponent } from './menu-list-modal/menu-list-modal.component';
 
-
 @NgModule({
   declarations: [
     UserListComponent,
