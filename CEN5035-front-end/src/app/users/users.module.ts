@@ -8,7 +8,8 @@ import { AnalyticsCardComponent } from './analytics-card/analytics-card.componen
 import { FieldSearchComponent } from './field-search/field-search.component';
 import { FieldListComponent } from './field-list/field-list.component';
 import { FieldListModalComponent } from './field-list-modal/field-list-modal.component';
-
+import { MenuListComponent } from './menu-list/menu-list.component';
+import { MenuListModalComponent } from './menu-list-modal/menu-list-modal.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ import { FieldListModalComponent } from './field-list-modal/field-list-modal.com
     AnalyticsCardComponent,
     FieldSearchComponent,
     FieldListComponent,
-    FieldListModalComponent
+    FieldListModalComponent,
+    MenuListComponent,
+    MenuListModalComponent
   ],
   imports: [
     CommonModule,
