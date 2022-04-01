@@ -20,7 +20,8 @@ Run ```npx cypress run``` in CEN5035Project\CEN5035-front-end to run the Cypress
 
 The video generated in CEN5035Project\CEN5035-front-end\cypress\videos:
 
-https://user-images.githubusercontent.com/32618925/161214276-5110309e-d59c-40e9-a70e-a88cdedd0c1b.mp4
+
+https://user-images.githubusercontent.com/32618925/161346092-ebcafedd-0b3b-474e-bfa6-8a96cba92d3d.mp4
 
 
 
