@@ -21,8 +21,7 @@ export class FieldListComponent implements OnInit {
 
   draftOpen(): void{
     var str = this.elementAttributes.name
-    console.log(str)
-    window.open("/" + str.toLowerCase().slice(0,-1) + "-draft","_blank")
+    window.open("/" + str.toLowerCase().slice(0,-1) + "-draft", "_self")
   }
 
   showModal(thisname: string){
