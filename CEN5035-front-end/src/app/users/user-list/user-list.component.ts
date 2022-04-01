@@ -10,7 +10,7 @@ export class UserListComponent implements OnInit {
   showModal = false
   showMenuModal = false
   modalData = {name: "",modalID: ""}
-  fieldListElements = [{name: 'Contracts'},{name: 'Messages'}]
+  fieldListElements = [{name: 'Contracts'},{name: 'Messages'},{name: 'Notifications'}]
   fieldElements = [{name: 'Contract'}, {name: 'Attorney'}]
 
   constructor(private userService: UserService) { }

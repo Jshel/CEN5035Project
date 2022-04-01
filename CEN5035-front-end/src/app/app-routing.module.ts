@@ -6,6 +6,7 @@ import { BrowseContractsComponent } from './browse-contracts/browse-contracts.co
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { MessageDrafterComponent } from './message-drafter/message-drafter.component';
 import { ContractDrafterComponent } from './contract-drafter/contract-drafter.component';
+import { NotificationDrafterComponent } from './notification-drafter/notification-drafter.component';
 const routes: Routes = [
   {
     path: '',
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'contract-draft',
     component: ContractDrafterComponent
+  },
+  {
+    path: 'notification-draft',
+    component: NotificationDrafterComponent
   },
   {
     path: 'users',
