@@ -85,6 +85,17 @@ describe('Opens messages page', () => {
   })
 })
 
+describe('Opens notifications page', () => {
+  it('Opens the notification draft form', () => {
+    //Without this there are some button visibility issues?
+    cy.viewport(1024, 768)
+    cy.visit('/users')
+    cy.get('body > app-root > app-user-list > div > div > div.column.is-9 > div > div:nth-child(1) > app-field-list:nth-child(3) > div > footer > a:nth-child(2)').click()
+    cy.url().should('include', '/notification-draft')
+    cy.contains('Create a Notification')
+  })
+})
+
 describe('Opens contracts page and correctly interacts with form', () => {
   it('Opens contracts page and correctly interacts with form', () => {
     //Without this there are some button visibility issues?

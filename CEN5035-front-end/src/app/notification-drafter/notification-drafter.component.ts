@@ -12,4 +12,8 @@ export class NotificationDrafterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+   draftOpen(url:string): void{
+    window.open(url)
+  }
+
 }
