@@ -18,23 +18,19 @@ describe('Creating an account works', () => {
     cy.contains('Create Account').click()
     //Type credentials
     cy.get('input[name="name"]')
-      .type('Fake Name')
-      .should('have.value','Fake Name')
+    .type('Fake Name')
+    .should('have.value','Fake Name')
     cy.get('input[name="username"]')
-      .type('fakeuser123')
-      .should('have.value','fakeuser123')
+    .type('fakeuser123')
+    .should('have.value','fakeuser123')
     cy.get('input[name="email"]')
-      .type('fakeemail123@notreal.com')
-      .should('have.value','fakeemail123@notreal.com')
+    .type('fakeemail123@notreal.com')
+    .should('have.value','fakeemail123@notreal.com')
     cy.get('input[name="password"]')
-      .type('password1')
-      .should('have.value','password1')
+    .type('password1')
+    .should('have.value','password1')
     cy.contains('Create Account').click();
-    cy.scrollTo('top');
-      //Click alert?
-    cy.contains('User Creation Successful');
-    cy.wait(1000);
-  })
+    })
 })
 
 describe('Log in as fake person', () => {
@@ -46,49 +42,94 @@ describe('Log in as fake person', () => {
     cy.url().should('include', '/login')
     //Type credentials
     cy.get('input[name="email"]')
-      .type('fakeemail123@notreal.com')
-      .should('have.value','fakeemail123@notreal.com')
+    .type('fakeemail123@notreal.com')
+    .should('have.value','fakeemail123@notreal.com')
     cy.get('input[name="password"]')
-      .type('password1')
-      .should('have.value','password1')
-    cy.get('body > app-root > app-login-form > section > div > div > div.columns.is-centered > div > form > div.field.is-grouped > div:nth-child(1) > button').click();
-      //Click alert?
-    cy.scrollTo('top');
-    cy.contains('User Login Successful');
-    cy.wait(1000);
-  })
+    .type('password1')
+    .should('have.value','password1')
+    })
 })
 
-describe('Views the tables', () => {
-  it('Visits the table tabs', () => {
+describe('Opens the dashboard', () => {
+  it('Open the user dashboard', () => {
+    //Without this there are some button visibility issues?
     cy.viewport(1024, 768)
     cy.visit('/')
-    cy.contains('Contract').click()
-    cy.url().should('include', '/browse-contracts')
-    //Had to do get with selector for this to work?
-    //Look at all three tables (messages then notifications then contracts)
-    cy.get('body > app-root > app-browse-contracts > div > div > div:nth-child(1) > mat-sidenav-container > mat-sidenav-content > mat-nav-list > a:nth-child(2) > span').click()
-    cy.contains('Recipients')
-    cy.get('body > app-root > app-browse-contracts > div > div > div:nth-child(1) > mat-sidenav-container > mat-sidenav-content > mat-nav-list > a:nth-child(1) > span').click()
-    cy.contains('Required Action')
-    cy.get('body > app-root > app-browse-contracts > div > div > div:nth-child(1) > mat-sidenav-container > mat-sidenav-content > mat-nav-list > a:nth-child(3) > span').click()
-    cy.contains('Contract ID')
+    cy.contains('Users').click()
+    cy.url().should('include', '/users')
+    cy.contains('Dashboard')
   })
 })
 
+describe('Opens and closes the Bulma modals', () => {
+  it('Opens Bulma modals in the dashboard', () => {
+    //Without this there are some button visibility issues?
+    cy.viewport(1024, 768)
+    cy.visit('/users')
+    cy.get('body > app-root > app-user-list > div > div > div.column.is-9 > div > div:nth-child(1) > app-field-list:nth-child(1) > div > div:nth-child(2) > div > table > tbody > tr:nth-child(3) > td.level-right > a').click();
+    cy.contains('Lorem ipsum')
+    cy.get('body > app-root > app-user-list > div > app-field-list-modal > div > div.modal-card > header > button').click()
+    //Check that modal can be escaped.
+    cy.get('body > app-root > app-user-list > div > app-field-list-modal > div > div.modal-card > section').should('not.exist');
+  })
+})
 
-describe('Loads the Contracts', () => {
-  it('Loads the Contracts', () => {
-    cy.viewport(1024, 768);
-    //Has the example contract listed on the click of the button (would show fake contract here otherwise).
-    cy.contains('example contract');
-  
+describe('Opens messages page', () => {
+  it('Opens the message draft form', () => {
+    //Without this there are some button visibility issues?
+    cy.viewport(1024, 768)
+    cy.visit('/users')
+    cy.get('body > app-root > app-user-list > div > div > div.column.is-9 > div > div:nth-child(1) > app-field-list:nth-child(2) > div > footer > a:nth-child(2)').click()
+    cy.url().should('include', '/message-draft')
+    cy.contains('Send a Message')
+  })
+})
+
+describe('Opens notifications page', () => {
+  it('Opens the notification draft form', () => {
+    //Without this there are some button visibility issues?
+    cy.viewport(1024, 768)
+    cy.visit('/users')
+    cy.get('body > app-root > app-user-list > div > div > div.column.is-9 > div > div:nth-child(1) > app-field-list:nth-child(3) > div > footer > a:nth-child(2)').click()
+    cy.url().should('include', '/notification-draft')
+    cy.contains('Create a Notification')
+  })
+})
+
+describe('Opens contracts page and correctly interacts with form', () => {
+  it('Opens contracts page and correctly interacts with form', () => {
+    //Without this there are some button visibility issues?
+    cy.viewport(1024, 768)
+    cy.visit('/users')
+    cy.get('body > app-root > app-user-list > div > div > div.column.is-9 > div > div:nth-child(1) > app-field-list:nth-child(1) > div > footer > a:nth-child(2)').click()
+    cy.url().should('include', '/contract-draft')
+    cy.contains('Send a Contract')
+    //Test add and remove for attorneys.
+    cy.get('body > app-root > app-contract-drafter > div:nth-child(3) > div > div > div > div.control.is-expanded > input').type('Fake name 1')
+    cy.get('body > app-root > app-contract-drafter > div.field.is-grouped > div:nth-child(1) > div > button').click()
+    cy.get('body > app-root > app-contract-drafter > div.field.is-grouped > div:nth-child(1) > div > button').click()
+    cy.get('body > app-root > app-contract-drafter > div:nth-child(3) > div > div:nth-child(3) > div > div.control.is-expanded > input').type('Fake name 2')
+    cy.get('body > app-root > app-contract-drafter > div:nth-child(3) > div > div:nth-child(4) > div > div.control.is-expanded > input').type('Fake name 3')
+    //Remove second person and check that the element is gone.
+    cy.get('body > app-root > app-contract-drafter > div:nth-child(3) > div > div:nth-child(3) > div > div:nth-child(2) > a').click()
+    cy.contains('Fake name 2').should('not.exist')
+
+    //Test add and remove for clients.
+    cy.get('body > app-root > app-contract-drafter > div:nth-child(4) > div > div > div > div.control.is-expanded > input').type('Fake name 1')
+    cy.get('body > app-root > app-contract-drafter > div.field.is-grouped > div:nth-child(2) > div > button').click()
+    cy.get('body > app-root > app-contract-drafter > div.field.is-grouped > div:nth-child(2) > div > button').click()
+    cy.get('body > app-root > app-contract-drafter > div:nth-child(4) > div > div:nth-child(3) > div > div.control.is-expanded > input').type('Fake name 2')
+    cy.get('body > app-root > app-contract-drafter > div:nth-child(4) > div > div:nth-child(4) > div > div.control.is-expanded > input').type('Fake name 3')
+    //Remove second person and check that the element is gone.
+    cy.get('body > app-root > app-contract-drafter > div:nth-child(4) > div > div:nth-child(3) > div > div:nth-child(2) > a').click()
+    cy.contains('Fake name 2').should('not.exist')
+
   })
 })
 
 describe('Finish Demo', () => {
   it('Finishes the Demo', () => {
   //Need this so the video doesn't cut off.
-    cy.wait(1000);
-  })
+  cy.wait(1000);
+})
 })

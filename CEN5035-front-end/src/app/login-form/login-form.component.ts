@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {HttpClient} from '@angular/common/http'
+import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {User} from './user'
 import { Router } from '@angular/router';
 
@@ -14,11 +14,10 @@ export class LoginFormComponent implements OnInit {
   isError: boolean = false
   isSuccessful: boolean = false
   
+  readonly headers = new HttpHeaders().set('Content-Type', 'application/json')
   constructor(
     private http: HttpClient,
-    private router: Router) { 
-    
-  }
+    private router: Router) {}
 
   onSubmit(f: NgForm) {
     this.removeNotification()
@@ -26,9 +25,8 @@ export class LoginFormComponent implements OnInit {
       "email": f.value.email,
       "password": f.value.password
     };
-    return this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true; this.router.navigateByUrl("/browse-contracts");}, err => {this.isError=true; this.isSuccessful=false});
+    return this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true, this.router.navigateByUrl("/browse-contracts");}, err => {this.isError=true; this.isSuccessful=false});
   }
-
   
   removeNotification(){
     this.isSuccessful = false

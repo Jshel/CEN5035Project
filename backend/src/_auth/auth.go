@@ -57,7 +57,6 @@ func InitAuth(sqliteFile string, debugSQL bool) {
 
 	// migrate schemas
 	db.AutoMigrate(&User{})
-
 }
 
 //HandleLogin loggs in the user attaches a session COOKIE to the reply. Returns WhoAmI info
@@ -87,7 +86,7 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 		// check the password
 		err = bcrypt.CompareHashAndPassword([]byte(user.Hash), []byte(login.Password))
 		if err != nil {
-			http.Error(w, fmt.Sprintf("Password for user %s is incorrect", login.Email), http.StatusForbidden)
+			http.Error(w, fmt.Sprintf("Password for user %s is incorrect", login.Email), http.StatusUnauthorized)
 			fmt.Println("password failure for: ", login.Email, " password: ", login.Password)
 			return
 		}
@@ -98,6 +97,7 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 		if err == nil {
 			session.Values["id"] = login.Email
 			session.Values["authenticated"] = true
+
 			err = session.Save(r, w)
 			fmt.Println("Login success: ", login.Email)
 		}

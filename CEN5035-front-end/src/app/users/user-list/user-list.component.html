@@ -1,1 +1,33 @@
-<p>user-list works!</p>
+
+    <div class="container">
+        <app-field-list-modal *ngIf="showModal" (closeModalEmitter)="onModalClose($event)" [modalAttributes]="modalData"></app-field-list-modal>
+        <app-menu-list-modal *ngIf="showMenuModal" (closeMenuListModalEmitter)="onModalClose($event)" [modalAttributes]="modalData"></app-menu-list-modal>
+        <div class="columns">
+            <div class="column is-3 ">
+                <app-menu-list (toggleMenuModel)="onMenuModalToggle($event)"></app-menu-list>
+            </div>
+            <div class="column is-9">
+                <section class="hero is-info welcome is-small">
+                    <div class="hero-body">
+                        <div class="container">
+                            <h1 class="title">
+                                Hello, Admin.
+                            </h1>
+                            <h2 class="subtitle">
+                                I hope you are having a great day!
+                            </h2>
+                        </div>
+                    </div>
+                </section>
+                <app-analytics-card></app-analytics-card>
+                <div class="columns">
+                    <div class="column is-6">
+                        <app-field-list *ngFor="let fieldListElement of fieldListElements" [element]="fieldListElement" (toggleModal)="onModalToggle($event)"></app-field-list>
+                    </div>
+                    <div class="column is-6">
+                        <app-field-search *ngFor="let fieldElement of fieldElements" [element]="fieldElement"></app-field-search>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

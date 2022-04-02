@@ -8,13 +8,13 @@ FrontEnd: Angular
 
 Groupmates:
 
-Akshay Sharma - akshaysharmajs
+Akshay Sharma - akshaysharmajs - Backend
 
-Jennifer Sheldon - Jshel
+Jennifer Sheldon - Jshel - Frontend
 
-Sunil Ghosal - sunil494
+Sunil Ghosal - sunil494 - Frontend
 
-Nicholas Fox - DrBubbles42
+Nicholas Fox - DrBubbles42 - Backend
 
 Description of Project: We will write contract management software. At the least, this will include a searchable database of contracts and notifications for contracts which are expiring. If possible, we may also include encrypted messages with non-repudiation and digital signatures. We may also auto-generate certain types of contracts.
 
@@ -30,7 +30,7 @@ To run:
 
 - cd into the CEN5035-front-end directory
 
-Run: npm serve --open
+Run: npm start
 
 To run Cypress:
 
@@ -46,7 +46,7 @@ To run:
 
 - First, run frontend server (http://localhost:4200/):
     - cd CEN5035-front-end
-    - run nmp serve --open
+    - run nmp start
 
 - Now, run backend server (http://localhost:8080/):
 
