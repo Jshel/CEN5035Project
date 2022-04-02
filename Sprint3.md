@@ -34,8 +34,8 @@ DrBubbles42: Nicholas Fox
 akshaysharmajs: Akshay Sharma 
 
 Start the Frontend: ```npm run start```   
-Start the Backend: ```go run main.go```
-Start the test server: `live-server`
-Curl to download contract: `curl http://localhost:4200/api/download?attorney_email=a%40a.a%26contract_id=00000001 -o download2.pdf`
+Start the Backend: ```go run main.go```   
+Start the test server: `live-server`   
+Curl to download contract: `curl http://localhost:4200/api/download?attorney_email=a%40a.a%26contract_id=00000001 -o download2.pdf`   
 
 ![sprint3BE](https://user-images.githubusercontent.com/25064175/161361184-0072a022-e9bd-4a44-ba50-0f09d3bf06c7.gif)
