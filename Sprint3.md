@@ -8,6 +8,10 @@ Added dynamic forms for messages and contracts
 
 ### Backend:
 
+Added contract uploading and downloading. Fixed sessions. Redirect from login page and from create account.
+
+Unit tests.
+
 ## Demos:
 
 ### Frontend:
@@ -27,14 +31,11 @@ https://user-images.githubusercontent.com/32618925/161346092-ebcafedd-0b3b-474e-
 
 ### Backend:
 DrBubbles42: Nicholas Fox
-
-
-
-Added contract uploading and downloading. Fixed sessions. Redirect from login page and from create account.
-
-Unit tests.
+akshaysharmajs: Akshay Sharma 
 
 Start the Frontend: ```npm run start```   
 Start the Backend: ```go run main.go```
+Start the test server: `live-server`
+Curl to download contract: `curl http://localhost:4200/api/download?attorney_email=a%40a.a%26contract_id=00000001 -o download2.pdf`
 
 ![sprint3BE](https://user-images.githubusercontent.com/25064175/161361184-0072a022-e9bd-4a44-ba50-0f09d3bf06c7.gif)
