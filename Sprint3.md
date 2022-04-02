@@ -30,7 +30,7 @@ https://user-images.githubusercontent.com/32618925/161346092-ebcafedd-0b3b-474e-
 
 
 ### Backend:
-DrBubbles42: Nicholas Fox
+DrBubbles42: Nicholas Fox   
 akshaysharmajs: Akshay Sharma 
 
 Start the Frontend: ```npm run start```   
