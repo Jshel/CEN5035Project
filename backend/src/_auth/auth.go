@@ -126,6 +126,42 @@ func HandleLogout() func(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func GetUserEmail() func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// Try first to find a token
+		// token := r.Header.Get("x-access-token")
+		// if token != "" {
+		// 	if verifyToken(token) {
+		// 		return "token:" + hashToken(token) // we have a session
+		// 	}
+
+		// 	http.Error(w, fmt.Errorf("Invalid or expired token %s", token).Error(), http.StatusForbidden)
+		// 	return ""
+		// }
+		user := User{}
+		session, err := store.Get(r, "cookie-name")
+
+		if err != nil {
+			fmt.Println("No session active")
+			http.Error(w, err.Error(), http.StatusForbidden)
+		}
+
+		if email, ok := session.Values["id"].(string); ok {
+			db.Where(&User{Email: email}).Find(&user)
+
+			if user.Email == email {
+				fmt.Println("Session found for user %s", email)
+				json.NewEncoder(w).Encode(user)
+				return
+			}
+		}
+
+		fmt.Println("No session found for user %s", user.Email)
+		http.Error(w, err.Error(), http.StatusForbidden)
+
+	}
+}
+
 func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// convert request to registration data
