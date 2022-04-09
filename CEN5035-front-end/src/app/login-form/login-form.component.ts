@@ -37,9 +37,9 @@ export class LoginFormComponent implements OnInit {
     };
 
 
+    this.http.get<User2>("/api/getuser").subscribe((response) => {console.log(response)}, err => {console.log("no session found")});
 
     this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true, this.router.navigateByUrl("/browse-contracts");}, err => {this.isError=true; this.isSuccessful=false});
-    this.http.get<User2>("/api/getuser").subscribe((response) => {console.log(response)}, err => {console.log("no session found")});
   }
   
   removeNotification(){

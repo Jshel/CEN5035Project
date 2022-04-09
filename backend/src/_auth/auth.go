@@ -3,6 +3,7 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/sessions"
@@ -98,7 +99,12 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			session.Values["id"] = login.Email
 			session.Values["authenticated"] = true
 
-			err = session.Save(r, w)
+			err := session.Save(r, w)
+
+			if err != nil {
+				log.Println(err)
+			}
+
 			fmt.Println("Login success: ", login.Email)
 		}
 		if err != nil {
@@ -117,7 +123,12 @@ func HandleLogout() func(w http.ResponseWriter, r *http.Request) {
 		session, err := store.Get(r, "cookie-name")
 		if err == nil {
 			session.Values["authenticated"] = false
-			session.Save(r, w)
+			err := session.Save(r, w)
+
+			if err != nil {
+				log.Println(err)
+			}
+
 			fmt.Println("Logout success: ", session.Values["id"])
 			http.Error(w, "Successfull logout", http.StatusOK)
 		} else {
@@ -146,11 +157,15 @@ func GetUserEmail() func(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusForbidden)
 		}
 
-		if email, ok := session.Values["id"].(string); ok {
+		if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+			http.Error(w, "Forbidden", http.StatusForbidden)
+			return
+		} else {
+			var email string = session.Values["id"].(string)
 			db.Where(&User{Email: email}).Find(&user)
 
 			if user.Email == email {
-				fmt.Println("Session found for user %s", email)
+				fmt.Println("Session found for user ", email)
 				json.NewEncoder(w).Encode(user)
 				return
 			}
@@ -196,7 +211,11 @@ func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
 		if err == nil {
 			session.Values["id"] = registration.Email
 			session.Values["authenticated"] = true
-			err = session.Save(r, w)
+			err := session.Save(r, w)
+
+			if err != nil {
+				log.Println(err)
+			}
 			fmt.Println("Login success: ", registration.Email)
 		}
 		if err != nil {
