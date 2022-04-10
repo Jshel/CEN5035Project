@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {UserRegistration} from './UserRegistration'
 import { Router} from '@angular/router';
+import{ GlobalComponent } from '../global-component';
 
 @Component({
   selector: 'app-create-account',
@@ -35,6 +36,9 @@ export class CreateAccountComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log(GlobalComponent.output)
+    GlobalComponent.output = "create-account";
+    console.log(GlobalComponent.output)
   }
 
 }
