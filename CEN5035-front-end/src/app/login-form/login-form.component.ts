@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {User} from './user'
 import { Router } from '@angular/router';
+import{ GlobalComponent } from '../global-component';
 
 export class User2 {
   constructor(
@@ -49,6 +50,8 @@ export class LoginFormComponent implements OnInit {
   
 
   ngOnInit(): void {
+    GlobalComponent.output = "Login-Page";
+    console.log(GlobalComponent.output)
   }
 
 }
