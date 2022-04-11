@@ -22,12 +22,12 @@ export class AppComponent implements OnInit{
     GlobalComponent.email = cookieData?.email
     GlobalComponent.username = cookieData?.username
     GlobalComponent.givenName = cookieData?.name
-    console.log(GlobalComponent);
   }
 
   async ngOnInit(): Promise<void> {
     const response = await this.http.get<User2>("/api/getuser").toPromise();
     response?.email != undefined ? this.router.navigateByUrl("/users/" + response.email) : undefined;
+    console.log(response)
     this.setCookies(response)
   }
 }

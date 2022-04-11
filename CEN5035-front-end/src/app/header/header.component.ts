@@ -21,4 +21,8 @@ export class HeaderComponent implements OnInit {
     this.loginStatus = (response != undefined) ? true : false
   }
 
+  onLogout(){
+    
+  }
+
 }
