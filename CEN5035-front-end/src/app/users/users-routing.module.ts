@@ -8,12 +8,8 @@ import { UserSingleComponent } from './user-single/user-single.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: UserListComponent
-  },
-  {
     path: ':username',
-    component: UserSingleComponent
+    component: UserListComponent
   },
   {
     path: ':username/message-draft',

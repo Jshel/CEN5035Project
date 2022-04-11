@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalComponent } from 'src/app/global-component';
 import { UserService } from 'src/app/user.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { UserService } from 'src/app/user.service';
 export class UserListComponent implements OnInit {
   showModal = false
   showMenuModal = false
+  adminName: string | undefined
   modalData = {name: "",modalID: ""}
   fieldListElements = [{name: 'Contracts'},{name: 'Messages'},{name: 'Notifications'}]
   fieldElements = [{name: 'Contract'}, {name: 'Attorney'}]
@@ -16,9 +18,7 @@ export class UserListComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe(data => {
-      console.log(data)
-    })
+    this.adminName = GlobalComponent.givenName;
   }
 
   onModalToggle(eventData: {isModalToggled: boolean, name: string, modalID: string}){
