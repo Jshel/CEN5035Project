@@ -33,7 +33,7 @@ func setUpRoutes() {
 	http.HandleFunc("/api/upload", contract.HandleFileUpload())
 	http.HandleFunc("/api/download", contract.HandleFileDownload())
 	http.HandleFunc("/api/send-message", messages.HandleSendMessage())
-	http.HandleFunc("/api/get_message", message.HandleGetMessage())
+	http.HandleFunc("/api/get_message", messages.HandleGetMessage())
 }
 
 func databaseInit() {
