@@ -4,10 +4,10 @@
             {{elementAttributes.name}}
         </p>
         <a href="#" class="card-header-icon" aria-label="more options">
-<span class="icon">
-<i class="fa fa-angle-down" aria-hidden="true"></i>
-</span>
-</a>
+            <span class="icon">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </a>
     </header>
     <div class="card-table">
         <div class="content">
@@ -15,20 +15,35 @@
                 <tbody>
                     <tr *ngFor="let rowElement of rowElements">
                         <td width="5%"><i class="fa fa-bell-o"></i></td>
-                        <td>{{rowElement.name}}</td>
-                        <td class="level-right"><a class="button is-small" (click)="showModal(rowElement.name)">View</a></td>
+                        <ng-container matColumnDef="contract_ID">
+                            <th mat-header-cell *matHeaderCellDef> Contract ID </th>
+                            <td mat-cell *matCellDef="let element"> {{rowElement.contract_ID}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="contract_type">
+                            <th mat-header-cell *matHeaderCellDef> Contract Type </th>
+                            <td mat-cell *matCellDef="let element"> {{rowElement.contract_type}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="client_name">
+                            <th mat-header-cell *matHeaderCellDef> Client Name </th>
+                            <td mat-cell *matCellDef="let element"> {{rowElement.client_name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="termination_date">
+                            <th mat-header-cell *matHeaderCellDef> Termination Date </th>
+                            <td mat-cell *matCellDef="let element"> {{rowElement.termination_date}} </td>
+                        </ng-container>
+                        <td class="level-right"><a class="button is-small" (click)="showModal(rowElement.contract_ID)">View</a></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-     <header class="card-header">
+    <header class="card-header">
         <p class="card-header-title" >
             Draft {{elementAttributes.name}}
         </p>
         <a href="#" class="card-header-icon" aria-label="more options">
             <span class="icon">
-            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
             </span>
         </a>
     </header>
@@ -38,8 +53,23 @@
                 <tbody>
                     <tr *ngFor="let draftRow of draftRowElements">
                         <td width="5%"><i class="fa fa-bell-o"></i></td>
-                        <td>{{draftRow.name}}</td>
-                        <td class="level-right"><a class="button is-small" (click)="showModal(draftRow.name)">View</a></td>
+                        <ng-container matColumnDef="contract_ID">
+                            <th mat-header-cell *matHeaderCellDef> Contract ID </th>
+                            <td mat-cell *matCellDef="let element"> {{draftRow.contract_ID}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="contract_type">
+                            <th mat-header-cell *matHeaderCellDef> Contract Type </th>
+                            <td mat-cell *matCellDef="let element"> {{draftRow.contract_type}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="client_name">
+                            <th mat-header-cell *matHeaderCellDef> Client Name </th>
+                            <td mat-cell *matCellDef="let element"> {{draftRow.client_name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="termination_date">
+                            <th mat-header-cell *matHeaderCellDef> Termination Date </th>
+                            <td mat-cell *matCellDef="let element"> {{draftRow.termination_date}} </td>
+                        </ng-container>
+                        <td class="level-right"><a class="button is-small" (click)="showModal(draftRow.contract_ID)">View</a></td>
                     </tr>
                 </tbody>
             </table>
