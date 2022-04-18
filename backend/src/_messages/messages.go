@@ -3,12 +3,8 @@ package messages
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
 	"net/http"
-	"os"
 	"strconv"
-	"time"
 
 	"github.com/jinzhu/gorm"
 
@@ -16,20 +12,23 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
-type Message struct{
-	Sender	string `json:"sender"`
-	Receiver	string `json:"receiver"`
-	Message	string `json:"message"`
-	Time 	int64 `json:"time"`
+type Message struct {
+	Sender   string `json:"sender"`
+	Receiver string `json:"receiver"`
+	Message  string `json:"message"`
+	Time     int64  `json:"time"`
 }
 
 type MessageList struct {
 	Messages []Message
 }
 
+// keep track of the database
+var db *gorm.DB
+
 func (mlist *MessageList) AddMessage(message Message) []Message {
-    mlist.Message = append(mlist.Message, message)
-    return mlist.Message
+	mlist.Messages = append(mlist.Messages, message)
+	return mlist.Messages
 }
 
 func InitMessageDB(sqliteFile string, debugSQL bool) {
@@ -47,10 +46,10 @@ func InitMessageDB(sqliteFile string, debugSQL bool) {
 }
 
 func HandleSendMessage() func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request)
+	return func(w http.ResponseWriter, r *http.Request) {
 		// convert request to message data
-		var Message message
-		err := json.NewDecoder(r.Body).Decode(&Message)
+		var message Message
+		err := json.NewDecoder(r.Body).Decode(&message)
 
 		if err != nil {
 			http.Error(w, "Difformed message", http.StatusBadRequest)
@@ -60,10 +59,11 @@ func HandleSendMessage() func(w http.ResponseWriter, r *http.Request) {
 
 		db.Save(&message)
 		http.StatusText(http.StatusOK)
+	}
 }
 
 func HandleGetMessage() func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request)
+	return func(w http.ResponseWriter, r *http.Request) {
 		// mesage list and count
 		messages := []Message{}
 		mlist := MessageList{messages}
@@ -73,27 +73,39 @@ func HandleGetMessage() func(w http.ResponseWriter, r *http.Request) {
 		var receiver = r.URL.Query().Get("receiver")
 		var n = r.URL.Query().Get("n")
 
+		N, err := strconv.Atoi(n)
+		if err != nil {
+			http.Error(w, "n is not an int", http.StatusBadRequest)
+			fmt.Println("n is not an int")
+			return
+		}
+
 		// get the message database
 		message := Message{}
 
 		// get the messages with these users
-		rows, err := db.Model(&Message{}).Where("sender = ?", sender).Where("receiver = ?", receiver).Rows()
+		rows, err := db.Model(&message).Where("sender = ?", sender).Where("receiver = ?", receiver).Rows()
+		if err != nil {
+			fmt.Println("error finding messages for sender: ", sender, " and receiver: ", receiver)
+			http.Error(w, "error finding messages", http.StatusNotFound)
+			return
+		}
 		defer rows.Close()
-		
+
 		// itterate rows
 		for rows.Next() {
-			if n != 0 {
+			if N != 0 {
 				var message Message
-				db.ScanRows(row, &message)
+				db.ScanRows(rows, &message)
 
 				mlist.AddMessage(message)
-				n--
+				N--
 			} else {
 				break
 			}
 		}
 
-		// encode list of messages 
+		// encode list of messages
 		json.NewEncoder(w).Encode(mlist)
-	
+	}
 }
