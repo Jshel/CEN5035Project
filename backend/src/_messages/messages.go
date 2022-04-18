@@ -16,7 +16,7 @@ type Message struct {
 	Sender   string `json:"sender"`
 	Receiver string `json:"receiver"`
 	Message  string `json:"message"`
-	Time     int64  `json:"time"`
+	Time     string `json:"time"`
 }
 
 type MessageList struct {
@@ -52,11 +52,13 @@ func HandleSendMessage() func(w http.ResponseWriter, r *http.Request) {
 		err := json.NewDecoder(r.Body).Decode(&message)
 
 		if err != nil {
+			fmt.Fprintln(w, err)
 			http.Error(w, "Difformed message", http.StatusBadRequest)
 			fmt.Println("Error: Difformed message request")
 			return
 		}
 
+		fmt.Fprintln(w, "message saved!")
 		db.Save(&message)
 		http.StatusText(http.StatusOK)
 	}
@@ -74,6 +76,7 @@ func HandleGetMessage() func(w http.ResponseWriter, r *http.Request) {
 		var n = r.URL.Query().Get("n")
 
 		N, err := strconv.Atoi(n)
+
 		if err != nil {
 			http.Error(w, "n is not an int", http.StatusBadRequest)
 			fmt.Println("n is not an int")
@@ -83,29 +86,82 @@ func HandleGetMessage() func(w http.ResponseWriter, r *http.Request) {
 		// get the message database
 		message := Message{}
 
-		// get the messages with these users
-		rows, err := db.Model(&message).Where("sender = ?", sender).Where("receiver = ?", receiver).Rows()
-		if err != nil {
-			fmt.Println("error finding messages for sender: ", sender, " and receiver: ", receiver)
-			http.Error(w, "error finding messages", http.StatusNotFound)
-			return
-		}
-		defer rows.Close()
-
-		// itterate rows
-		for rows.Next() {
-			if N != 0 {
-				var message Message
-				db.ScanRows(rows, &message)
-
-				mlist.AddMessage(message)
-				N--
-			} else {
-				break
+		// if sender or reciever contains a * return all messages that go with the wildcard and desired user
+		// contract and messages num. post with email
+		if sender == "*" {
+			rows, err := db.Model(&message).Where("receiver = ?", receiver).Rows()
+			if err != nil {
+				fmt.Println("error finding messages for receiver: ", receiver)
+				http.Error(w, "error finding messages", http.StatusNotFound)
+				return
 			}
-		}
+			defer rows.Close()
 
-		// encode list of messages
-		json.NewEncoder(w).Encode(mlist)
+			// itterate rows
+			for rows.Next() {
+				if N != 0 {
+					var message Message
+					db.ScanRows(rows, &message)
+
+					mlist.AddMessage(message)
+					N--
+				} else {
+					break
+				}
+			}
+			// encode list of messages
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(mlist)
+		} else if receiver == "*" {
+			rows, err := db.Model(&message).Where("sender = ?", sender).Rows()
+			if err != nil {
+				fmt.Println("error finding messages for sender: ", sender)
+				http.Error(w, "error finding messages", http.StatusNotFound)
+				return
+			}
+			defer rows.Close()
+
+			// itterate rows
+			for rows.Next() {
+				if N != 0 {
+					var message Message
+					db.ScanRows(rows, &message)
+
+					mlist.AddMessage(message)
+					N--
+				} else {
+					break
+				}
+			}
+			// encode list of messages
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(mlist)
+		} else {
+			// get the messages with these users
+			rows, err := db.Model(&message).Where("sender = ?", sender).Where("receiver = ?", receiver).Rows()
+			if err != nil {
+				fmt.Println("error finding messages for sender: ", sender, " and receiver: ", receiver)
+				http.Error(w, "error finding messages", http.StatusNotFound)
+				return
+			}
+			defer rows.Close()
+
+			// itterate rows
+			for rows.Next() {
+				if N != 0 {
+					var message Message
+					db.ScanRows(rows, &message)
+
+					mlist.AddMessage(message)
+					N--
+				} else {
+					break
+				}
+			}
+
+			// encode list of messages
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(mlist)
+		}
 	}
 }

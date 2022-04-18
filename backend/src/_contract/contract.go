@@ -155,20 +155,21 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 
 				clist.AddContract(contract)
 			}
+			json.NewEncoder(w).Encode(clist)
 
-		}
-
-		// Bring the contract in
-		db.Where(&Contract{ContractID: contractID, AttorneyName: username}).Find(&contract)
-
-		//check if contract exists
-		if contract.ContractID != contractID {
-			http.Error(w, fmt.Sprintf("Contract ID: %s does not exist", contractID), http.StatusForbidden)
-			fmt.Println("ERROR: ", contractID, " does not exist for attorney ", username)
-			return
 		} else {
-			// contract exists
-			json.NewEncoder(w).Encode(contract)
+			// Bring the contract in
+			db.Where(&Contract{ContractID: contractID, AttorneyName: username}).Find(&contract)
+
+			//check if contract exists
+			if contract.ContractID != contractID {
+				http.Error(w, fmt.Sprintf("Contract ID: %s does not exist", contractID), http.StatusForbidden)
+				fmt.Println("ERROR: ", contractID, " does not exist for attorney ", username)
+				return
+			} else {
+				// contract exists
+				json.NewEncoder(w).Encode(contract)
+			}
 		}
 	}
 }
