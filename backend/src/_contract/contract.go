@@ -140,9 +140,9 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 		if contractID == "*" {
 			contracts := []Contract{}
 			clist := ContractList{contracts}
-			rows, err := db.Model(&contract).Where("AttorneyName = ?", username).Rows()
+			rows, err := db.Model(&contract).Rows()
 			if err != nil {
-				fmt.Println("error finding contracts for Attorney: ", username)
+				fmt.Println("error finding contracts for Attorney: ", username, " ", err)
 				http.Error(w, "error finding contracts", http.StatusNotFound)
 				return
 			}
@@ -250,6 +250,7 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 
 		//save to db
 		db.Create(&contract)
+		fmt.Println(contract.AttorneyName)
 
 		err = os.WriteFile("./contract_store/"+contract.ContractName, fileBytes, 0644)
 		if err != nil {
@@ -274,8 +275,8 @@ func HandleFileDownload() func(w http.ResponseWriter, r *http.Request) {
 		// get the url params
 		var attorney_email = r.URL.Query().Get("attorney_email")
 		var contract_id = r.URL.Query().Get("contract_id")
-		attorney_email = "a@a.a"
-		contract_id = "00000001"
+		// attorney_email = "a@a.a"
+		// contract_id = "00000001"
 
 		// Bring the contract in
 		contract := Contract{}

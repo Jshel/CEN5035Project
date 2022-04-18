@@ -9,7 +9,7 @@ import { UserService } from 'src/app/user.service';
 export class UserListComponent implements OnInit {
   showModal = false
   showMenuModal = false
-  modalData = {name: "",modalID: ""}
+  modalData = {name: "",modalID: "", pdfURL: ""}
   fieldListElements = [{name: 'Contracts'},{name: 'Messages'},{name: 'Notifications'}]
   fieldElements = [{name: 'Contract'}, {name: 'Attorney'}]
 
@@ -21,12 +21,13 @@ export class UserListComponent implements OnInit {
     })
   }
 
-  onModalToggle(eventData: {isModalToggled: boolean, name: string, modalID: string}){
+  onModalToggle(eventData: {isModalToggled: boolean, name: string, modalID: string, pdfURL: string}){
     console.log("name: " + eventData.name)
     console.log("modalID: " + eventData.modalID)
     this.modalData.name = eventData.name
     this.modalData.modalID = eventData.modalID
     this.showModal = eventData.isModalToggled
+    this.modalData.pdfURL = eventData.pdfURL
   }
 
   onMenuModalToggle(eventData: {isModalToggled: boolean}){

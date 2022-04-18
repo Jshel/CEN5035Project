@@ -49,14 +49,8 @@ export class ContractDrafterComponent implements OnInit {
     window.open(url, "_self")
   }
 
-  testValue(): void{
-    console.log("logged")
-  }
-
   onFileChange(event:Event): void {
- console.log("in filechange")
   if((<HTMLInputElement>event.target).files && (<HTMLInputElement>event.target).files!.length) {
-    console.log("file seen")
         let file = (<HTMLInputElement>event.target)!.files![0];
         console.log(file)
         this.formData.append('contract', file)
