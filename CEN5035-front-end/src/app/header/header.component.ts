@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalComponent } from '../global-component';
+import { User2 } from '../login-form/login-form.component';
+import {HttpClient, HttpHeaders} from '@angular/common/http'
 
 @Component({
   selector: 'app-header',
@@ -7,9 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  loginStatus : boolean = false
 
-  ngOnInit(): void {
+  readonly headers = new HttpHeaders().set('Content-Type', 'application/json')
+  constructor(
+    private http: HttpClient) {}
+
+  async ngOnInit(): Promise<void> {
+    const response = await this.http.get<User2>("/api/getuser").toPromise();
+    this.loginStatus = (response != undefined) ? true : false
+  }
+
+  async onLogout(): Promise<void>{
+    const response = await this.http.get("/api/logout").toPromise();
+    console.log(response)
+    this.loginStatus = (response == 'Successfull logout') ? false : true
+  }
+
+  getLoginStatus(){
+    return this.loginStatus
   }
 
 }

@@ -3,6 +3,7 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/sessions"
@@ -98,7 +99,12 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			session.Values["id"] = login.Email
 			session.Values["authenticated"] = true
 
-			err = session.Save(r, w)
+			err := session.Save(r, w)
+
+			if err != nil {
+				log.Println(err)
+			}
+
 			fmt.Println("Login success: ", login.Email)
 		}
 		if err != nil {
@@ -117,12 +123,57 @@ func HandleLogout() func(w http.ResponseWriter, r *http.Request) {
 		session, err := store.Get(r, "cookie-name")
 		if err == nil {
 			session.Values["authenticated"] = false
-			session.Save(r, w)
+			err := session.Save(r, w)
+
+			if err != nil {
+				log.Println(err)
+			}
+
 			fmt.Println("Logout success: ", session.Values["id"])
 			http.Error(w, "Successfull logout", http.StatusOK)
 		} else {
 			http.Error(w, "No session found", http.StatusNotFound)
 		}
+	}
+}
+
+func GetUserEmail() func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// Try first to find a token
+		// token := r.Header.Get("x-access-token")
+		// if token != "" {
+		// 	if verifyToken(token) {
+		// 		return "token:" + hashToken(token) // we have a session
+		// 	}
+
+		// 	http.Error(w, fmt.Errorf("Invalid or expired token %s", token).Error(), http.StatusForbidden)
+		// 	return ""
+		// }
+		user := User{}
+		session, err := store.Get(r, "cookie-name")
+
+		if err != nil {
+			fmt.Println("No session active")
+			http.Error(w, err.Error(), http.StatusForbidden)
+		}
+
+		if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+			http.Error(w, "Forbidden", http.StatusForbidden)
+			return
+		} else {
+			var email string = session.Values["id"].(string)
+			db.Where(&User{Email: email}).Find(&user)
+
+			if user.Email == email {
+				fmt.Println("Session found for user ", email)
+				json.NewEncoder(w).Encode(user)
+				return
+			}
+		}
+
+		fmt.Println("No session found for user %s", user.Email)
+		http.Error(w, err.Error(), http.StatusForbidden)
+
 	}
 }
 
@@ -160,7 +211,11 @@ func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
 		if err == nil {
 			session.Values["id"] = registration.Email
 			session.Values["authenticated"] = true
-			err = session.Save(r, w)
+			err := session.Save(r, w)
+
+			if err != nil {
+				log.Println(err)
+			}
 			fmt.Println("Login success: ", registration.Email)
 		}
 		if err != nil {

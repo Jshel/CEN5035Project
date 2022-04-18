@@ -26,7 +26,7 @@ export class CreateAccountComponent implements OnInit {
       "username": f.value.username,
       "password": f.value.password
     };
-    return this.http.post<UserRegistration>("/api/create-account", body).subscribe(response => {this.isError=false; this.isSuccessful=true, this.router.navigateByUrl("/browse-contracts");}, err => {this.isError=true; this.isSuccessful=false});
+    return this.http.post<UserRegistration>("/api/create-account", body).subscribe(response => {this.isError=false; this.isSuccessful=true, this.router.navigateByUrl("/users/" + GlobalComponent.email);}, err => {this.isError=true; this.isSuccessful=false});
   }
 
   removeNotification(){
