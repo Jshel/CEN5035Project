@@ -233,8 +233,6 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		val = session.Values["Name"]
 		str = fmt.Sprintf("%v", val)
 		contract.AttorneyName = str
-		contract.AttorneyName = "nick"
-		contract.AttorneyEmail = "a@a.a"
 
 		//queery db for number of entries and add one for the contract id
 		count := 0
@@ -298,5 +296,19 @@ func HandleFileDownload() func(w http.ResponseWriter, r *http.Request) {
 			w.Write(fileBytes)
 			return
 		}
+	}
+}
+
+func HandleCountContracts() func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// get ur query params
+		var attorney_email = r.URL.Query().Get("attorney_email")
+		// queery db for number of entries and add one for the contract id
+		count := 0
+		db.Model(&Contract{}).Where("attorney_email = ?", attorney_email).Count(&count)
+
+		// write result to response
+		fmt.Fprintln(w, count)
+		http.StatusText(http.StatusOK)
 	}
 }

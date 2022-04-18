@@ -165,3 +165,17 @@ func HandleGetMessage() func(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+func HandleCountMessages() func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// get ur query params
+		var attorney_email = r.URL.Query().Get("attorney_email")
+		// queery db for number of entries and add one for the contract id
+		count := 0
+		db.Model(&Message{}).Where("receiver = ?", attorney_email).Count(&count)
+
+		// write result to response
+		fmt.Fprintln(w, count)
+		http.StatusText(http.StatusOK)
+	}
+}
