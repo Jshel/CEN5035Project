@@ -55,7 +55,16 @@ type ContractInit struct {
 	ClientEmail     string  `json:"client_email"`
 }
 
+type ContractList struct {
+	Contracts []Contract
+}
+
 var db *gorm.DB
+
+func (clist *ContractList) AddContract(contract Contract) []Contract {
+	clist.Contracts = append(clist.Contracts, contract)
+	return clist.Contracts
+}
 
 func checkErr(err error) {
 	if err != nil {
@@ -124,8 +133,32 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 		var username = r.URL.Query().Get("username")
 		var contractID = r.URL.Query().Get("contractID")
 
-		// Bring the contract in
+		// bring in database
 		contract := Contract{}
+
+		// if contract id = * get all contracts for the user
+		if contractID == "*" {
+			contracts := []Contract{}
+			clist := ContractList{contracts}
+			rows, err := db.Model(&contract).Where("AttorneyName = ?", username).Rows()
+			if err != nil {
+				fmt.Println("error finding contracts for Attorney: ", username)
+				http.Error(w, "error finding contracts", http.StatusNotFound)
+				return
+			}
+			defer rows.Close()
+
+			// itterate rows
+			for rows.Next() {
+				var contract Contract
+				db.ScanRows(rows, &contract)
+
+				clist.AddContract(contract)
+			}
+
+		}
+
+		// Bring the contract in
 		db.Where(&Contract{ContractID: contractID, AttorneyName: username}).Find(&contract)
 
 		//check if contract exists
