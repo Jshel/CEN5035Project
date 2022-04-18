@@ -87,7 +87,7 @@
     <div class="column is-centered">
     	<div class="file has-name">
     		<label class="file-label">
-    			<input class="file-upload" type="file" name="contract" formControlName = "contract" requiredFileType="pdf">
+    			<input class="file-upload" type="file" name="contract" (change)="onFileChange($event)" formControlName = "contract" requiredFileType="pdf">
     		</label>
     	</div>
     </div>

@@ -50,9 +50,19 @@ export class FieldListComponent implements OnInit {
 
   rowElements = CONTRACT_DATA;
   draftRowElements = CONTRACT_DATA;
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.http.get<ContractExample>("http://localhost:4200/api/get-contract?attorneyID=00000001&contractID=00000000", {headers: this.headers})
+      .subscribe(
+         (response) => {
+            this.rowElements = [];
+            this.rowElements.push(response as ContractExample);
+            this.rowElements = [...this.rowElements];
+            console.log(this.rowElements);
+          },
+         (error) => { console.log("Error happened" + error)}
+      );
   }
 
   draftOpen(): void{

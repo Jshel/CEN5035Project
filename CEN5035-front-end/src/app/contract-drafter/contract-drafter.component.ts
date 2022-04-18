@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({
@@ -9,6 +9,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 export class ContractDrafterComponent implements OnInit {
   readonly headers = new HttpHeaders().set('Content-Type', 'undefined').set('Access-Control-Allow-Origin', "http://localhost:8080");
+  formData = new FormData;
   contractForm = this.formBuilder.group({
     contract_type: '',
     termination_date: '',
@@ -48,11 +49,23 @@ export class ContractDrafterComponent implements OnInit {
     window.open(url, "_self")
   }
 
+  testValue(): void{
+    console.log("logged")
+  }
+
+  onFileChange(event:Event): void {
+ console.log("in filechange")
+  if((<HTMLInputElement>event.target).files && (<HTMLInputElement>event.target).files!.length) {
+    console.log("file seen")
+        let file = (<HTMLInputElement>event.target)!.files![0];
+        console.log(file)
+        this.formData.append('contract', file)
+      
+  }
+}
+
   onSubmit(): void {
-    const formData = new FormData;
-    formData.append('contract', this.contractForm.get('contract')!.value, 'contract.pdf')
-    console.log(this.headers)
-    this.http.post<any>("http://localhost:4200/api/upload?contract_type=" + this.contractForm.get('contract_type')!.value + "&termination_date="  + this.contractForm.get('termination_date')!.value + "&payment_type=" + this.contractForm.get('payment_type')!.value  + "&ammount_paid=" + this.contractForm.get('ammount_paid')!.value + "&ammount_owed=" + this.contractForm.get('ammount_owed')!.value + "&client_email=" + this.contractForm.get('client_email')!.value + "&client_name=" + this.contractForm.get('client_name')!.value, formData)
+    this.http.post<any>("http://localhost:4200/api/upload?contract_type=" + this.contractForm.get('contract_type')!.value + "&termination_date="  + this.contractForm.get('termination_date')!.value + "&payment_type=" + this.contractForm.get('payment_type')!.value  + "&ammount_paid=" + this.contractForm.get('ammount_paid')!.value + "&ammount_owed=" + this.contractForm.get('ammount_owed')!.value + "&client_email=" + this.contractForm.get('client_email')!.value + "&client_name=" + this.contractForm.get('client_name')!.value, this.formData)
     .subscribe();
   }
 }
