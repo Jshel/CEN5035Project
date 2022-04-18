@@ -3,12 +3,23 @@ import { NgForm } from '@angular/forms';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {User} from './user'
 import { Router } from '@angular/router';
+import{ GlobalComponent } from '../global-component';
+
+export class User2 {
+  constructor(
+    public name?: string,
+    public email?: string,
+    public username?: string,
+    public password?: string,
+  ) {}
+}
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.css']
 })
+
 export class LoginFormComponent implements OnInit {
 
   isError: boolean = false
@@ -23,9 +34,13 @@ export class LoginFormComponent implements OnInit {
     this.removeNotification()
     const body = {
       "email": f.value.email,
-      "password": f.value.password
+      "password": f.value.password,
     };
-    return this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true, this.router.navigateByUrl("/browse-contracts");}, err => {this.isError=true; this.isSuccessful=false});
+
+
+    this.http.get<User2>("/api/getuser").subscribe((response) => {console.log(response)}, err => {console.log("no session found")});
+
+    this.http.post<User>("/api/login", body).subscribe(response => {this.isError=false; this.isSuccessful=true, this.router.navigateByUrl("/users/" + GlobalComponent.email);}, err => {this.isError=true; this.isSuccessful=false});
   }
   
   removeNotification(){
@@ -35,6 +50,8 @@ export class LoginFormComponent implements OnInit {
   
 
   ngOnInit(): void {
+    GlobalComponent.output = "Login-Page";
+    console.log(GlobalComponent.output)
   }
 
 }

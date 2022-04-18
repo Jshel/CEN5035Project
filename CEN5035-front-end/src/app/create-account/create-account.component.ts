@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import {UserRegistration} from './UserRegistration'
 import { Router} from '@angular/router';
+import{ GlobalComponent } from '../global-component';
 
 @Component({
   selector: 'app-create-account',
@@ -25,7 +26,7 @@ export class CreateAccountComponent implements OnInit {
       "username": f.value.username,
       "password": f.value.password
     };
-    return this.http.post<UserRegistration>("/api/create-account", body).subscribe(response => {this.isError=false; this.isSuccessful=true, this.router.navigateByUrl("/browse-contracts");}, err => {this.isError=true; this.isSuccessful=false});
+    return this.http.post<UserRegistration>("/api/create-account", body).subscribe(response => {this.isError=false; this.isSuccessful=true, this.router.navigateByUrl("/users/" + GlobalComponent.email);}, err => {this.isError=true; this.isSuccessful=false});
   }
 
   removeNotification(){
@@ -35,6 +36,9 @@ export class CreateAccountComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log(GlobalComponent.output)
+    GlobalComponent.output = "create-account";
+    console.log(GlobalComponent.output)
   }
 
 }
