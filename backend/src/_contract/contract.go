@@ -241,6 +241,8 @@ func HandleFileDownload() func(w http.ResponseWriter, r *http.Request) {
 		// get the url params
 		var attorney_email = r.URL.Query().Get("attorney_email")
 		var contract_id = r.URL.Query().Get("contract_id")
+		attorney_email = "a@a.a"
+		contract_id = "00000001"
 
 		// Bring the contract in
 		contract := Contract{}
