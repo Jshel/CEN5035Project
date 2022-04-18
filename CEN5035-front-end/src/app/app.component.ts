@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
+  loginStatus = false
   title = 'Contract Management';
   email: string | undefined = "undefined"
 
@@ -26,8 +27,9 @@ export class AppComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
     const response = await this.http.get<User2>("/api/getuser").toPromise();
-    response?.email != undefined ? this.router.navigateByUrl("/users/" + response.email) : undefined;
-    console.log(response)
+    if (!this.router.url.includes('users')){
+      response?.email != undefined ? this.router.navigateByUrl("/users/" + response.email) : undefined;
+    }
     this.setCookies(response)
   }
 }

@@ -21,8 +21,14 @@ export class HeaderComponent implements OnInit {
     this.loginStatus = (response != undefined) ? true : false
   }
 
-  onLogout(){
-    
+  async onLogout(): Promise<void>{
+    const response = await this.http.get("/api/logout").toPromise();
+    console.log(response)
+    this.loginStatus = (response == 'Successfull logout') ? false : true
+  }
+
+  getLoginStatus(){
+    return this.loginStatus
   }
 
 }
