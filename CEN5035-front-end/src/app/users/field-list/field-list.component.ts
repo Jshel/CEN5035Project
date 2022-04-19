@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GlobalComponent } from 'src/app/global-component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-
+import { DomSanitizer} from '@angular/platform-browser';
+import{ GlobalComponent } from '../../global-component';
 export interface ContractExample {
   contract_ID: string;
   contract_type: string;
@@ -12,7 +13,7 @@ export interface ContractExample {
   amount_paid: number;
   amount_owed: number;
   attorney_name: string;
-  attorney_ID: number;
+  attorney_email: string;
   client_name: string;
   client_ID: number;
 }
@@ -28,7 +29,7 @@ const CONTRACT_DATA: ContractExample[] = [
   amount_paid: -1,
   amount_owed: -1,
   attorney_name: "",
-  attorney_ID: -1,
+  attorney_email: "",
   client_name: "",
   client_ID: -1
 }
@@ -47,14 +48,15 @@ export class FieldListComponent implements OnInit {
   rowName = "";
   @Input('element')
   elementAttributes!: { name: string; };
-  @Output() toggleModal = new EventEmitter<{isModalToggled: boolean, name: string, modalID: string}>();
+  @Output() toggleModal = new EventEmitter<{isModalToggled: boolean, name: string, modalID: string, pdfURL: string}>();
 
   rowElements = CONTRACT_DATA;
   draftRowElements = CONTRACT_DATA;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private domSanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.http.get<ContractExample>("http://localhost:4200/api/get-contract?attorneyID=00000001&contractID=00000000", {headers: this.headers})
+    console.log(GlobalComponent.username)
+    this.http.get<ContractExample>("http://localhost:4200/api/get-contract?username=" + GlobalComponent.username + "&contractID=0000000a", {headers: this.headers})
       .subscribe(
          (response) => {
             this.rowElements = [];
@@ -71,8 +73,10 @@ export class FieldListComponent implements OnInit {
     window.open("/users/" + GlobalComponent.email + "/" + str.toLowerCase().slice(0,-1) + "-draft", "_self")
   }
 
-  showModal(thisname: string){
+  showModal(thisname: string, attorneyEmail: string){
     this.isModalToggled = true
-    this.toggleModal.emit({isModalToggled: this.isModalToggled, name: thisname, modalID: "1"})
+    var pdfsrc =  "http://" + window.location.host + "/api/download?attorney_email=" + attorneyEmail + "&contract_id=" + thisname
+    // var sanitizedsrc = this.domSanitizer.sanitize(SecurityContext.URL, pdfsrc)
+    window.open(pdfsrc)
   }
 }

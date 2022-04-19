@@ -55,7 +55,16 @@ type ContractInit struct {
 	ClientEmail     string  `json:"client_email"`
 }
 
+type ContractList struct {
+	Contracts []Contract
+}
+
 var db *gorm.DB
+
+func (clist *ContractList) AddContract(contract Contract) []Contract {
+	clist.Contracts = append(clist.Contracts, contract)
+	return clist.Contracts
+}
 
 func checkErr(err error) {
 	if err != nil {
@@ -124,8 +133,32 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 		var username = r.URL.Query().Get("username")
 		var contractID = r.URL.Query().Get("contractID")
 
-		// Bring the contract in
+		// bring in database
 		contract := Contract{}
+
+		// if contract id = * get all contracts for the user
+		if contractID == "*" {
+			contracts := []Contract{}
+			clist := ContractList{contracts}
+			rows, err := db.Model(&contract).Rows()
+			if err != nil {
+				fmt.Println("error finding contracts for Attorney: ", username, " ", err)
+				http.Error(w, "error finding contracts", http.StatusNotFound)
+				return
+			}
+			defer rows.Close()
+
+			// itterate rows
+			for rows.Next() {
+				var contract Contract
+				db.ScanRows(rows, &contract)
+
+				clist.AddContract(contract)
+			}
+
+		}
+
+		// Bring the contract in
 		db.Where(&Contract{ContractID: contractID, AttorneyName: username}).Find(&contract)
 
 		//check if contract exists
@@ -197,10 +230,9 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 
 		//get attorney name from userss
 		val = session.Values["Name"]
+		fmt.Println("Name ", val)
 		str = fmt.Sprintf("%v", val)
 		contract.AttorneyName = str
-		contract.AttorneyName = "nick"
-		contract.AttorneyEmail = "a@a.a"
 
 		//queery db for number of entries and add one for the contract id
 		count := 0
@@ -217,6 +249,7 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 
 		//save to db
 		db.Create(&contract)
+		fmt.Println(contract.AttorneyName)
 
 		err = os.WriteFile("./contract_store/"+contract.ContractName, fileBytes, 0644)
 		if err != nil {
@@ -241,8 +274,8 @@ func HandleFileDownload() func(w http.ResponseWriter, r *http.Request) {
 		// get the url params
 		var attorney_email = r.URL.Query().Get("attorney_email")
 		var contract_id = r.URL.Query().Get("contract_id")
-		attorney_email = "a@a.a"
-		contract_id = "00000001"
+		// attorney_email = "a@a.a"
+		// contract_id = "00000001"
 
 		// Bring the contract in
 		contract := Contract{}
