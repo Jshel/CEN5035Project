@@ -21,12 +21,13 @@ export class UserListComponent implements OnInit {
     this.adminName = GlobalComponent.givenName;
   }
 
-  onModalToggle(eventData: {isModalToggled: boolean, name: string, modalID: string}){
+  onModalToggle(eventData: {isModalToggled: boolean, name: string, modalID: string, pdfURL: string}){
     console.log("name: " + eventData.name)
     console.log("modalID: " + eventData.modalID)
     this.modalData.name = eventData.name
     this.modalData.modalID = eventData.modalID
     this.showModal = eventData.isModalToggled
+    this.modalData.pdfURL = eventData.pdfURL
   }
 
   onMenuModalToggle(eventData: {isModalToggled: boolean}){

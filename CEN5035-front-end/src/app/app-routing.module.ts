@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { BrowseContractsComponent } from './browse-contracts/browse-contracts.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
+import { ContractDrafterComponent } from './contract-drafter/contract-drafter.component';
 const routes: Routes = [
   {
     path: '',
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'users',
     loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule)
+  },
+  {
+    path: 'contract-draft',
+    component: ContractDrafterComponent
   },
   {
     path: 'browse-contracts',

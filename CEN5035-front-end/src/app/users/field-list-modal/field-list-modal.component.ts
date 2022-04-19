@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class FieldListModalComponent implements OnInit {
   isModalToggled = true;
   @Input()
-  modalAttributes!: { name: string; modalID: string};
+  modalAttributes!: { name: string; modalID: string, pdfURL: string};
   @Output() closeModalEmitter = new EventEmitter<{isModalToggled: boolean}>();
 
   constructor() { }
