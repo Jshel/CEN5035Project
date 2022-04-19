@@ -161,14 +161,40 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 		// Bring the contract in
 		db.Where(&Contract{ContractID: contractID, AttorneyName: username}).Find(&contract)
 
-		//check if contract exists
-		if contract.ContractID != contractID {
-			http.Error(w, fmt.Sprintf("Contract ID: %s does not exist", contractID), http.StatusForbidden)
-			fmt.Println("ERROR: ", contractID, " does not exist for attorney ", username)
-			return
+		// if contract id = * get all contracts for the user
+		if contractID == "*" {
+			contracts := []Contract{}
+			clist := ContractList{contracts}
+			rows, err := db.Model(&contract).Where("AttorneyName = ?", username).Rows()
+			if err != nil {
+				fmt.Println("error finding contracts for Attorney: ", username)
+				http.Error(w, "error finding contracts", http.StatusNotFound)
+				return
+			}
+			defer rows.Close()
+
+			// itterate rows
+			for rows.Next() {
+				var contract Contract
+				db.ScanRows(rows, &contract)
+
+				clist.AddContract(contract)
+			}
+			json.NewEncoder(w).Encode(clist)
+
 		} else {
-			// contract exists
-			json.NewEncoder(w).Encode(contract)
+			// Bring the contract in
+			db.Where(&Contract{ContractID: contractID, AttorneyName: username}).Find(&contract)
+
+			//check if contract exists
+			if contract.ContractID != contractID {
+				http.Error(w, fmt.Sprintf("Contract ID: %s does not exist", contractID), http.StatusForbidden)
+				fmt.Println("ERROR: ", contractID, " does not exist for attorney ", username)
+				return
+			} else {
+				// contract exists
+				json.NewEncoder(w).Encode(contract)
+			}
 		}
 	}
 }
@@ -274,8 +300,6 @@ func HandleFileDownload() func(w http.ResponseWriter, r *http.Request) {
 		// get the url params
 		var attorney_email = r.URL.Query().Get("attorney_email")
 		var contract_id = r.URL.Query().Get("contract_id")
-		// attorney_email = "a@a.a"
-		// contract_id = "00000001"
 
 		// Bring the contract in
 		contract := Contract{}
@@ -297,5 +321,19 @@ func HandleFileDownload() func(w http.ResponseWriter, r *http.Request) {
 			w.Write(fileBytes)
 			return
 		}
+	}
+}
+
+func HandleCountContracts() func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// get ur query params
+		var attorney_email = r.URL.Query().Get("attorney_email")
+		// queery db for number of entries and add one for the contract id
+		count := 0
+		db.Model(&Contract{}).Where("attorney_email = ?", attorney_email).Count(&count)
+
+		// write result to response
+		fmt.Fprintln(w, count)
+		http.StatusText(http.StatusOK)
 	}
 }
