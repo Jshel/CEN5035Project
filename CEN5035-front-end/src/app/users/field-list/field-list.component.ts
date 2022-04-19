@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { GlobalComponent } from 'src/app/global-component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { DomSanitizer} from '@angular/platform-browser';
 import{ GlobalComponent } from '../../global-component';
@@ -69,7 +70,7 @@ export class FieldListComponent implements OnInit {
 
   draftOpen(): void{
     var str = this.elementAttributes.name
-    window.open("/" + str.toLowerCase().slice(0,-1) + "-draft", "_self")
+    window.open("/users/" + GlobalComponent.email + "/" + str.toLowerCase().slice(0,-1) + "-draft", "_self")
   }
 
   showModal(thisname: string, attorneyEmail: string){

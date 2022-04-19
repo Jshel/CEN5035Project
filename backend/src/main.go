@@ -27,11 +27,12 @@ func checkErr(err error) {
 func setUpRoutes() {
 	// request handlers
 	http.HandleFunc("/api/login", auth.HandleLogin())
-	// http.HandleFunc("/api/logout", auth.HandleLogout())
+	http.HandleFunc("/api/logout", auth.HandleLogout())
 	http.HandleFunc("/api/create-account", auth.HandleRegister())
 	http.HandleFunc("/api/get-contract", contract.HandleGetContract())
 	http.HandleFunc("/api/upload", contract.HandleFileUpload())
 	http.HandleFunc("/api/download", contract.HandleFileDownload())
+	http.HandleFunc("/api/getuser", auth.GetUserEmail())
 	http.HandleFunc("/api/send-message", messages.HandleSendMessage())
 	http.HandleFunc("/api/get-message", messages.HandleGetMessage())
 }
