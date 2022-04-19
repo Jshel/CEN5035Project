@@ -5,7 +5,7 @@
       <div class="field">
         <label class="label">Recipient</label> <!-- //Possibly need to check if the recipient exists from backend. -->
         <div class="control">
-          <input class="input is-danger" type="text" formControlName="recipient"> <!-- //Start with a fake ID so no chance of bad sends. -->
+          <input class="input is-danger" type="text" formControlName="Receiver" (input)="setReceiver($event)"> <!-- //Start with a fake ID so no chance of bad sends. -->
         </div>
       </div>
     </div>
@@ -13,7 +13,7 @@
       <div class="field">
         <label class="label">Message</label>
         <div class="control">
-          <textarea class="textarea" formControlName="message"></textarea>
+          <textarea class="textarea" formControlName="Message" (input)="setMessage($event)"></textarea>
         </div>
       </div>
     </div>
@@ -29,3 +29,4 @@
         </div>
       </div>
     </div>
+</form>

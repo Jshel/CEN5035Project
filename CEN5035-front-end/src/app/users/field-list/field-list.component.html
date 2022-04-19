@@ -47,21 +47,16 @@
                         <td width="5%"><i class="fa fa-bell-o"></i></td>
                         <th mat-header-cell> Sender </th>
                         <th mat-header-cell> Receiver </th>
-                        <th mat-header-cell> Message </th>
-                        <th mat-header-cell> Time </th>
                     </tr>
-                    <tr *ngFor="let rowElement of messageElements">
+                    <tr *ngFor="let messageElement of messageElements">
                         <td width="5%"><i class="fa fa-bell-o"></i></td>
                         <ng-container matColumnDef="sender">
-                            <td mat-cell> {{rowElement.sender}} </td>
+                            <td mat-cell> {{messageElement.sender}} </td>
                         </ng-container>
                         <ng-container matColumnDef="receiver">
-                            <td mat-cell> {{rowElement.receiver}} </td>
+                            <td mat-cell> {{messageElement.receiver}} </td>
                         </ng-container>
-                        <ng-container matColumnDef="receiver">
-                            <td mat-cell> {{rowElement.message}} </td>
-                        </ng-container>
-                        <td class="level-right"><a class="button is-small" (click)="showModal(rowElement.message)">View</a></td>
+                        <td class="level-right"><a class="button is-small" (click)="showModal(messageElement.message)">View</a></td>
                     </tr>
                 </tbody>
             </table>

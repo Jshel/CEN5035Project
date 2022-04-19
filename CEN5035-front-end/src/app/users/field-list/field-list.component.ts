@@ -42,7 +42,11 @@ export interface MessageExample {
   time: string;
 }
 
-const MESSAGE_DATA: MessageExample[] = [
+export interface MessageSet {
+  Messages: MessageExample[]
+}
+
+const MESSAGE_DATA:MessageExample[] = [
 {
   sender: "",
   receiver: "",
@@ -106,15 +110,15 @@ export class FieldListComponent implements OnInit {
   }
 
   searchValsMessage(event:Event){
-    let element = MESSAGE_DATA;
-    this.messageElements = this.messageElements!.filter(item => item == element[0]);
-    this.http.get<MessageExample>(encodeURI("/api/get-message?sender=bob&receiver=" + (<HTMLTextAreaElement>event.target).value + "&n=1"), {headers: this.headers})
+    this.http.get<MessageSet>(encodeURI("/api/get-message?sender=fakeaccount@fakeaccount.com&receiver=" + (<HTMLTextAreaElement>event.target).value + "&n=10"), {headers: this.headers})
       .subscribe(
          (response) => {
-            this.messageElements = MESSAGE_DATA;
-            let element = (response as MessageExample)
-            this.messageElements.push(element);
-            this.messageElements = this.messageElements!.filter(item => item == element);
+
+            this.messageElements = response.Messages;
+            console.log(response)
+            console.log("got a response")
+            // this.messageElements.push(element);
+            // this.messageElements = this.messageElements!.filter(item => item == element);
             console.log(this.messageElements);
           },
          (error) => { console.log("Error Loading Messages" + error)}
