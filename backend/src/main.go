@@ -37,6 +37,7 @@ func setUpRoutes() {
 	http.HandleFunc("/api/get-message", messages.HandleGetMessage())
 	http.HandleFunc("/api/count-messages", messages.HandleCountMessages())
 	http.HandleFunc("/api/getuser", auth.GetUserEmail())
+	http.HandleFunc("/api/contract-draft", contract.HandleGetContractDraft())
 }
 
 func databaseInit() {
