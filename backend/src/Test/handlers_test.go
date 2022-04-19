@@ -2,9 +2,9 @@
 package handlers
 
 import (
-	auth "attorneyManager/_auth"
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -47,30 +47,17 @@ func TestHandleLogin(t *testing.T) {
 
 	var jsonStr = []byte(`{"email":"akshay@gmail.com", "password":"akshay"}`)
 
-	req, err := http.NewRequest("POST", "http:localhost:8080/api/login", bytes.NewBuffer(jsonStr))
+	req, _ := http.NewRequest("POST", "http://localhost:8080/api/login", bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
-		t.Fatal(err)
+		panic(err)
 	}
+	defer resp.Body.Close()
 
-	// We create a ResponseRecorder (which satisfies http.ResponseWriter) to record the response.
-	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(auth.HandleLogin())
-
-	// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
-	// directly and pass in our Request and ResponseRecorder.
-	handler.ServeHTTP(rr, req)
-
-	// Check the status code is what we expect.
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
-	}
-
-	// Check the response body is what we expect.
-	expected := `{"alive": true}`
-	fmt.Println(rr.Body.String())
-	if rr.Body.String() != expected {
-		t.Errorf("handler returned unexpected body: got %v want %v",
-			rr.Body.String(), expected)
-	}
+	fmt.Println("response Status:", resp.Status)
+	fmt.Println("response Headers:", resp.Header)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("response Body:", string(body))
 }
