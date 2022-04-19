@@ -32,17 +32,11 @@ func setUpRoutes() {
 	http.HandleFunc("/api/get-contract", contract.HandleGetContract())
 	http.HandleFunc("/api/upload", contract.HandleFileUpload())
 	http.HandleFunc("/api/download", contract.HandleFileDownload())
-<<<<<<< HEAD
-	http.HandleFunc("/api/getuser", auth.GetUserEmail())
-	http.HandleFunc("/api/send-message", messages.HandleSendMessage())
-	http.HandleFunc("/api/get-message", messages.HandleGetMessage())
-=======
 	http.HandleFunc("/api/count-contracts", contract.HandleCountContracts())
 	http.HandleFunc("/api/send-message", messages.HandleSendMessage())
 	http.HandleFunc("/api/get-message", messages.HandleGetMessage())
 	http.HandleFunc("/api/count-messages", messages.HandleCountMessages())
 	http.HandleFunc("/api/getuser", auth.GetUserEmail())
->>>>>>> 54_messages
 }
 
 func databaseInit() {
