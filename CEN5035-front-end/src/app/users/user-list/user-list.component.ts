@@ -12,7 +12,7 @@ export class UserListComponent implements OnInit {
   showMenuModal = false
 
   adminName: string | undefined
-  modalData = {name: "",modalID: ""}
+  modalData = {name: "",modalID: "", pdfURL:""}
   fieldListElements = [{name: 'Contracts'},{name: 'Messages'},{name: 'Notifications'}]
   fieldElements = [{name: 'Contract'}, {name: 'Attorney'}]
 

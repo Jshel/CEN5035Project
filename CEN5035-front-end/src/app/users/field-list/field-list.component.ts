@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GlobalComponent } from 'src/app/global-component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { DomSanitizer} from '@angular/platform-browser';
-import{ GlobalComponent } from '../../global-component';
+
 export interface ContractExample {
   contract_ID: string;
   contract_type: string;
