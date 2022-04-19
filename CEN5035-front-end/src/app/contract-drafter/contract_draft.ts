@@ -7,6 +7,7 @@ export class ContractDraft {
       public Date?:          string,   
       public TerminationDate?: string,
       public PaymentType?: string,
-      public OtherNotes?:  string
+      public OtherNotes?:  string,
+      public file?: File
     ) {}
   }

@@ -20,6 +20,7 @@ type ContractDraft struct {
 	TerminationDate string `json:"termination_date"`
 	PaymentType     string `json:"payment_type"`
 	OtherNotes      string `json:"notes"`
+	File            string `json:"resume"`
 }
 
 func InitContractDraftDB(sqliteFile string, debugSQL bool) {
@@ -38,6 +39,8 @@ func InitContractDraftDB(sqliteFile string, debugSQL bool) {
 
 func HandleGetContractDraft() func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+
+		InitContractDraftDB("contract_draft.db", true)
 
 		var contract ContractDraft
 		err := json.NewDecoder(r.Body).Decode(&contract)
@@ -58,6 +61,7 @@ func HandleGetContractDraft() func(w http.ResponseWriter, r *http.Request) {
 		newcontract.TerminationDate = contract.TerminationDate
 		newcontract.PaymentType = contract.PaymentType
 		newcontract.OtherNotes = contract.OtherNotes
+		newcontract.File = contract.File
 
 		db.Save(&newcontract)
 		http.StatusText(http.StatusOK)

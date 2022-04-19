@@ -5,7 +5,8 @@
     	<div class="field">
     		<label class="label">Recipient</label> <!-- //Possibly need to check if the recipient exists from backend. -->
     		<div class="control">
-    			<input class="input is-danger" type="text" placeholder="-1" value="User ID" name="userID"> <!-- //Start with a fake ID so no chance of bad sends. -->
+    			<input class="input is-danger" type="text" placeholder="-1" value="User ID" name="userID" class="input" ngModel required
+				#userID="ngModel" #userIDInput="ngModel"> <!-- //Start with a fake ID so no chance of bad sends. -->
     		</div>
     		<p class="help is-danger">No such user</p>
     	</div>
@@ -16,7 +17,8 @@
     		<div  *ngFor="let attorney of attorneys">
     			<div class="field has-addons">
     				<div class="control is-expanded">
-    					<input class="input" type="text" name="attorney_list">
+    					<input class="input" type="text" name="attorney_list" class="input" ngModel required
+						#attorney_list="ngModel" #attorney_listInput="ngModel">
     				</div>
     				<div class="control">
     					<a class="button is-info" (click)="removePerson(attorney, false)">
@@ -33,7 +35,8 @@
     		<div  *ngFor="let client of clients">
     			<div class="field has-addons">
     				<div class="control is-expanded">
-    					<input class="input" type="text" name="client_list">
+    					<input class="input" type="text" name="client_list" class="input" ngModel required
+						#client_list="ngModel" #client_listInput="ngModel">
     				</div>
     				<div class="control">
     					<a class="button is-info" (click)="removePerson(client, true)">
@@ -48,7 +51,8 @@
     	<div class="field">
     		<label class="label">Contract Title </label>  <!-- May need to add title to backend -->
     		<div class="control">
-    			<input class="input" type="text" name="contract_title">
+    			<input class="input" type="text" name="contract_title" class="input" ngModel required
+				#contract_title="ngModel" #contract_titleInput="ngModel">
     		</div>
     	</div>
     </div>
@@ -56,7 +60,8 @@
     	<div class="field">
     		<label class="label">Creation Date </label> 
     		<div class="control">
-    			<input class="input" type="text" name="date">
+    			<input class="input" type="text" name="date" class="input" ngModel required
+				#date="ngModel" #dateInput="ngModel">
     		</div>
     	</div>
     </div>
@@ -64,7 +69,8 @@
     	<div class="field">
     		<label class="label">Termination Date </label> 
     		<div class="control">
-    			<input class="input" type="text" name="termination_date">
+    			<input class="input" type="text" name="termination_date" class="input" ngModel required
+				#termination_date="ngModel" #termination_dateInput="ngModel">
     		</div>
     	</div>
     </div>
@@ -72,7 +78,8 @@
     	<div class="field">
     		<label class="label">Payment Type </label> 
     		<div class="control">
-    			<input class="input" type="text" name="payment_type">
+    			<input class="input" type="text" name="payment_type" class="input" ngModel required
+				#payment_type="ngModel" #payment_typeInput="ngModel">
     		</div>
     	</div>
     </div>
@@ -87,7 +94,8 @@
     <div class="column is-centered">
     	<div class="file has-name">
     		<label class="file-label">
-    			<input class="file-input" type="file" name="resume">
+    			<input class="file-input" type="file" name="resume" class="input" ngModel required
+				#resume="ngModel" #resumeInput="ngModel">
     			<span class="file-cta">
     				<span class="file-label">
     					Upload Contract PDF

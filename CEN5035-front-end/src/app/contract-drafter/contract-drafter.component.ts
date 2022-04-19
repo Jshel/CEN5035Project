@@ -14,7 +14,9 @@ export class ContractDrafterComponent implements OnInit {
   isError: boolean = false
   isSuccessful: boolean = false
   
-  readonly headers = new HttpHeaders().set('Content-Type', 'application/json')
+  readonly headers = new HttpHeaders().set('Content-Type', 'application/json' )
+
+
   constructor(
     private http: HttpClient,
     private router: Router) {}
@@ -57,9 +59,10 @@ export class ContractDrafterComponent implements OnInit {
       "date" : f.value.date,
       "termination_date" : f.value.termination_date,
       "payment_type" : f.value.payment_type,
-      "notes" : f.value.notes
+      "notes" : f.value.notes,
+      "resume" : f.value.resume
     };
-    return this.http.post<ContractDraft>("/api/contract-draft", body).subscribe(response => {this.isError=false; this.isSuccessful=true}, err => {this.isError=true; this.isSuccessful=false});
+    return this.http.post<ContractDraft>("/api/contract-draft", body).subscribe(response => {this.isError=false; this.isSuccessful=true; console.log(body)}, err => {this.isError=true; this.isSuccessful=false});
   }
 
 }
