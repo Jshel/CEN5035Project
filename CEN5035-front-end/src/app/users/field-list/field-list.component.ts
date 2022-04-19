@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { GlobalComponent } from 'src/app/global-component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { DomSanitizer} from '@angular/platform-browser';
 import{ GlobalComponent } from '../../global-component';
+
 export interface ContractExample {
   contract_ID: string;
   contract_type: string;
@@ -48,15 +48,25 @@ export class FieldListComponent implements OnInit {
   rowName = "";
   @Input('element')
   elementAttributes!: { name: string; };
-  @Output() toggleModal = new EventEmitter<{isModalToggled: boolean, name: string, modalID: string, pdfURL: string}>();
+  @Output() toggleModal = new EventEmitter<{isModalToggled: boolean, name: string, modalID: string}>();
 
   rowElements = CONTRACT_DATA;
   draftRowElements = CONTRACT_DATA;
   constructor(private http: HttpClient, private domSanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
+    console.log(GlobalComponent.givenName)
     console.log(GlobalComponent.username)
-    this.http.get<ContractExample>("http://localhost:4200/api/get-contract?username=" + GlobalComponent.username + "&contractID=0000000a", {headers: this.headers})
+     console.log(GlobalComponent.output)
+      console.log(GlobalComponent.email)
+      this.http.get<ContractExample>("http://localhost:8080/api/count-messages?attorney_email=bob", {headers: this.headers})
+      .subscribe(
+         (response) => {
+            console.log("Counts " + response);
+          },
+         (error) => { console.log("Counting error" + error)}
+      );
+    this.http.get<ContractExample>("http://localhost:4200/api/get-contract?username=" + GlobalComponent.givenName + "&contractID=0000000a", {headers: this.headers})
       .subscribe(
          (response) => {
             this.rowElements = [];
@@ -70,13 +80,12 @@ export class FieldListComponent implements OnInit {
 
   draftOpen(): void{
     var str = this.elementAttributes.name
-    window.open("/users/" + GlobalComponent.email + "/" + str.toLowerCase().slice(0,-1) + "-draft", "_self")
+    window.open("/users/" + GlobalComponent.username + "/" + str.toLowerCase().slice(0,-1) + "-draft", "_self")
   }
 
   showModal(thisname: string, attorneyEmail: string){
     this.isModalToggled = true
     var pdfsrc =  "http://" + window.location.host + "/api/download?attorney_email=" + attorneyEmail + "&contract_id=" + thisname
-    // var sanitizedsrc = this.domSanitizer.sanitize(SecurityContext.URL, pdfsrc)
     window.open(pdfsrc)
   }
 }
