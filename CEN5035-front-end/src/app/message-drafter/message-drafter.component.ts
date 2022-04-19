@@ -50,6 +50,7 @@ export class MessageDrafterComponent implements OnInit {
     console.log(this.Message)
     this.http.post<any>("http://localhost:4200/api/send-message",stringMessage)
     .subscribe();
+    this.draftOpen("/users")
   }
 
   setMessage(event: Event): void{

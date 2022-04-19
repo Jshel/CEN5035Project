@@ -61,6 +61,8 @@ export class ContractDrafterComponent implements OnInit {
   onSubmit(): void {
     this.http.post<any>("http://localhost:4200/api/upload?contract_type=" + this.contractForm.get('contract_type')!.value + "&termination_date="  + this.contractForm.get('termination_date')!.value + "&payment_type=" + this.contractForm.get('payment_type')!.value  + "&ammount_paid=" + this.contractForm.get('ammount_paid')!.value + "&ammount_owed=" + this.contractForm.get('ammount_owed')!.value + "&client_email=" + this.contractForm.get('client_email')!.value + "&client_name=" + this.contractForm.get('client_name')!.value, this.formData)
     .subscribe();
+    this.draftOpen("/users")
   }
+
 }
 

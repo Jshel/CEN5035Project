@@ -12,88 +12,87 @@
     <div class="card-table">
         <div class="content">
             <div *ngIf="elementAttributes.name == 'Contracts'">
-            <table class="table is-fullwidth is-striped">
-                <tbody>
-                    <tr>
-                        <td width="5%"><i class="fa fa-bell-o"></i></td>
-                        <th mat-header-cell> Contract ID </th>
-                        <th mat-header-cell> Contract Type </th>
-                        <th mat-header-cell> Client Name </th>
-                        <th mat-header-cell> Termination Date </th>
-                    </tr>
-                    <tr *ngFor="let rowElement of rowElements">
-                        <td width="5%"><i class="fa fa-bell-o"></i></td>
-                        <ng-container matColumnDef="contract_ID">
-                            <td mat-cell> {{rowElement.contract_ID}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="contract_type">
-                            <td mat-cell> {{rowElement.contract_type}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="client_name">
-                            <td mat-cell> {{rowElement.client_name}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="termination_date">
-                            <td mat-cell> {{rowElement.termination_date}} </td>
-                        </ng-container>
-                        <td class="level-right"><a class="button is-small" (click)="showPDF(rowElement.contract_ID, rowElement.attorney_email)">View</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div *ngIf="elementAttributes.name == 'Messages'">
-            <table class="table is-fullwidth is-striped">
-                <tbody>
-                    <tr>
-                        <td width="5%"><i class="fa fa-bell-o"></i></td>
-                        <th mat-header-cell> Sender </th>
-                        <th mat-header-cell> Receiver </th>
-                    </tr>
-                    <tr *ngFor="let messageElement of messageElements">
-                        <td width="5%"><i class="fa fa-bell-o"></i></td>
-                        <ng-container matColumnDef="sender">
-                            <td mat-cell> {{messageElement.sender}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="receiver">
-                            <td mat-cell> {{messageElement.receiver}} </td>
-                        </ng-container>
-                        <td class="level-right"><a class="button is-small" (click)="showModal(messageElement.message)">View</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        </div>
-    </div>
-<div class="card my-5">
-    <header class="card-header">
-        <p class="card-header-title">
-            Search For {{ elementAttributes.name}} By ID
-        </p>
-        <a href="#" class="card-header-icon" aria-label="more options">
-            <span class="icon">
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
-            </span>
-        </a>
-    </header>
-    <div class="card-content">
-        <div class="content">
-            <div class="control has-icons-left">
-                <div *ngIf="elementAttributes.name == 'Contracts'">
-                <input class="input is-large" type="text" placeholder="" (input)="searchValsContract($event)">
+                <table class="table is-fullwidth is-striped">
+                    <tbody>
+                        <tr>
+                            <td width="5%"><i class="fa fa-bell-o"></i></td>
+                            <th mat-header-cell> Contract Type </th>
+                            <th mat-header-cell> Client Name </th>
+                            <th mat-header-cell> Termination Date </th>
+                        </tr>
+                        <tr *ngFor="let rowElement of rowElements">
+                            <td width="5%"><i class="fa fa-bell-o"></i></td>
+                            <ng-container matColumnDef="contract_type">
+                                <td mat-cell> {{rowElement.contract_type}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="client_name">
+                                <td mat-cell> {{rowElement.client_name}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="termination_date">
+                                <td mat-cell> {{rowElement.termination_date}} </td>
+                            </ng-container>
+                            <td class="level-right"><a class="button is-small" (click)="showPDF(rowElement.contract_ID, rowElement.attorney_email)">View</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div *ngIf="elementAttributes.name == 'Messages'">
-                <input class="input is-large" type="text" placeholder="" (input)="searchValsMessage($event)">
-            </div>
-                <span class="icon is-medium is-left">
-                    <i class="fa fa-search"></i>
-                </span>
-                <span class="icon is-medium is-right">
-                    <i class="fa fa-check"></i>
-                </span>
+                <table class="table is-fullwidth is-striped">
+                    <tbody>
+                        <tr>
+                            <td width="5%"><i class="fa fa-bell-o"></i></td>
+                            <th mat-header-cell> Sender </th>
+                        </tr>
+                        <tr *ngFor="let messageElement of messageElements">
+                            <td width="5%"><i class="fa fa-bell-o"></i></td>
+                            <ng-container matColumnDef="receiver">
+                                <td mat-cell> {{messageElement.receiver}} </td>
+                            </ng-container>
+                            <td class="level-right"><a class="button is-small" (click)="showModal(messageElement.message)">View</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-</div>
-<footer class="card-footer">
+    <div class="card my-5">
+        <header class="card-header">
+            <div *ngIf="elementAttributes.name == 'Messages'">
+                <p class="card-header-title">
+                    Search For {{ elementAttributes.name}} By Sender
+                </p>
+            </div>
+            <div *ngIf="elementAttributes.name == 'Contracts'">
+                <p class="card-header-title">
+                    Search For {{ elementAttributes.name}} By Contract ID
+                </p>
+            </div>
+            <a href="#" class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </span>
+            </a>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <div class="control has-icons-left">
+                    <div *ngIf="elementAttributes.name == 'Contracts'">
+                        <input class="input is-large" type="text" placeholder="" (input)="searchValsContract($event)">
+                    </div>
+                    <div *ngIf="elementAttributes.name == 'Messages'">
+                        <input class="input is-large" type="text" placeholder="" (input)="searchValsMessage($event)">
+                    </div>
+                    <span class="icon is-medium is-left">
+                        <i class="fa fa-search"></i>
+                    </span>
+                    <span class="icon is-medium is-right">
+                        <i class="fa fa-check"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="card-footer">
         <a class="card-footer-item" (click)="draftOpen()">Send {{elementAttributes.name}}</a>
-</footer>
+    </footer>
 </div>

@@ -110,11 +110,11 @@ export class FieldListComponent implements OnInit {
   }
 
   searchValsMessage(event:Event){
-    this.http.get<MessageSet>(encodeURI("/api/get-message?sender=fakeaccount@fakeaccount.com&receiver=" + (<HTMLTextAreaElement>event.target).value + "&n=10"), {headers: this.headers})
+      this.http.get<MessageSet>(encodeURI("/api/get-message?sender=" + (<HTMLTextAreaElement>event.target).value + "&receiver=fakeaccount@fakeaccount.com&n=10"), {headers: this.headers})
       .subscribe(
          (response) => {
 
-            this.messageElements = response.Messages;
+            this.messageElements = [...response.Messages, ...this.messageElements];
             console.log(response)
             console.log("got a response")
             // this.messageElements.push(element);
