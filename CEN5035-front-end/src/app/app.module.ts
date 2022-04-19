@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatListModule } from '@angular/material/list';
@@ -38,6 +38,7 @@ import { NotificationDrafterComponent } from './notification-drafter/notificatio
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     NoopAnimationsModule,
     MatSidenavModule,
     MatListModule,

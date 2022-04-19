@@ -1,13 +1,4 @@
 
-
-describe('Initial Visit', () => {
-  it('Visits the initial project page', () => {
-    cy.viewport(1024, 768)
-    cy.visit('/')
-    cy.contains('Insert Company Name')
-  })
-})
-
 describe('Creating an account works', () => {
   it('Make a fake account', () => {
     //Without this there are some button visibility issues?
@@ -54,23 +45,9 @@ describe('Opens the dashboard', () => {
   it('Open the user dashboard', () => {
     //Without this there are some button visibility issues?
     cy.viewport(1024, 768)
-    cy.visit('/')
-    cy.contains('Users').click()
+    cy.get('body > app-root > app-login-form > section > div > div > div.columns.is-centered > div > form > div.field.is-grouped > div:nth-child(1) > button').click()
     cy.url().should('include', '/users')
     cy.contains('Dashboard')
-  })
-})
-
-describe('Opens and closes the Bulma modals', () => {
-  it('Opens Bulma modals in the dashboard', () => {
-    //Without this there are some button visibility issues?
-    cy.viewport(1024, 768)
-    cy.visit('/users')
-    cy.get('body > app-root > app-user-list > div > div > div.column.is-9 > div > div:nth-child(1) > app-field-list:nth-child(1) > div > div:nth-child(2) > div > table > tbody > tr:nth-child(3) > td.level-right > a').click();
-    cy.contains('Lorem ipsum')
-    cy.get('body > app-root > app-user-list > div > app-field-list-modal > div > div.modal-card > header > button').click()
-    //Check that modal can be escaped.
-    cy.get('body > app-root > app-user-list > div > app-field-list-modal > div > div.modal-card > section').should('not.exist');
   })
 })
 
@@ -78,21 +55,9 @@ describe('Opens messages page', () => {
   it('Opens the message draft form', () => {
     //Without this there are some button visibility issues?
     cy.viewport(1024, 768)
-    cy.visit('/users')
-    cy.get('body > app-root > app-user-list > div > div > div.column.is-9 > div > div:nth-child(1) > app-field-list:nth-child(2) > div > footer > a:nth-child(2)').click()
+    cy.contains('Send Messages').click()
     cy.url().should('include', '/message-draft')
     cy.contains('Send a Message')
-  })
-})
-
-describe('Opens notifications page', () => {
-  it('Opens the notification draft form', () => {
-    //Without this there are some button visibility issues?
-    cy.viewport(1024, 768)
-    cy.visit('/users')
-    cy.get('body > app-root > app-user-list > div > div > div.column.is-9 > div > div:nth-child(1) > app-field-list:nth-child(3) > div > footer > a:nth-child(2)').click()
-    cy.url().should('include', '/notification-draft')
-    cy.contains('Create a Notification')
   })
 })
 
@@ -100,8 +65,21 @@ describe('Opens contracts page and correctly interacts with form', () => {
   it('Opens contracts page and correctly interacts with form', () => {
     //Without this there are some button visibility issues?
     cy.viewport(1024, 768)
-    cy.visit('/users')
-    cy.get('body > app-root > app-user-list > div > div > div.column.is-9 > div > div:nth-child(1) > app-field-list:nth-child(1) > div > footer > a:nth-child(2)').click()
+    cy.visit('/')
+     cy.contains('Login').click()
+    cy.url().should('include', '/login')
+    //Type credentials
+    cy.get('input[name="email"]')
+    .type('fakeemail123@notreal.com')
+    .should('have.value','fakeemail123@notreal.com')
+    cy.get('input[name="password"]')
+    .type('password1')
+    .should('have.value','password1')
+    cy.get('body > app-root > app-login-form > section > div > div > div.columns.is-centered > div > form > div.field.is-grouped > div:nth-child(1) > button').click()
+    cy.url().should('include', '/users')
+    cy.contains('Dashboard')
+    cy.wait(10);
+    cy.get('body > app-root > app-user-list > div > div > div.column.is-9 > div > div:nth-child(1) > app-field-list:nth-child(1) > div > footer > a').click()
     cy.url().should('include', '/contract-draft')
     cy.contains('Send a Contract')
     //Test add and remove for attorneys.

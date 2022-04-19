@@ -57,7 +57,7 @@ func HandleSendMessage() func(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Error: Difformed message request")
 			return
 		}
-
+		fmt.Println(message)
 		fmt.Fprintln(w, "message saved!")
 		db.Save(&message)
 		http.StatusText(http.StatusOK)

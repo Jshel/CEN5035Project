@@ -12,7 +12,7 @@ export class UserListComponent implements OnInit {
   showMenuModal = false
   adminName: string | undefined
   modalData = {name: "",modalID: ""}
-  fieldListElements = [{name: 'Contracts'},{name: 'Messages'},{name: 'Notifications'}]
+  fieldListElements = [{name: 'Contracts'},{name: 'Messages'}]
   fieldElements = [{name: 'Contract'}, {name: 'Attorney'}]
 
   constructor(private userService: UserService) { }
