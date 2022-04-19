@@ -228,7 +228,7 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		//get atorney id from session
 		val := session.Values["Email"]
 		str := fmt.Sprintf("%v", val)
-		contract.AttorneyEmail = str
+		contract.AttorneyEmail = "fakeaccount@fakeaccount.com"
 		fmt.Println("email for upload", contract.AttorneyEmail)
 		//get attorney name from userss
 		val = session.Values["Name"]

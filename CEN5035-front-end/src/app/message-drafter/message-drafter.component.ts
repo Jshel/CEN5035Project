@@ -63,7 +63,7 @@ export class MessageDrafterComponent implements OnInit {
 
 
   draftOpen(url:string): void{
-    window.open(url + "/" + GlobalComponent.email)
+    window.open(url + "/" + GlobalComponent.email, "_self")
   }
 
 }

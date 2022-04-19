@@ -83,9 +83,8 @@ export class FieldListComponent implements OnInit {
   }
 
   showPDF(thisname: string, attorneyEmail: string){
-    var pdfsrc =  "http://" + window.location.host + "/api/download?attorney_email=fakeaccount@fakeaccount.com" + "&contract_id=" + thisname
-    console.log(pdfsrc)
-    window.open(pdfsrc)
+    var pdfsrc = "/api/download?attorney_email=fakeaccount@fakeaccount.com" + "&contract_id=" + thisname
+    window.open(pdfsrc, '_self')
   }
 
   showModal(thisname: string){
@@ -114,12 +113,7 @@ export class FieldListComponent implements OnInit {
       .subscribe(
          (response) => {
 
-            this.messageElements = [...response.Messages, ...this.messageElements];
-            console.log(response)
-            console.log("got a response")
-            // this.messageElements.push(element);
-            // this.messageElements = this.messageElements!.filter(item => item == element);
-            console.log(this.messageElements);
+            this.messageElements = response.Messages;
           },
          (error) => { console.log("Error Loading Messages" + error)}
       );
