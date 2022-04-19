@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { DomSanitizer} from '@angular/platform-browser';
-
+import{ GlobalComponent } from '../../global-component';
 export interface ContractExample {
   contract_ID: string;
   contract_type: string;
@@ -54,7 +54,8 @@ export class FieldListComponent implements OnInit {
   constructor(private http: HttpClient, private domSanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.http.get<ContractExample>("http://localhost:4200/api/get-contract?username=nick&contractID=0000000a", {headers: this.headers})
+    console.log(GlobalComponent.username)
+    this.http.get<ContractExample>("http://localhost:4200/api/get-contract?username=" + GlobalComponent.username + "&contractID=0000000a", {headers: this.headers})
       .subscribe(
          (response) => {
             this.rowElements = [];

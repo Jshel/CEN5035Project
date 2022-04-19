@@ -230,10 +230,9 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 
 		//get attorney name from userss
 		val = session.Values["Name"]
+		fmt.Println("Name ", val)
 		str = fmt.Sprintf("%v", val)
 		contract.AttorneyName = str
-		contract.AttorneyName = "nick"
-		contract.AttorneyEmail = "a@a.a"
 
 		//queery db for number of entries and add one for the contract id
 		count := 0
