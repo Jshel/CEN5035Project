@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -69,7 +68,7 @@ func (clist *ContractList) AddContract(contract Contract) []Contract {
 func checkErr(err error) {
 	if err != nil {
 		fmt.Println(err)
-		log.Fatal(err)
+		//log.Fatal(err)
 	}
 }
 
@@ -206,11 +205,17 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Uploading file...\n")
 
 		//parse input
+		fmt.Println("parsing input")
 		r.ParseMultipartForm(10 << 20)
+		fmt.Println("input parsed")
 
 		//retreive files
 		file, handler, err := r.FormFile("contract")
-		checkErr(err)
+		if err != nil {
+			//fmt.Println("error parsing file")
+			http.Error(w, "error parsing file", http.StatusBadRequest)
+			return
+		}
 
 		defer file.Close()
 		//print file info to output
@@ -228,8 +233,7 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			//no session found
 			fmt.Println("could not get session")
-			//likley not logged in redirect to login page.
-			http.Redirect(w, r, "http://localhost/4200/login", http.StatusBadRequest)
+			http.Error(w, fmt.Sprintf("Could not find session"), http.StatusNotFound)
 			checkErr(err)
 		}
 
@@ -279,9 +283,7 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 
 		err = os.WriteFile("./contract_store/"+contract.ContractName, fileBytes, 0644)
 		if err != nil {
-			fmt.Println("Error getting file from form:")
-			fmt.Println(err)
-			return
+			http.Error(w, "Form parse error", http.StatusBadRequest)
 		}
 
 		//success
