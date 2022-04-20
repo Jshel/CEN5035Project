@@ -20,7 +20,6 @@ import { ContractDrafterComponent } from './contract-drafter/contract-drafter.co
 import { MessageDrafterComponent } from './message-drafter/message-drafter.component';
 import { NotificationDrafterComponent } from './notification-drafter/notification-drafter.component';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { SplashScreenComponent } from './splash-screen/splash-screen.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +32,7 @@ import { SplashScreenComponent } from './splash-screen/splash-screen.component';
     CreateAccountComponent,
     ContractDrafterComponent,
     MessageDrafterComponent,
-    NotificationDrafterComponent,
-    SplashScreenComponent
+    NotificationDrafterComponent
   ],
   imports: [
     BrowserModule,
