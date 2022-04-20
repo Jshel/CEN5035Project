@@ -84,21 +84,22 @@ func InitContractDB(sqliteFile string, debugSQL bool) {
 		db = _db
 	}
 	// test entry
-	// contract := Contract{
-	// 	ContractID:      "00000000",
-	// 	ContractType:    "example contract",
-	// 	ContractName:    "example0.pdf",
-	// 	DateCreated:     "3/2/2022",
-	// 	TerminationDate: "3/2/2023",
-	// 	ValidSigniture:  true,
-	// 	PaymentType:     "cash",
-	// 	AmountPaid:      0.0,
-	// 	AmountOwed:      100.0,
-	// 	AttorneyName:    "Bob",
-	// 	AttorneyEmail:   "Bob.law@gmail.com",
-	// 	ClientName:      "Alice",
-	// 	ClientEmail:     "alice@yahoo.com"}
-	// db.FirstOrCreate(&contract)
+	contract := Contract{
+		ContractID:      "00000000",
+		ContractType:    "lease",
+		ContractName:    "test.pdf",
+		DateCreated:     "3/2/2022",
+		TerminationDate: "3/2/2023",
+		ValidSigniture:  true,
+		PaymentType:     "cash",
+		AmountPaid:      0.0,
+		AmountOwed:      100.0,
+		AttorneyName:    "Bob",
+		AttorneyEmail:   "Bob@gmail.com",
+		ClientName:      "Alice",
+		ClientEmail:     "alice@yahoo.com"}
+	db.FirstOrCreate(&contract)
+	fmt.Println("added test contract")
 
 	// contract2 := Contract{
 	// 	ContractID:      "00000001",

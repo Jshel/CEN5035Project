@@ -3,6 +3,7 @@ package handlers
 
 import (
 	auth "attorneyManager/_auth"
+	contract "attorneyManager/_contract"
 	"bytes"
 	"encoding/json"
 	"net/http"
@@ -111,7 +112,7 @@ func TestGetUserEmail(t *testing.T) {
 }
 
 func TestHandleGetContract(t *testing.T) {
-	u, err := url.Parse("http://localhost:8080/api/get-contract?attorneyID=akshay@gmail.com&contractID=00000001")
+	u, err := url.Parse("http://localhost:8080/api/get-contract?attorneyID=Bob@gmail.com&contractID=00000000")
 	if err != nil {
 		panic(err)
 	}
@@ -143,6 +144,35 @@ func TestHandleGetContract(t *testing.T) {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusOK)
 	}
+
+	// test contract
+	contractTest := contract.Contract{
+		ContractID:      "00000000",
+		ContractType:    "lease",
+		ContractName:    "test.pdf",
+		DateCreated:     "3/2/2022",
+		TerminationDate: "3/2/2023",
+		ValidSigniture:  true,
+		PaymentType:     "cash",
+		AmountPaid:      0.0,
+		AmountOwed:      100.0,
+		AttorneyName:    "Bob",
+		AttorneyEmail:   "Bob@gmail.com",
+		ClientName:      "Alice",
+		ClientEmail:     "alice@yahoo.com"}
+
+	// check the response body
+	var contract contract.Contract
+	err = json.NewDecoder(resp.Body).Decode(&contract)
+	if err != nil {
+		t.Error("response body difformed")
+	}
+
+	// compare with test contract
+	if contract != contractTest {
+		t.Errorf("response contract does not match the test contract")
+	}
+
 }
 
 func TestHandleLogout(t *testing.T) {
@@ -155,6 +185,7 @@ func TestHandleLogout(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
+
 	defer resp.Body.Close()
 
 	//fmt.Println("response Status:", resp.Status)
