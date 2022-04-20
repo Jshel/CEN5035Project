@@ -20,14 +20,14 @@ var (
 	store = sessions.NewCookieStore(key)
 )
 
-type userRegister struct {
+type UserRegister struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
-type userLogin struct {
+type UserLogin struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
@@ -65,7 +65,7 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		// convert request to registration data
-		var login userLogin
+		var login UserLogin
 		err := json.NewDecoder(r.Body).Decode(&login)
 
 		if err != nil {
@@ -180,7 +180,7 @@ func GetUserEmail() func(w http.ResponseWriter, r *http.Request) {
 func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// convert request to registration data
-		var registration userRegister
+		var registration UserRegister
 
 		err := json.NewDecoder(r.Body).Decode(&registration)
 

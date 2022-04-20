@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -69,7 +68,7 @@ func (clist *ContractList) AddContract(contract Contract) []Contract {
 func checkErr(err error) {
 	if err != nil {
 		fmt.Println(err)
-		log.Fatal(err)
+		//log.Fatal(err)
 	}
 }
 
@@ -84,21 +83,22 @@ func InitContractDB(sqliteFile string, debugSQL bool) {
 		db = _db
 	}
 	// test entry
-	// contract := Contract{
-	// 	ContractID:      "00000000",
-	// 	ContractType:    "example contract",
-	// 	ContractName:    "example0.pdf",
-	// 	DateCreated:     "3/2/2022",
-	// 	TerminationDate: "3/2/2023",
-	// 	ValidSigniture:  true,
-	// 	PaymentType:     "cash",
-	// 	AmountPaid:      0.0,
-	// 	AmountOwed:      100.0,
-	// 	AttorneyName:    "Bob",
-	// 	AttorneyEmail:   "Bob.law@gmail.com",
-	// 	ClientName:      "Alice",
-	// 	ClientEmail:     "alice@yahoo.com"}
-	// db.FirstOrCreate(&contract)
+	contract := Contract{
+		ContractID:      "00000001",
+		ContractType:    "agreement",
+		ContractName:    "a@a.a_00000001.pdf",
+		DateCreated:     "1/1/2020",
+		TerminationDate: "3/2/2024",
+		ValidSigniture:  true,
+		PaymentType:     "credit",
+		AmountPaid:      0,
+		AmountOwed:      5,
+		AttorneyName:    "Bob",
+		AttorneyEmail:   "a@a.a",
+		ClientName:      "Nick",
+		ClientEmail:     "nick@yahoo.com"}
+	db.FirstOrCreate(&contract)
+	//fmt.Println("added test contract")
 
 	// contract2 := Contract{
 	// 	ContractID:      "00000001",
@@ -135,6 +135,31 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 
 		// bring in database
 		contract := Contract{}
+
+		// if contract id = * get all contracts for the user
+		if contractID == "*" {
+			contracts := []Contract{}
+			clist := ContractList{contracts}
+			rows, err := db.Model(&contract).Rows()
+			if err != nil {
+				fmt.Println("error finding contracts for Attorney: ", username, " ", err)
+				http.Error(w, "error finding contracts", http.StatusNotFound)
+				return
+			}
+			defer rows.Close()
+
+			// itterate rows
+			for rows.Next() {
+				var contract Contract
+				db.ScanRows(rows, &contract)
+
+				clist.AddContract(contract)
+			}
+
+		}
+
+		// Bring the contract in
+		db.Where(&Contract{ContractID: contractID, AttorneyName: username}).Find(&contract)
 
 		// if contract id = * get all contracts for the user
 		if contractID == "*" {
@@ -181,11 +206,17 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Uploading file...\n")
 
 		//parse input
+		fmt.Println("parsing input")
 		r.ParseMultipartForm(10 << 20)
+		fmt.Println("input parsed")
 
 		//retreive files
 		file, handler, err := r.FormFile("contract")
-		checkErr(err)
+		if err != nil {
+			//fmt.Println("error parsing file")
+			http.Error(w, "error parsing file", http.StatusBadRequest)
+			return
+		}
 
 		defer file.Close()
 		//print file info to output
@@ -203,8 +234,7 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			//no session found
 			fmt.Println("could not get session")
-			//likley not logged in redirect to login page.
-			http.Redirect(w, r, "http://localhost/4200/login", http.StatusBadRequest)
+			http.Error(w, fmt.Sprintf("Could not find session"), http.StatusNotFound)
 			checkErr(err)
 		}
 
@@ -250,12 +280,11 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 
 		//save to db
 		db.Create(&contract)
+		fmt.Println(contract.AttorneyName)
 
 		err = os.WriteFile("./contract_store/"+contract.ContractName, fileBytes, 0644)
 		if err != nil {
-			fmt.Println("Error getting file from form:")
-			fmt.Println(err)
-			return
+			http.Error(w, "Form parse error", http.StatusBadRequest)
 		}
 
 		//success
