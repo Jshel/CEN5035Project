@@ -11,6 +11,7 @@
     </header>
     <div class="card-table">
         <div class="content">
+<<<<<<< HEAD
             <div *ngIf="elementAttributes.name == 'Contracts'">
                 <table class="table is-fullwidth is-striped">
                     <tbody>
@@ -96,3 +97,38 @@
         <a class="card-footer-item" (click)="draftOpen()">Send {{elementAttributes.name}}</a>
     </footer>
 </div>
+=======
+            <table class="table is-fullwidth is-striped">
+                <tbody>
+                    <tr>
+                        <td width="5%"><i class="fa fa-bell-o"></i></td>
+                        <th mat-header-cell> Contract ID </th>
+                        <th mat-header-cell> Contract Type </th>
+                        <th mat-header-cell> Client Name </th>
+                        <th mat-header-cell> Termination Date </th>
+                    </tr>
+                    <tr *ngFor="let rowElement of rowElements">
+                        <td width="5%"><i class="fa fa-bell-o"></i></td>
+                        <ng-container matColumnDef="contract_ID">
+                            <td mat-cell> {{rowElement.contract_ID}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="contract_type">
+                            <td mat-cell> {{rowElement.contract_type}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="client_name">
+                            <td mat-cell> {{rowElement.client_name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="termination_date">
+                            <td mat-cell> {{rowElement.termination_date}} </td>
+                        </ng-container>
+                        <td class="level-right"><a class="button is-small" (click)="showModal(rowElement.contract_ID, rowElement.attorney_email)">View</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<footer class="card-footer">
+        <a class="card-footer-item" (click)="draftOpen()">Send {{elementAttributes.name}}</a>
+</footer>
+</div>
+>>>>>>> qualityOfLifeFixes

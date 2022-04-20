@@ -262,6 +262,7 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("email for upload", contract.AttorneyEmail)
 		//get attorney name from userss
 		val = session.Values["Name"]
+		fmt.Println("Name ", val)
 		str = fmt.Sprintf("%v", val)
 		contract.AttorneyName = str
 

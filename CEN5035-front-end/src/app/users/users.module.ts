@@ -10,6 +10,7 @@ import { FieldListComponent } from './field-list/field-list.component';
 import { FieldListModalComponent } from './field-list-modal/field-list-modal.component';
 import { MenuListComponent } from './menu-list/menu-list.component';
 import { MenuListModalComponent } from './menu-list-modal/menu-list-modal.component';
+import { SplashScreenComponent } from '../splash-screen/splash-screen.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MenuListModalComponent } from './menu-list-modal/menu-list-modal.compon
     FieldListComponent,
     FieldListModalComponent,
     MenuListComponent,
-    MenuListModalComponent
+    MenuListModalComponent,
+    SplashScreenComponent
   ],
   imports: [
     CommonModule,

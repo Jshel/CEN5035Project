@@ -19,6 +19,7 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { ContractDrafterComponent } from './contract-drafter/contract-drafter.component';
 import { MessageDrafterComponent } from './message-drafter/message-drafter.component';
 import { NotificationDrafterComponent } from './notification-drafter/notification-drafter.component';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,9 @@ import { NotificationDrafterComponent } from './notification-drafter/notificatio
     MatSidenavModule,
     MatListModule,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+<<<<<<< HEAD
 import{ GlobalComponent } from './../global-component';
+=======
+>>>>>>> qualityOfLifeFixes
 
 @Component({
   selector: 'app-contract-drafter',
@@ -22,7 +25,11 @@ export class ContractDrafterComponent implements OnInit {
     contract: ''
   });
 
+<<<<<<< HEAD
   constructor(private http: HttpClient, private formBuilder: FormBuilder) { }
+=======
+  constructor(private http: HttpClient, private formBuilder: FormBuilder,) { }
+>>>>>>> qualityOfLifeFixes
   clients: number[] = [0]
   clientEmails: number[] = [0]
   ngOnInit(): void {
@@ -64,5 +71,18 @@ export class ContractDrafterComponent implements OnInit {
     this.draftOpen("/users")
   }
 
+  onFileChange(event:Event): void {
+  if((<HTMLInputElement>event.target).files && (<HTMLInputElement>event.target).files!.length) {
+        let file = (<HTMLInputElement>event.target)!.files![0];
+        console.log(file)
+        this.formData.append('contract', file)
+      
+  }
+}
+
+  onSubmit(): void {
+    this.http.post<any>("http://localhost:4200/api/upload?contract_type=" + this.contractForm.get('contract_type')!.value + "&termination_date="  + this.contractForm.get('termination_date')!.value + "&payment_type=" + this.contractForm.get('payment_type')!.value  + "&ammount_paid=" + this.contractForm.get('ammount_paid')!.value + "&ammount_owed=" + this.contractForm.get('ammount_owed')!.value + "&client_email=" + this.contractForm.get('client_email')!.value + "&client_name=" + this.contractForm.get('client_name')!.value, this.formData)
+    .subscribe();
+  }
 }
 

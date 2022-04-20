@@ -10,6 +10,7 @@ import { UserService } from 'src/app/user.service';
 export class UserListComponent implements OnInit {
   showModal = false
   showMenuModal = false
+
   adminName: string | undefined
   modalData = {name: "",modalID: ""}
   fieldListElements = [{name: 'Contracts'},{name: 'Messages'}]

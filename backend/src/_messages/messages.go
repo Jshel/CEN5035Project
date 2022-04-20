@@ -76,7 +76,6 @@ func HandleGetMessage() func(w http.ResponseWriter, r *http.Request) {
 		var n = r.URL.Query().Get("n")
 
 		N, err := strconv.Atoi(n)
-
 		if err != nil {
 			http.Error(w, "n is not an int", http.StatusBadRequest)
 			fmt.Println("n is not an int")

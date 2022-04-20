@@ -2,6 +2,7 @@
      <h1 class="title has-text-centered">Send a Contract</h1> <!-- //Assuming contract will be automatically assigned an ID from the backend?. -->
     <!-- Modified from https://bulma.io/documentation/form/general/ -->
     <!-- <div class="column is-centered">
+<<<<<<< HEAD
         <div class="field">
             <label class="label">Recipient</label> <!-- //Possibly need to check if the recipient exists from backend. -->
             <!-- <div class="control"> -->
@@ -65,10 +66,60 @@
             <label class="label">Payment Type </label> 
             <div class="control">
                 <input class="input" type="text" formControlName = "payment_type">
+=======
+    	<div class="field">
+    		<label class="label">Recipient</label> <!-- //Possibly need to check if the recipient exists from backend. -->
+    		<!-- <div class="control"> -->
+    			<!-- <input class="input is-danger" type="text" placeholder="-1" value="User ID"> //Start with a fake ID so no chance of bad sends. -->
+    		<!-- </div> -->
+    		<!-- <p class="help is-danger">No such user</p> -->
+    	<!-- </div> -->
+    <!-- </div> -->
+    <div class="column is-centered">
+    	<div class="field">
+    		<label class="label">Associated Client Emails </label> 
+    		<div  *ngFor="let clientEmail of clientEmails">
+    			<div class="field has-addons">
+    				<div class="control is-expanded">
+    					<input class="input" type="text" formControlName="client_email" >
+    				</div>
+    				<div class="control">
+    					<a class="button is-info" (click)="removePerson(clientEmail, false)">
+    						Remove Email
+    					</a>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    <div class="column is-centered">
+    	<div class="field">
+    		<label class="label">Associated Client Names </label> 
+    		<div  *ngFor="let client of clients">
+    			<div class="field has-addons">
+    				<div class="control is-expanded">
+    					<input class="input" type="text" formControlName = "client_name">
+    				</div>
+    				<div class="control">
+    					<a class="button is-info" (click)="removePerson(client, true)">
+    						Remove Client
+    					</a>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    <div class="column is-centered">
+        <div class="field">
+            <label class="label">Contract Type </label> 
+            <div class="control">
+                <input class="input" type="text" formControlName="contract_type" >
+>>>>>>> qualityOfLifeFixes
             </div>
         </div>
     </div>
     <div class="column is-centered">
+<<<<<<< HEAD
         <div class="field">
             <label class="label">Amount Paid </label> 
             <div class="control">
@@ -113,6 +164,73 @@
                 <button class="button is-link is-light is-fullwidth" (click)="draftOpen('/users')">Cancel</button>
             </div>
         </div>
+=======
+    	<div class="field">
+    		<label class="label">Termination Date </label> 
+    		<div class="control">
+    			<input class="input" type="text" formControlName="termination_date" >
+    		</div>
+    	</div>
+    </div>
+    <div class="column is-centered">
+    	<div class="field">
+    		<label class="label">Payment Type </label> 
+    		<div class="control">
+    			<input class="input" type="text" formControlName = "payment_type">
+    		</div>
+    	</div>
+    </div>
+    <div class="column is-centered">
+        <div class="field">
+            <label class="label">Amount Paid </label> 
+            <div class="control">
+                <input class="input" type="text" formControlName = "ammount_paid">
+            </div>
+        </div>
+    </div>
+    <div class="column is-centered">
+        <div class="field">
+            <label class="label">Amount Owed </label> 
+            <div class="control">
+                <input class="input" type="text" formControlName = "ammount_owed">
+            </div>
+        </div>
+    </div>
+    <div class="column is-centered">
+    	<div class="file has-name">
+    		<label class="file-label">
+    			<input class="file-upload" type="file" name="contract" (change)="onFileChange($event)" formControlName = "contract" requiredFileType="pdf">
+    		</label>
+    	</div>
+    </div>
+    <div class="field is-grouped">
+
+    	<div class="column is-centered">
+    		<div class="control">
+    			<button class="button is-fullwidth is-link" (click)="addPerson(false)">Add A New Attorney</button>
+    		</div>
+    	</div>
+    	<div class="column is-centered">
+    		<div class="control">
+    			<button class="button is-fullwidth is-link" (click)="addPerson(true)">Add A New Client</button>
+    		</div>
+    	</div>
+    	<div class="column is-centered">
+    		<div class="control">
+    			<button class="button is-fullwidth is-link" type="submit">Send</button>
+    		</div>
+    	</div>
+    	<div class="column is-centered">
+    		<div class="control">
+    			<button class="button is-link is-fullwidth">Save Draft</button>
+    		</div>
+    	</div>
+    	<div class="column is-centered">
+    		<div class="control">
+    			<button class="button is-link is-light is-fullwidth" (click)="draftOpen('/users')">Cancel</button>
+    		</div>
+    	</div>
+>>>>>>> qualityOfLifeFixes
     </div>
 
 </form >

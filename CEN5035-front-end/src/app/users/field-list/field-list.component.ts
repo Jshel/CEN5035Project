@@ -34,6 +34,7 @@ const CONTRACT_DATA: ContractExample[] = [
   client_ID: -1
 }
 ];
+<<<<<<< HEAD
 
 export interface MessageExample {
   sender: string;
@@ -54,6 +55,8 @@ const MESSAGE_DATA:MessageExample[] = [
   time: "",
 }
 ];
+=======
+>>>>>>> qualityOfLifeFixes
 
 @Component({
   selector: 'app-field-list',
@@ -61,7 +64,10 @@ const MESSAGE_DATA:MessageExample[] = [
   styleUrls: ['./field-list.component.css']
 })
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> qualityOfLifeFixes
 export class FieldListComponent implements OnInit {
   readonly headers = new HttpHeaders().set('Content-Type', 'application/json').set('Access-Control-Allow-Origin', "http://localhost:8080");
   contractColumns: string[] = ['contract_ID', 'contract_type', 'client_name', 'termination_date'];
@@ -72,24 +78,56 @@ export class FieldListComponent implements OnInit {
   @Input('element')
   elementAttributes!: { name: string; };
   @Output() toggleModal = new EventEmitter<{isModalToggled: boolean, name: string, modalID: string}>();
+<<<<<<< HEAD
+=======
+
+  rowElements = CONTRACT_DATA;
+  draftRowElements = CONTRACT_DATA;
+>>>>>>> qualityOfLifeFixes
   constructor(private http: HttpClient, private domSanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
+    console.log(GlobalComponent.givenName)
+    console.log(GlobalComponent.username)
+     console.log(GlobalComponent.output)
+      console.log(GlobalComponent.email)
+      this.http.get<ContractExample>("http://localhost:8080/api/count-messages?attorney_email=bob", {headers: this.headers})
+      .subscribe(
+         (response) => {
+            console.log("Counts " + response);
+          },
+         (error) => { console.log("Counting error" + error)}
+      );
+    this.http.get<ContractExample>("http://localhost:4200/api/get-contract?username=" + GlobalComponent.givenName + "&contractID=0000000a", {headers: this.headers})
+      .subscribe(
+         (response) => {
+            this.rowElements = [];
+            this.rowElements.push(response as ContractExample);
+            this.rowElements = [...this.rowElements];
+            console.log(this.rowElements);
+          },
+         (error) => { console.log("Error happened" + error)}
+      );
   }
 
   draftOpen(): void{
     var str = this.elementAttributes.name
-    window.open("/users/" + GlobalComponent.email + "/" + str.toLowerCase().slice(0,-1) + "-draft", "_self")
+    window.open("/users/" + GlobalComponent.username + "/" + str.toLowerCase().slice(0,-1) + "-draft", "_self")
   }
 
+<<<<<<< HEAD
   showPDF(thisname: string, attorneyEmail: string){
     var pdfsrc = "/api/download?attorney_email=fakeaccount@fakeaccount.com" + "&contract_id=" + thisname
     window.open(pdfsrc, '_self')
   }
 
   showModal(thisname: string){
+=======
+  showModal(thisname: string, attorneyEmail: string){
+>>>>>>> qualityOfLifeFixes
     this.isModalToggled = true
-    this.toggleModal.emit({isModalToggled: this.isModalToggled, name: thisname, modalID: "1"})
+    var pdfsrc =  "http://" + window.location.host + "/api/download?attorney_email=" + attorneyEmail + "&contract_id=" + thisname
+    window.open(pdfsrc)
   }
 
    searchValsContract(event:Event){
