@@ -4,6 +4,7 @@ package handlers
 import (
 	auth "attorneyManager/_auth"
 	contract "attorneyManager/_contract"
+	messages "attorneyManager/_messages"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -334,5 +335,42 @@ func TestHandleCountMessages(t *testing.T) {
 		fmt.Println(bodyString)
 		fmt.Println(testStr)
 		t.Errorf("response contract does not match the test contract")
+	}
+}
+
+func TestHandleSendMessage(t *testing.T) {
+
+	// create json from userLogin
+	message := messages.Message{
+		Sender:   "frank@gmail.com",
+		Receiver: "john@gmail.com",
+		Message:  "UNIT TEST MESSAGE",
+		Time:     "1650319345",
+	}
+	var buf bytes.Buffer
+	err := json.NewEncoder(&buf).Encode(message)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// make request
+	req, _ := http.NewRequest("POST", "http://localhost:8080/api/send-message", &buf)
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	//fmt.Println("response Status:", resp.Status)
+	//fmt.Println("response Headers:", resp.Header)
+	//body, _ := ioutil.ReadAll(resp.Body)
+	//fmt.Println("response Body:", string(body))
+
+	// Check the status code is what we expect.
+	if status := resp.StatusCode; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
 	}
 }
