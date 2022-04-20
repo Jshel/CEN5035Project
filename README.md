@@ -25,9 +25,15 @@ Description of Project: We developed contract management software. It includes m
 https://user-images.githubusercontent.com/32618925/164324843-b034f36c-b508-4b42-a087-46fbb1595aa4.mp4
 
 
-Frontend tests were done with Cypress using a mocked-up backend.
+Frontend tests were done with Cypress with the backend connected.
 
 To run:
+To start the backend:
+
+- cd into "CEN5035Project\backend\src"
+Run: go run main.go
+
+To start the frontend:
 
 - cd into the CEN5035-front-end directory
 
@@ -39,7 +45,7 @@ Install and launch Cypress as described in: https://docs.cypress.io/guides/getti
 
 To generate the same demo video, run "npx cypress run" from the CEN5035-front-end directory.
 
-Run the tests in spec.ts
+The tests are located in "CEN5035Project\CEN5035-front-end\cypress\videos\spec.ts"
 
 **Sprint 1 Backend Demo:**
 
