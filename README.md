@@ -16,13 +16,14 @@ Sunil Ghosal - sunil494 - Frontend
 
 Nicholas Fox - DrBubbles42 - Backend
 
-Description of Project: We will write contract management software. At the least, this will include a searchable database of contracts and notifications for contracts which are expiring. If possible, we may also include encrypted messages with non-repudiation and digital signatures. We may also auto-generate certain types of contracts.
+Description of Project: We developed contract management software. It includes methods for users to upload, search and view both contracts and messages.
 
 
-**Sprint 1 Frontend Demo:**
+**Sprint 4 (Final Sprint Frontend Demo:**
 
 
-https://user-images.githubusercontent.com/32618925/152287347-708022b7-57bc-4442-a350-7cc93770963e.mp4
+https://user-images.githubusercontent.com/32618925/164324843-b034f36c-b508-4b42-a087-46fbb1595aa4.mp4
+
 
 Frontend tests were done with Cypress using a mocked-up backend.
 
@@ -35,6 +36,8 @@ Run: npm start
 To run Cypress:
 
 Install and launch Cypress as described in: https://docs.cypress.io/guides/getting-started/writing-your-first-test#Add-a-test-file
+
+To generate the same demo video, run "npx cypress run" from the CEN5035-front-end directory.
 
 Run the tests in spec.ts
 
