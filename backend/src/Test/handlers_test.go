@@ -6,6 +6,9 @@ import (
 	contract "attorneyManager/_contract"
 	"bytes"
 	"encoding/json"
+	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"testing"
@@ -111,6 +114,31 @@ func TestGetUserEmail(t *testing.T) {
 	}
 }
 
+func TestHandleLogout(t *testing.T) {
+
+	// make request
+	req, _ := http.NewRequest("POST", "http://localhost:8080/api/logout", nil)
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	defer resp.Body.Close()
+
+	//fmt.Println("response Status:", resp.Status)
+	//fmt.Println("response Headers:", resp.Header)
+	//body, _ := ioutil.ReadAll(resp.Body)
+	//fmt.Println("response Body:", string(body))
+
+	// Check the status code is what we expect.
+	if status := resp.StatusCode; status != http.StatusNotFound {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusNotFound)
+	}
+}
+
 func TestHandleGetContract(t *testing.T) {
 	u, err := url.Parse("http://localhost:8080/api/get-contract?attorneyID=Bob@gmail.com&contractID=00000000")
 	if err != nil {
@@ -122,22 +150,11 @@ func TestHandleGetContract(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 
-	// add query params
-	// q := req.URL.Query()
-	// q.Add("attorneyID", "akshay@gmail.com")
-	// q.Add("contractID", "00000001")
-	// req.URL.RawQuery() = q.Encode()
-
 	resp, err := client.Do(req)
 	if err != nil {
 		panic(err)
 	}
 	defer resp.Body.Close()
-
-	//fmt.Println("response Status:", resp.Status)
-	//fmt.Println("response Headers:", resp.Header)
-	//body, _ := ioutil.ReadAll(resp.Body)
-	//fmt.Println("response Body:", string(body))
 
 	// Check the status code is what we expect.
 	if status := resp.StatusCode; status != http.StatusOK {
@@ -172,30 +189,112 @@ func TestHandleGetContract(t *testing.T) {
 	if contract != contractTest {
 		t.Errorf("response contract does not match the test contract")
 	}
-
 }
 
-func TestHandleLogout(t *testing.T) {
-
-	// make request
-	req, _ := http.NewRequest("POST", "http://localhost:8080/api/logout", nil)
-	req.Header.Set("Content-Type", "application/json")
-	client := &http.Client{}
-	resp, err := client.Do(req)
+// akshay
+func TestHandleFileUpload(t *testing.T) {
+	// request url
+	u, err := url.Parse("/api/upload?contract_type=UNIT_TEST&termination_date=00/00/0000&payment_type=GOLD&ammount_paid=1.5&ammount_owed=0&client_email=alice@yahoo.com&client_name=alice")
 	if err != nil {
 		panic(err)
 	}
 
+	// test file to upload
+
+	// make request
+	req, _ := http.NewRequest("POST", u.String(), nil)
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
 	defer resp.Body.Close()
 
-	//fmt.Println("response Status:", resp.Status)
-	//fmt.Println("response Headers:", resp.Header)
-	//body, _ := ioutil.ReadAll(resp.Body)
-	//fmt.Println("response Body:", string(body))
+	// Check the status code is what we expect.
+	if status := resp.StatusCode; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+}
+
+func TestHandleFileDownload(t *testing.T) {
+	u, err := url.Parse("http://localhost:8080/api/download?attorney_email=a@a.a&contract_id=00000001")
+	if err != nil {
+		panic(err)
+	}
+
+	// make request
+	req, _ := http.NewRequest("POST", u.String(), nil)
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
 
 	// Check the status code is what we expect.
-	if status := resp.StatusCode; status != http.StatusNotFound {
+	if status := resp.StatusCode; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusNotFound)
+			status, http.StatusOK)
+	}
+
+	// get test file & read file to byte arrray
+	testFile, err := ioutil.ReadFile("../contract_store/a@a.a_00000001.pdf")
+	if err != nil {
+		t.Errorf("Error loading test file")
+	}
+
+	// get the response body
+	bodyFile, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Errorf("Error loading file from response body")
+	}
+
+	// compare with test file
+	res := bytes.Compare(testFile, bodyFile)
+	if res != 0 {
+		t.Errorf("response contract does not match the test contract")
+	}
+}
+
+func TestHandleCountContracts(t *testing.T) {
+	u, err := url.Parse("http://localhost:8080/api/count-contracts?attorney_email=Bob@gmail.com")
+	if err != nil {
+		panic(err)
+	}
+
+	// make request
+	req, _ := http.NewRequest("POST", u.String(), nil)
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	// Check the status code is what we expect.
+	if status := resp.StatusCode; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Errorf("Error reading response body")
+	}
+	bodyString := string(bodyBytes)
+
+	// compare with test file
+	testStr := "2\n"
+	if bodyString != testStr {
+		fmt.Println(bodyString)
+		fmt.Println(testStr)
+		t.Errorf("response contract does not match the test contract")
 	}
 }
