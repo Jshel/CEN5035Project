@@ -298,3 +298,41 @@ func TestHandleCountContracts(t *testing.T) {
 		t.Errorf("response contract does not match the test contract")
 	}
 }
+
+func TestHandleCountMessages(t *testing.T) {
+	u, err := url.Parse("http://localhost:8080/api/count-messages?attorney_email=bob@bob.bob")
+	if err != nil {
+		panic(err)
+	}
+
+	// make request
+	req, _ := http.NewRequest("POST", u.String(), nil)
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	// Check the status code is what we expect.
+	if status := resp.StatusCode; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Errorf("Error reading response body")
+	}
+	bodyString := string(bodyBytes)
+
+	// compare with test file
+	testStr := "3\n"
+	if bodyString != testStr {
+		fmt.Println(bodyString)
+		fmt.Println(testStr)
+		t.Errorf("response contract does not match the test contract")
+	}
+}
