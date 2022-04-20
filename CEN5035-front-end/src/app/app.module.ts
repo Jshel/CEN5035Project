@@ -16,6 +16,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './user.service';
 import { CreateAccountComponent } from './create-account/create-account.component';
+import { ContractDrafterComponent } from './contract-drafter/contract-drafter.component';
+import { MessageDrafterComponent } from './message-drafter/message-drafter.component';
+import { NotificationDrafterComponent } from './notification-drafter/notification-drafter.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { CreateAccountComponent } from './create-account/create-account.componen
     HomeComponent,
     LoginFormComponent,
     BrowseContractsComponent,
-    CreateAccountComponent
+    CreateAccountComponent,
+    ContractDrafterComponent,
+    MessageDrafterComponent,
+    NotificationDrafterComponent
   ],
   imports: [
     BrowserModule,

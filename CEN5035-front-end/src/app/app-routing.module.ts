@@ -4,6 +4,9 @@ import { HomeComponent } from './home/home.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { BrowseContractsComponent } from './browse-contracts/browse-contracts.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
+import { MessageDrafterComponent } from './message-drafter/message-drafter.component';
+import { ContractDrafterComponent } from './contract-drafter/contract-drafter.component';
+import { NotificationDrafterComponent } from './notification-drafter/notification-drafter.component';
 const routes: Routes = [
   {
     path: '',
@@ -13,6 +16,18 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginFormComponent
+  },
+  {
+    path: 'message-draft',
+    component: MessageDrafterComponent
+  },
+  {
+    path: 'contract-draft',
+    component: ContractDrafterComponent
+  },
+  {
+    path: 'notification-draft',
+    component: NotificationDrafterComponent
   },
   {
     path: 'users',

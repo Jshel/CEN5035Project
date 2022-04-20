@@ -30,7 +30,7 @@ To run:
 
 - cd into the CEN5035-front-end directory
 
-Run: npm serve --open
+Run: npm start
 
 To run Cypress:
 
@@ -46,7 +46,7 @@ To run:
 
 - First, run frontend server (http://localhost:4200/):
     - cd CEN5035-front-end
-    - run nmp serve --open
+    - run nmp start
 
 - Now, run backend server (http://localhost:8080/):
 

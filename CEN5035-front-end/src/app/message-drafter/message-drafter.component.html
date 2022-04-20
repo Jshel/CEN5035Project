@@ -1,0 +1,44 @@
+    <h1 class="title has-text-centered">Send a Message</h1>
+    <!-- Modified from https://bulma.io/documentation/form/general/ -->
+    <div class="column is-centered">
+      <div class="field">
+        <label class="label">Recipient</label> <!-- //Possibly need to check if the recipient exists from backend. -->
+        <div class="control">
+          <input class="input is-danger" type="text" placeholder="-1" value="User ID"> <!-- //Start with a fake ID so no chance of bad sends. -->
+        </div>
+        <p class="help is-danger">No such user</p>
+      </div>
+    </div>
+    <div class="column is-centered">
+      <div class="field">
+        <label class="label">Subject </label> 
+        <div class="control">
+          <input class="input" type="text" >
+        </div>
+      </div>
+    </div>
+    <div class="column is-centered">
+      <div class="field">
+        <label class="label">Message</label>
+        <div class="control">
+          <textarea class="textarea"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="field is-grouped">
+      <div class="column is-centered">
+        <div class="control">
+          <button class="button is-fullwidth is-link">Send</button>
+        </div>
+      </div>
+      <div class="column is-centered">
+        <div class="control">
+          <button class="button is-link is-fullwidth">Save Draft</button>
+        </div>
+      </div>
+      <div class="column is-centered">
+        <div class="control">
+          <button class="button is-link is-light is-fullwidth" (click)="draftOpen('/users')">Cancel</button>
+        </div>
+      </div>
+    </div>

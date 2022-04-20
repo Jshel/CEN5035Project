@@ -1,0 +1,43 @@
+    <h1 class="title has-text-centered">Create a Notification</h1> <!-- Notifications can only be created for self? -->
+    <!-- Modified from https://bulma.io/documentation/form/general/ -->
+    <div class="column is-centered">
+      <div class="field">
+        <label class="label">Subject </label> 
+        <div class="control">
+          <input class="input" type="text" >
+        </div>
+      </div>
+    </div>
+    <div class="column is-centered">
+      <div class="field">
+        <label class="label">Deadline</label> 
+        <div class="control">
+          <input class="input" type="text" >
+        </div>
+      </div>
+    </div>
+    <div class="column is-centered">
+      <div class="field">
+        <label class="label">Contents</label>
+        <div class="control">
+          <textarea class="textarea"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="field is-grouped">
+      <div class="column is-centered">
+        <div class="control">
+          <button class="button is-fullwidth is-link">Save To Notifications</button>
+        </div>
+      </div>
+      <div class="column is-centered">
+        <div class="control">
+          <button class="button is-link is-fullwidth">Save Draft (will not notify)</button>
+        </div>
+      </div>
+      <div class="column is-centered">
+        <div class="control">
+          <button class="button is-link is-light is-fullwidth" (click)="draftOpen('/users')">Cancel</button>
+        </div>
+      </div>
+    </div>
