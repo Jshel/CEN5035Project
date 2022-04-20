@@ -156,6 +156,7 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 				clist.AddContract(contract)
 			}
 			json.NewEncoder(w).Encode(clist)
+			http.StatusText(http.StatusOK)
 
 		} else {
 			// Bring the contract in
@@ -169,6 +170,7 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 			} else {
 				// contract exists
 				json.NewEncoder(w).Encode(contract)
+				http.StatusText(http.StatusOK)
 			}
 		}
 	}
@@ -228,6 +230,7 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		val := session.Values["Email"]
 		str := fmt.Sprintf("%v", val)
 		contract.AttorneyEmail = str
+		//contract.AttorneyEmail = "akshay@gmail.com"
 
 		//get attorney name from userss
 		val = session.Values["Name"]
