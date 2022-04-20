@@ -3,8 +3,8 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/sessions"
 	"golang.org/x/crypto/bcrypt"
@@ -14,9 +14,13 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
-//var cookie = "TC_Audit"
+var (
+	// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
+	key   = []byte("super-secret-key")
+	store = sessions.NewCookieStore(key)
+)
 
-type userRegister struct {
+type UserRegister struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Username string `json:"username"`
@@ -59,6 +63,7 @@ func InitAuth(sqliteFile string, debugSQL bool) {
 //HandleLogin loggs in the user attaches a session COOKIE to the reply. Returns WhoAmI info
 func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+
 		// convert request to registration data
 		var login UserLogin
 		err := json.NewDecoder(r.Body).Decode(&login)
@@ -87,16 +92,19 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// setup the session and tell user that everything is fine
-		var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
-
 		// existing session: Get() always returns a session, even if empty.
-		session, err := store.Get(r, "session-login")
+		session, err := store.Get(r, "cookie-name")
 
 		if err == nil {
-			session.Values["Email"] = login.Email
-			session.Values["Name"] = user.Name
-			err = session.Save(r, w)
+			session.Values["id"] = login.Email
+			session.Values["authenticated"] = true
+
+			err := session.Save(r, w)
+
+			if err != nil {
+				log.Println(err)
+			}
+
 			fmt.Println("Login success: ", login.Email)
 		}
 		if err != nil {
@@ -110,25 +118,69 @@ func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// func HandleLogout() func(w http.ResponseWriter, r *http.Request) {
-// 	return func(w http.ResponseWriter, r *http.Request) {
-// 		session, err := cookieStore.Get(r, cookie)
-// 		if err == nil {
-// 			// delete the cookie
-// 			session.Options.MaxAge = -1
-// 			session.Save(r, w)
+func HandleLogout() func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		session, err := store.Get(r, "cookie-name")
+		if err == nil {
+			session.Values["authenticated"] = false
+			err := session.Save(r, w)
 
-// 			http.Error(w, "Successfull logout", http.StatusOK)
-// 		} else {
-// 			http.Error(w, "No session found", http.StatusNotFound)
-// 		}
-// 	}
-// }
+			if err != nil {
+				log.Println(err)
+			}
+
+			fmt.Println("Logout success: ", session.Values["id"])
+			http.Error(w, "Successfull logout", http.StatusOK)
+		} else {
+			http.Error(w, "No session found", http.StatusNotFound)
+		}
+	}
+}
+
+func GetUserEmail() func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// Try first to find a token
+		// token := r.Header.Get("x-access-token")
+		// if token != "" {
+		// 	if verifyToken(token) {
+		// 		return "token:" + hashToken(token) // we have a session
+		// 	}
+
+		// 	http.Error(w, fmt.Errorf("Invalid or expired token %s", token).Error(), http.StatusForbidden)
+		// 	return ""
+		// }
+		user := User{}
+		session, err := store.Get(r, "cookie-name")
+
+		if err != nil {
+			fmt.Println("No session active")
+			http.Error(w, err.Error(), http.StatusForbidden)
+		}
+
+		if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+			http.Error(w, "Forbidden", http.StatusForbidden)
+			return
+		} else {
+			var email string = session.Values["id"].(string)
+			db.Where(&User{Email: email}).Find(&user)
+
+			if user.Email == email {
+				fmt.Println("Session found for user ", email)
+				json.NewEncoder(w).Encode(user)
+				return
+			}
+		}
+
+		fmt.Println("No session found for user %s", user.Email)
+		http.Error(w, err.Error(), http.StatusForbidden)
+
+	}
+}
 
 func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// convert request to registration data
-		var registration userRegister
+		var registration UserRegister
 
 		err := json.NewDecoder(r.Body).Decode(&registration)
 
@@ -154,6 +206,23 @@ func HandleRegister() func(w http.ResponseWriter, r *http.Request) {
 		user.Email = registration.Email
 
 		db.Save(&user)
+
+		session, err := store.Get(r, "cookie-name")
+		if err == nil {
+			session.Values["id"] = registration.Email
+			session.Values["authenticated"] = true
+			err := session.Save(r, w)
+
+			if err != nil {
+				log.Println(err)
+			}
+			fmt.Println("Login success: ", registration.Email)
+		}
+		if err != nil {
+			fmt.Printf("Error: %v\n", err)
+			http.Error(w, fmt.Sprintf("Could not setup session for %s user", registration.Email), http.StatusConflict)
+			return
+		}
 
 		http.StatusText(http.StatusOK)
 	}
