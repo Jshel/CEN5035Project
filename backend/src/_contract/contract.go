@@ -184,9 +184,10 @@ func HandleGetContract() func(w http.ResponseWriter, r *http.Request) {
 
 		} else {
 			// Bring the contract in
-			db.Where(&Contract{ContractID: contractID, AttorneyName: username}).Find(&contract)
+			db.Where(&Contract{ContractID: contractID}).Find(&contract)
 
 			//check if contract exists
+			fmt.Println("Username", username, "ContractID", contractID, "Contract: ", contract.ContractID)
 			if contract.ContractID != contractID {
 				http.Error(w, fmt.Sprintf("Contract ID: %s does not exist", contractID), http.StatusForbidden)
 				fmt.Println("ERROR: ", contractID, " does not exist for attorney ", username)
@@ -257,8 +258,8 @@ func HandleFileUpload() func(w http.ResponseWriter, r *http.Request) {
 		//get atorney id from session
 		val := session.Values["Email"]
 		str := fmt.Sprintf("%v", val)
-		contract.AttorneyEmail = str
-
+		contract.AttorneyEmail = "fakeaccount@fakeaccount.com"
+		fmt.Println("email for upload", contract.AttorneyEmail)
 		//get attorney name from userss
 		val = session.Values["Name"]
 		str = fmt.Sprintf("%v", val)
