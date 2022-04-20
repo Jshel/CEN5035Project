@@ -14,7 +14,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
-var cookie = "TC_Audit"
+//var cookie = "TC_Audit"
 
 type userRegister struct {
 	Name     string `json:"name"`
@@ -23,7 +23,7 @@ type userRegister struct {
 	Password string `json:"password"`
 }
 
-type userLogin struct {
+type UserLogin struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
@@ -60,7 +60,7 @@ func InitAuth(sqliteFile string, debugSQL bool) {
 func HandleLogin() func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// convert request to registration data
-		var login userLogin
+		var login UserLogin
 		err := json.NewDecoder(r.Body).Decode(&login)
 
 		if err != nil {

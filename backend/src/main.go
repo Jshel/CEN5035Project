@@ -3,6 +3,7 @@ package main
 import (
 	auth "attorneyManager/_auth"
 	contract "attorneyManager/_contract"
+	messages "attorneyManager/_messages"
 	"encoding/gob"
 	"fmt"
 	"log"
@@ -31,12 +32,17 @@ func setUpRoutes() {
 	http.HandleFunc("/api/get-contract", contract.HandleGetContract())
 	http.HandleFunc("/api/upload", contract.HandleFileUpload())
 	http.HandleFunc("/api/download", contract.HandleFileDownload())
+	http.HandleFunc("/api/count-contracts", contract.HandleCountContracts())
+	http.HandleFunc("/api/send-message", messages.HandleSendMessage())
+	http.HandleFunc("/api/get-message", messages.HandleGetMessage())
+	http.HandleFunc("/api/count-messages", messages.HandleCountMessages())
 }
 
 func databaseInit() {
 	// database inits
 	auth.InitAuth("./user_database.db", false)
 	contract.InitContractDB("./contract_database.db", false)
+	messages.InitMessageDB("./message_database.db", false)
 	//session init
 	gob.Register(&M{})
 }
