@@ -13,6 +13,8 @@ import (
 	"net/http"
 	"net/url"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestHandleLogin(t *testing.T) {
@@ -372,5 +374,59 @@ func TestHandleSendMessage(t *testing.T) {
 	if status := resp.StatusCode; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusOK)
+	}
+}
+
+func TestHandleGetMessage(t *testing.T) {
+	// make url
+	u, err := url.Parse("http://localhost:8080/api/get-message?sender=unittest@gmail.com&receiver=bob@bob.bob&n=3")
+	if err != nil {
+		panic(err)
+	}
+
+	// make request
+	req, _ := http.NewRequest("POST", u.String(), nil)
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	// Check the status code is what we expect.
+	if status := resp.StatusCode; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	// get body of response
+	// check the response body
+	var messageListRsp messages.MessageList
+	err = json.NewDecoder(resp.Body).Decode(&messageListRsp)
+	if err != nil {
+		t.Error("response body difformed")
+	}
+
+	// make test list
+	var mlist messages.MessageList
+	message := messages.Message{
+		Sender:   "unittest@gmail.com",
+		Receiver: "bob@bob.bob",
+		Message:  "test messag 1",
+		Time:     "1650318316",
+	}
+	mlist.AddMessage(message)
+	message.Message = "test messag 2"
+	message.Time = "1650318320"
+	mlist.AddMessage(message)
+	message.Message = "test messag 3"
+	message.Time = "1650318345"
+	mlist.AddMessage(message)
+
+	// compare with test message list
+	if !cmp.Equal(mlist, messageListRsp) {
+		t.Errorf("response message does not match the test message")
 	}
 }
