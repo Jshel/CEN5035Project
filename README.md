@@ -26,6 +26,9 @@ The API documentation, for both the front end and the back end, can be found on 
 ### Project Board:
 The Project board can be found in the [Projects](https://github.com/Jshel/CEN5035Project/projects/1) tab.
 
+### Sprint 4:
+sprint 4 can be found [here](https://github.com/Jshel/CEN5035Project/blob/main/Sprint4.md).
+
 ### Team members
 Jennifer Sheldon - Jshel - Frontend   
 Sunil Ghosal - sunil494 - Frontend   
