@@ -20,13 +20,15 @@ https://user-images.githubusercontent.com/32618925/164346781-64a2a599-360f-422c-
 
 ### Cypress Tests:
 
-To run the tests and generate the video, run "npm start" from "\CEN5035Project\CEN5035-front-end", "go run main.go" from "CEN5035Project\backend\src", and "npx cypress run" from the "\CEN5035Project\CEN5035-front-end" folder. The video can be found at "CEN5035Project\CEN5035-front-end\cypress\videos\spec.ts" and the tests themselves can be found at "CEN5035Project\CEN5035-front-end\cypress\integration\spec.ts".
+To run the tests and generate the video, run "npm start" from `\CEN5035Project\CEN5035-front-end`, `go run main.go` from `CEN5035Project\backend\src`, and `npx cypress ru`" from the `\CEN5035Project\CEN5035-front-end` folder. The video can be found at `CEN5035Project\CEN5035-front-end\cypress\videos\spec.ts` and the tests themselves can be found at `CEN5035Project\CEN5035-front-end\cypress\integration\spec.ts`.
 
 
 https://user-images.githubusercontent.com/32618925/164347743-0d908848-03de-4996-a089-6cb498df2382.mp4
 
 
 ### Unit Tests:
+
+To run the unit tests for the backend, navigate the the backend source folder `cd CEN5035Project\backend\src` and run `go run main.go`. Then, navigate to the Test folder `cd CEN5035Project\backend\src\Test` and run `go test`.
 
 
 
