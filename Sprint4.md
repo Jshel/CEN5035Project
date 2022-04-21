@@ -2,6 +2,7 @@
 
 ### Frontend:
 
+Added functionality to upload, search for, and view contracts and messages. Added functionality to display counts of messages and contracts.
 
 ### Backend:
 
