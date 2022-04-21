@@ -20,8 +20,11 @@ https://user-images.githubusercontent.com/32618925/164346781-64a2a599-360f-422c-
 
 ### Cypress Tests:
 
-To run the tests and generate the video, run "npm start" from "\CEN5035Project\CEN5035-front-end", "go run main.go" from "CEN5035Project\backend\src", and "npx cypress run" from the "\CEN5035Project\CEN5035-front-end" folder.
-https://user-images.githubusercontent.com/32618925/164114065-dd51adb7-9c4d-4741-b0f5-13f3cb3756d8.mp4
+To run the tests and generate the video, run "npm start" from "\CEN5035Project\CEN5035-front-end", "go run main.go" from "CEN5035Project\backend\src", and "npx cypress run" from the "\CEN5035Project\CEN5035-front-end" folder. The video can be found at "CEN5035Project\CEN5035-front-end\cypress\videos\spec.ts" and the tests themselves can be found at "CEN5035Project\CEN5035-front-end\cypress\integration\spec.ts".
+
+
+https://user-images.githubusercontent.com/32618925/164347743-0d908848-03de-4996-a089-6cb498df2382.mp4
+
 
 ### Unit Tests:
 https://user-images.githubusercontent.com/32618925/unit_test_demo_backend.mp4
