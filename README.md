@@ -14,7 +14,13 @@ The purpose of this application is to streamline the contract management for att
 
 ### Demo of Application:
 
+
+https://user-images.githubusercontent.com/32618925/164346781-64a2a599-360f-422c-9a66-b51d8f0756db.mp4
+
+
 ### Cypress Tests:
+
+To run the tests and generate the video, run "npm start" from "\CEN5035Project\CEN5035-front-end", "go run main.go" from "CEN5035Project\backend\src", and "npx cypress run" from the "\CEN5035Project\CEN5035-front-end" folder.
 https://user-images.githubusercontent.com/32618925/164114065-dd51adb7-9c4d-4741-b0f5-13f3cb3756d8.mp4
 
 ### Unit Tests:
