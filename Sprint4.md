@@ -1,22 +1,30 @@
-### Application Description:
-The purpose of this application is to streamline the contract management for attorneys. Attorneys are faced with the issue of having many contracts to deal with at once. This application allows attorneys to upload files to a database for easy storage and retrieval. The attorneys will be able to view their contracts and manage them all within the portal. The Application allows for attorneys to communicate with clients and other attorneys through a messaging system.
+## What was accomplished (new stuff since the last sprint):
 
-### Demo of Application:
+### Frontend:
 
-### Cypress Tests:
-https://user-images.githubusercontent.com/32618925/164114065-dd51adb7-9c4d-4741-b0f5-13f3cb3756d8.mp4
 
-### Unit Tests:
-https://user-images.githubusercontent.com/32618925/unit_test_demo_backend.mp4
+### Backend:
 
-### API Documetation:
-The API documentation, for both the front end and the back end, can be found on the [wiki](https://github.com/Jshel/CEN5035Project/wiki) page.
+Fixed some bugs and errors. Endpoint for file upload and download fixed. Added messaging endpoints. Added endpoints to Get sessions, emails, and count messages and contracts. Added wildcard support in endpoints that query contracts and messages. Added support for sending lists of contracts and messages. Unit tests for all handlers.
 
-### Project Board:
-The Project board can be found in the [Projects](https://github.com/Jshel/CEN5035Project/projects/1) tab.
+## Demos:
 
-### Team members
-Jennifer Sheldon - Jshel - Frontend   
-Sunil Ghosal - sunil494 - Frontend   
-Akshay Sharma - akshaysharmajs - Backend   
-Nicholas Fox - DrBubbles42 - Backend   
+### Frontend:
+
+Run ```npm start``` in CEN5035Project\CEN5035-front-end to run the frontend.
+
+Run ```go run main.go``` in CEN5035Project\backend\src to start up the backend.
+
+Run ```npx cypress run``` in CEN5035Project\CEN5035-front-end to run the Cypress tests.
+
+The video generated in CEN5035Project\CEN5035-front-end\cypress\videos:
+
+### Backend:
+DrBubbles42: Nicholas Fox   
+akshaysharmajs: Akshay Sharma 
+
+Start the Frontend: ```npm run start```   
+Start the Backend: ```go run main.go```   
+Start the test server: `live-server` 
+Run Unit tests: `go test`
+![sprint4](https://user-images.githubusercontent.com/25064175/164350687-4ff3d806-fae6-48c8-8897-16fbf2d20bfb.gif)
