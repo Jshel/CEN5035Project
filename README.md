@@ -2,7 +2,10 @@
 
 Technologies Used:
 
-Backend: Go, SQLite
+Backend: GO
+    Gorm - https://github.com/go-gorm/gorm
+    Gorilla/sessions- https://github.com/gorilla/sessions
+    Bcript - golang.org/x/crypto/bcrypt
 
 FrontEnd: Angular
 
