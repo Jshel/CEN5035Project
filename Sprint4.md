@@ -2,7 +2,7 @@
 
 ### Frontend:
 
-Added functionality to upload, search for, and view contracts and messages. Added functionality to display counts of messages and contracts.
+Added functionality to upload, search for, and view contracts and messages. Added functionality to display counts of messages and contracts. Added support for cookies and completed lazy loading for module. Fixed cookie related bugs and linked front-end routes to backend API.
 
 ### Backend:
 
